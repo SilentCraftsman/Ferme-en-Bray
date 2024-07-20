@@ -28,11 +28,6 @@ export default function AboutPage() {
                 sans relâche pour garantir la qualité de nos produits et le service à la clientèle.
                 Nous croyons en la collaboration et en l'innovation pour atteindre nos objectifs.
             </p>
-            <h2>Contact</h2>
-            <p>
-                Pour en savoir plus sur nos produits ou pour toute autre demande, n'hésitez pas à nous
-                contacter à l'adresse <a href="mailto:contact@entreprisevolailles.com">contact@entreprisevolailles.com</a>.
-            </p>
         </div>
     );
 }
