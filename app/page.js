@@ -1,17 +1,14 @@
 // app/page.js
-import Head from 'next/head';
+export const metadata = {
+  title: 'Accueil - Entreprise de Volailles',
+  description: 'Découvrez nos produits à base de volailles.',
+};
 
 export default function HomePage() {
-    return (
-        <div>
-            <Head>
-                <title>Page d'accueil</title>
-                <meta name="description" content="Page d'accueil de notre site" />
-            </Head>
-            <main>
-                <h1>Bienvenue sur notre site</h1>
-                <p>Découvrez nos produits à base de volailles.</p>
-            </main>
-        </div>
-    );
+  return (
+      <div>
+          <h1>Bienvenue sur notre site</h1>
+          <p>Découvrez nos produits à base de volailles.</p>
+      </div>
+  );
 }

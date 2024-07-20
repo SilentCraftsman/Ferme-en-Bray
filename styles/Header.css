@@ -2,39 +2,31 @@
 .header {
     background-color: #333;
     color: white;
-    padding: 10px 0;
-    text-align: center;
+    padding: 10px;
 }
 
 .nav-list {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    justify-content: center;
 }
 
 .nav-list li {
-    margin: 0 15px;
+    display: inline-block;
+    margin-right: 15px;
 }
 
 .nav-list a {
-    color: white;
     text-decoration: none;
-    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
 }
 
 .nav-list a:hover {
-    text-decoration: underline;
+    color: #ddd;
 }
 
-/* Media Query pour les écrans plus petits */
-@media (max-width: 600px) {
-    .nav-list {
-        flex-direction: column;
-    }
-
-    .nav-list li {
-        margin: 10px 0;
-    }
+.nav-list svg {
+    margin-right: 8px;
 }

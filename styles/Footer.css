@@ -8,3 +8,13 @@
     width: 100%;
     bottom: 0;
 }
+
+.social-media a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.social-media a:hover {
+    color: #ddd;
+}

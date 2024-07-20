@@ -1,14 +1,15 @@
 // components/Header.js
-import Link from 'next/link';
-import styles from '../styles/Header.css'; 
+import { FaHome, FaInfoCircle, FaEnvelope } from 'react-icons/fa';
+import '../styles/Header.css'; // Assurez-vous que ce chemin est correct
+
 const Header = () => {
     return (
-        <header className={styles.header}>
+        <header className="header">
             <nav>
-                <ul className={styles.navList}>
-                    <li><Link href="/">Accueil</Link></li>
-                    <li><Link href="/products">Produits</Link></li>
-                    <li><Link href="/contact">Contact</Link></li>
+                <ul className="nav-list">
+                    <li><a href="/"><FaHome /> Accueil</a></li>
+                    <li><a href="/about"><FaInfoCircle /> À propos</a></li>
+                    <li><a href="/contact"><FaEnvelope /> Contact</a></li>
                 </ul>
             </nav>
         </header>
