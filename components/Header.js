@@ -1,11 +1,11 @@
-// components/Header.js
+import React from "react";
 import { FaHome, FaInfoCircle, FaEnvelope } from "react-icons/fa";
 import "../styles/Header.css";
-
 const Header = () => {
   return (
     <header className="header">
-      <nav>
+      <h1 className="header-title">La ferme en Bray</h1>
+      <nav className="nav">
         <ul className="nav-list">
           <li>
             <a href="/">
