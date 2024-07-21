@@ -1,0 +1,15 @@
+.title-main-content {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.title-main-content h3 {
+  text-decoration: underline;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  padding: 0rem 1rem 1rem;
+}
