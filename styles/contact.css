@@ -1,46 +1,148 @@
-/* styles/contact.css */
 .contact-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  line-height: 1.6;
 }
 
-.contact-container h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+.contact-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+  color: #333;
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: fadeInFromLeft 1.5s ease-out forwards;
 }
 
-.contact-container p {
-    margin-bottom: 1rem;
+.contact-description {
+  margin-bottom: 1rem;
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: fadeInFromLeft 1.5s ease-out 0.5s forwards;
+}
+
+.contact-info {
+  margin-bottom: 2rem;
+}
+
+.contact-info-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+  color: #333;
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: fadeInFromLeft 1.5s ease-out 1s forwards;
+}
+
+.contact-info-item {
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: fadeInFromLeft 1.5s ease-out 1.5s forwards;
+}
+
+.map-container {
+  margin-bottom: 2rem;
+}
+
+.map-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+  color: #333;
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: fadeInFromLeft 1.5s ease-out 2s forwards;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+  color: #333;
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: fadeInFromLeft 1.5s ease-out 2.5s forwards;
 }
 
 .contact-form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: scale(0.9);
+  animation: formUnfold 0.8s ease-out 3s forwards; /* Accéléré à 0.8s */
 }
 
 .contact-form label {
-    margin: 0.5rem 0 0.2rem;
+  margin: 0.5rem 0 0.2rem;
 }
 
 .contact-form input,
 .contact-form textarea {
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 1rem;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #0070f3;
 }
 
 .contact-form button {
-    padding: 0.8rem;
-    background-color: #0070f3;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  padding: 0.8rem;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .contact-form button:hover {
-    background-color: #005bb5;
+  background-color: #005bb5;
+}
+
+@keyframes fadeInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes formUnfold {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-title,
+  .contact-info-title,
+  .map-title,
+  .form-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-title,
+  .contact-info-title,
+  .map-title,
+  .form-title {
+    font-size: 1.2rem;
+  }
 }
