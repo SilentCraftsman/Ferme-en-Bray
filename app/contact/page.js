@@ -39,6 +39,7 @@ export default function ContactPage() {
           style={{ border: 0 }}
           allowFullScreen=""
           loading="lazy"
+          className="map-iframe"
         ></iframe>
       </div>
       <h2 className="form-title">Formulaire</h2>
