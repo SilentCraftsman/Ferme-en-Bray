@@ -1,31 +1,34 @@
+// components/Header.js
 import React from "react";
+import Link from "next/link";
 import { FaHome, FaInfoCircle, FaEnvelope } from "react-icons/fa";
 import "../styles/Header.css";
-const Header = () => {
+
+export default function Header() {
   return (
     <header className="header">
-      <h1 className="header-title">La ferme en Bray</h1>
-      <nav className="nav">
+      <Link href="/" className="header-title">
+        <h1>La ferme en Bray</h1>
+      </Link>
+      <nav>
         <ul className="nav-list">
           <li>
-            <a href="/">
+            <Link href="/">
               <FaHome /> Accueil
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/about">
+            <Link href="/about">
               <FaInfoCircle /> À propos
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/contact">
+            <Link href="/contact">
               <FaEnvelope /> Contact
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
     </header>
   );
-};
-
-export default Header;
+}
