@@ -1,26 +1,29 @@
-import React from "react";
-import PropTypes from "prop-types";
+// components/ProductCard.js
+"use client";
+
+import React, { useContext } from "react";
+import { CartContext } from "./cart/CartContext"; // Assurez-vous que le chemin est correct
 import "../styles/ProductCard.css";
 
-const ProductCard = ({ image, title, description, price }) => {
+const ProductCard = ({ image, title, description, price, onAddToCart }) => {
+  const { addToCart } = useContext(CartContext);
+
   return (
-    <div className="product-card">
-      <img src={image} alt={title} className="product-image" />
-      <h3 className="product-title">{title}</h3>
-      <p className="product-description">{description}</p>
-      <div className="product-price">
-        <span>Prix: </span>
-        {price}
-      </div>
+    <div className="product-container">
+      <img src={image} alt={title} />
+      <h4>{title}</h4>
+      <p>{description}</p>
+      <p>{price}</p>
+      <button
+        onClick={() => {
+          addToCart({ image, title, description, price });
+          onAddToCart();
+        }}
+      >
+        Ajouter au panier
+      </button>
     </div>
   );
-};
-
-ProductCard.propTypes = {
-  image: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
 };
 
 export default ProductCard;

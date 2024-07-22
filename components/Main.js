@@ -1,5 +1,9 @@
-import React from "react";
+// components/MainContent.js
+"use client";
+
+import React, { useState } from "react";
 import ProductCard from "./ProductCard";
+import NotificationBanner from "./NotificationBanner";
 import "../styles/MainContent.css";
 
 const products = [
@@ -32,8 +36,26 @@ const products = [
 ];
 
 const MainContent = () => {
+  const [cart, setCart] = useState([]);
+  const [bannerVisible, setBannerVisible] = useState(false);
+
+  const handleAddToCart = (product) => {
+    setCart([...cart, product]);
+    setBannerVisible(true);
+
+    // Masquer la bannière après 3 secondes
+    setTimeout(() => {
+      setBannerVisible(false);
+    }, 3000);
+  };
+
   return (
     <section>
+      <NotificationBanner
+        message="Votre produit a été ajouté au panier"
+        show={bannerVisible}
+        onClose={() => setBannerVisible(false)}
+      />
       <div className="title-main-content">
         <h3>Voici nos différents produits :</h3>
       </div>
@@ -45,6 +67,7 @@ const MainContent = () => {
             title={product.title}
             description={product.description}
             price={product.price}
+            onAddToCart={() => handleAddToCart(product)}
           />
         ))}
       </div>

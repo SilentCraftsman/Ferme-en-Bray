@@ -1,7 +1,12 @@
 // components/Header.js
 import React from "react";
 import Link from "next/link";
-import { FaHome, FaInfoCircle, FaEnvelope } from "react-icons/fa";
+import {
+  FaHome,
+  FaInfoCircle,
+  FaEnvelope,
+  FaShoppingCart,
+} from "react-icons/fa";
 import "../styles/Header.css";
 
 export default function Header() {
@@ -25,6 +30,11 @@ export default function Header() {
           <li>
             <Link href="/contact">
               <FaEnvelope /> Contact
+            </Link>
+          </li>
+          <li>
+            <Link href="/cart">
+              <FaShoppingCart /> Panier
             </Link>
           </li>
         </ul>
