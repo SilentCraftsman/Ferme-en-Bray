@@ -1,5 +1,6 @@
-// components/Header.js
-import React from "react";
+"use client";
+
+import React, { useContext } from "react";
 import Link from "next/link";
 import {
   FaHome,
@@ -7,9 +8,13 @@ import {
   FaEnvelope,
   FaShoppingCart,
 } from "react-icons/fa";
+import { CartContext } from "./cart/CartContext"; // Assurez-vous que le chemin est correct
 import "../styles/Header.css";
 
 export default function Header() {
+  const { cart } = useContext(CartContext);
+  const itemCount = cart.length;
+
   return (
     <header className="header">
       <Link href="/" className="header-title">
@@ -33,8 +38,9 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link href="/cart">
+            <Link href="/cart" className="cart-item">
               <FaShoppingCart /> Panier
+              {itemCount > 0 && <span className="cart-count">{itemCount}</span>}
             </Link>
           </li>
         </ul>

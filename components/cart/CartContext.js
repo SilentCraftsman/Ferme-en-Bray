@@ -1,4 +1,3 @@
-// components/cart/CartContext.js
 "use client";
 
 import React, { createContext, useState } from "react";
@@ -20,7 +19,9 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, cartCount: cart.length }}
+    >
       {children}
     </CartContext.Provider>
   );
