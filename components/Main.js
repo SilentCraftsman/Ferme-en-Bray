@@ -8,12 +8,14 @@ import "../styles/MainContent.css";
 
 const products = [
   {
+    id: 1,
     image: "./images/main-images/image-1.jpg",
     title: "Poulet Fermier",
     description: "Un poulet fermier élevé en plein air, tendre et savoureux.",
     price: "15,99 €",
   },
   {
+    id: 2,
     image: "./images/main-images/image-2.jpg",
     title: "Dinde Bio",
     description:
@@ -21,12 +23,14 @@ const products = [
     price: "24,99 €",
   },
   {
+    id: 3,
     image: "./images/main-images/image-3.jpg",
     title: "Canard Confit",
     description: "Canard confit préparé selon la tradition, riche en saveurs.",
     price: "19,99 €",
   },
   {
+    id: 4,
     image: "./images/main-images/image-4.jpg",
     title: "Oie Rôtie",
     description:
@@ -40,7 +44,7 @@ const MainContent = () => {
   const { addToCart } = useCart();
 
   const handleAddToCart = (product) => {
-    addToCart(product);
+    addToCart(product, 1);
   };
 
   const handleShowDetails = (product) => {
@@ -57,9 +61,9 @@ const MainContent = () => {
         <h3>Voici nos différents produits :</h3>
       </div>
       <div className="product-grid">
-        {products.map((product, index) => (
+        {products.map((product) => (
           <ProductCard
-            key={index}
+            key={product.id}
             product={product}
             onAddToCart={handleAddToCart}
             onShowDetails={handleShowDetails}

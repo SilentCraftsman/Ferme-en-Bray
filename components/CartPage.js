@@ -14,13 +14,16 @@ const CartPage = () => {
         <p>Votre panier est vide.</p>
       ) : (
         <ul>
-          {cart.map((item, index) => (
-            <li key={index}>
+          {cart.map((item) => (
+            <li key={item.cartId}>
               <img src={item.image} alt={item.title} />
               <div>
                 <h3>{item.title}</h3>
                 <p>{item.price}</p>
-                <button onClick={() => removeFromCart(item.id)}>Retirer</button>
+                <p>Quantité: {item.quantity}</p>
+                <button onClick={() => removeFromCart(item.cartId)}>
+                  Retirer
+                </button>
               </div>
             </li>
           ))}

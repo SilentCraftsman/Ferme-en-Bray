@@ -1,24 +1,25 @@
 "use client";
 
 import React from "react";
+import { useCart } from "./cart/CartContext";
 import "../styles/ProductCard.css";
 
-const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
+const ProductCard = ({ product, onShowDetails }) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    console.log("Ajout du produit au panier:", product);
+    addToCart(product, 1); // Ajouter une quantité de 1
+  };
+
   return (
-    <div className="product-card" onClick={() => onShowDetails(product)}>
+    <div className="product-card">
       <img src={product.image} alt={product.title} />
-      <h3>{product.title}</h3>
+      <h4>{product.title}</h4>
       <p>{product.description}</p>
-      <p className="price">{product.price}</p>
-      <button
-        className="add-to-cart-button"
-        onClick={(e) => {
-          e.stopPropagation(); // Empêche le clic sur le bouton d'ouvrir la modale
-          onAddToCart(product);
-        }}
-      >
-        Ajouter au panier
-      </button>
+      <p>{product.price}</p>
+      <button onClick={handleAddToCart}>Ajouter au panier</button>
+      <button onClick={() => onShowDetails(product)}>Détails</button>
     </div>
   );
 };
