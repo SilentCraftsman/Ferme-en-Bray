@@ -20,8 +20,9 @@ const Modal = ({ product, onClose }) => {
   };
 
   return (
-    <div className="modal">
-      <div className="modal-content">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <img src={product.image} alt={product.title} className="modal-image" />
         <h2>{product.title}</h2>
         <p>{product.description}</p>
         <p>{product.price}</p>
@@ -34,8 +35,10 @@ const Modal = ({ product, onClose }) => {
             onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
           />
         </label>
-        <button onClick={handleAddToCart}>Ajouter au panier</button>
-        <button onClick={onClose}>Fermer</button>
+        <div className="modal-buttons">
+          <button onClick={handleAddToCart}>Ajouter au panier</button>
+          <button onClick={onClose}>Fermer</button>
+        </div>
       </div>
     </div>
   );
