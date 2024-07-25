@@ -1,23 +1,20 @@
-// components/ProductCard.js
 "use client";
 
-import React, { useContext } from "react";
-import { CartContext } from "./cart/CartContext"; // Assurez-vous que le chemin est correct
+import React from "react";
 import "../styles/ProductCard.css";
 
-const ProductCard = ({ image, title, description, price, onAddToCart }) => {
-  const { addToCart } = useContext(CartContext);
-
+const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
   return (
-    <div className="product-container">
-      <img src={image} alt={title} />
-      <h4>{title}</h4>
-      <p>{description}</p>
-      <p>{price}</p>
+    <div className="product-card" onClick={() => onShowDetails(product)}>
+      <img src={product.image} alt={product.title} />
+      <h3>{product.title}</h3>
+      <p>{product.description}</p>
+      <p className="price">{product.price}</p>
       <button
-        onClick={() => {
-          addToCart({ image, title, description, price });
-          onAddToCart();
+        className="add-to-cart-button"
+        onClick={(e) => {
+          e.stopPropagation(); // Empêche le clic sur le bouton d'ouvrir la modale
+          onAddToCart(product);
         }}
       >
         Ajouter au panier

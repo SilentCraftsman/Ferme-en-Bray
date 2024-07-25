@@ -1,9 +1,9 @@
-// components/MainContent.js
 "use client";
 
 import React, { useState } from "react";
 import ProductCard from "./ProductCard";
-import NotificationBanner from "./NotificationBanner";
+import Modal from "./Modal";
+import { useCart } from "./cart/CartContext";
 import "../styles/MainContent.css";
 
 const products = [
@@ -36,26 +36,23 @@ const products = [
 ];
 
 const MainContent = () => {
-  const [cart, setCart] = useState([]);
-  const [bannerVisible, setBannerVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const { addToCart } = useCart();
 
   const handleAddToCart = (product) => {
-    setCart([...cart, product]);
-    setBannerVisible(true);
+    addToCart(product);
+  };
 
-    // Masquer la bannière après 3 secondes
-    setTimeout(() => {
-      setBannerVisible(false);
-    }, 3000);
+  const handleShowDetails = (product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedProduct(null);
   };
 
   return (
     <section>
-      <NotificationBanner
-        message="Votre produit a été ajouté au panier"
-        show={bannerVisible}
-        onClose={() => setBannerVisible(false)}
-      />
       <div className="title-main-content">
         <h3>Voici nos différents produits :</h3>
       </div>
@@ -63,14 +60,16 @@ const MainContent = () => {
         {products.map((product, index) => (
           <ProductCard
             key={index}
-            image={product.image}
-            title={product.title}
-            description={product.description}
-            price={product.price}
-            onAddToCart={() => handleAddToCart(product)}
+            product={product}
+            onAddToCart={handleAddToCart}
+            onShowDetails={handleShowDetails}
           />
         ))}
       </div>
+
+      {selectedProduct && (
+        <Modal product={selectedProduct} onClose={handleCloseModal} />
+      )}
     </section>
   );
 };

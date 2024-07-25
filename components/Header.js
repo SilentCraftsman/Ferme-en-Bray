@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React from "react";
 import Link from "next/link";
 import {
   FaHome,
@@ -8,11 +8,11 @@ import {
   FaEnvelope,
   FaShoppingCart,
 } from "react-icons/fa";
-import { CartContext } from "./cart/CartContext"; // Assurez-vous que le chemin est correct
+import { useCart } from "./cart/CartContext";
 import "../styles/Header.css";
 
 export default function Header() {
-  const { cart } = useContext(CartContext);
+  const { cart } = useCart();
   const itemCount = cart.length;
 
   return (
@@ -37,10 +37,15 @@ export default function Header() {
               <FaEnvelope /> Contact
             </Link>
           </li>
-          <li>
-            <Link href="/cart" className="cart-item">
-              <FaShoppingCart /> Panier
-              {itemCount > 0 && <span className="cart-count">{itemCount}</span>}
+          <li className="nav-item">
+            <Link href="/cart" className="cart-link">
+              <div className="cart-icon-container">
+                <FaShoppingCart />
+                {itemCount > 0 && (
+                  <span className="cart-item-count">{itemCount}</span>
+                )}
+              </div>
+              Panier
             </Link>
           </li>
         </ul>

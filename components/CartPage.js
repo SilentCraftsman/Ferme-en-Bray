@@ -1,36 +1,27 @@
 "use client";
 
-import React, { useContext } from "react";
-import { CartContext } from "./cart/CartContext"; // Assurez-vous que le chemin est correct
+import React from "react";
+import { useCart } from "./cart/CartContext";
 import "../styles/CartPage.css";
 
 const CartPage = () => {
-  const { cart, removeFromCart } = useContext(CartContext);
+  const { cart, removeFromCart } = useCart();
 
   return (
     <div className="cart-container">
-      <h1 className="cart-title">Votre Panier</h1>
+      <h2>Votre Panier</h2>
       {cart.length === 0 ? (
-        <div className="empty-cart-message">
-          Votre panier est vide. Ajoutez des produits pour commencer votre
-          commande.
-        </div>
+        <p>Votre panier est vide.</p>
       ) : (
-        <ul className="cart-items">
+        <ul>
           {cart.map((item, index) => (
-            <li key={index} className="cart-item">
+            <li key={index}>
               <img src={item.image} alt={item.title} />
-              <div className="cart-item-info">
-                <h4 className="cart-item-title">{item.title}</h4>
-                <p className="cart-item-description">{item.description}</p>
-                <p className="cart-item-price">{item.price}</p>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.price}</p>
+                <button onClick={() => removeFromCart(item.id)}>Retirer</button>
               </div>
-              <button
-                className="remove-button"
-                onClick={() => removeFromCart(index)}
-              >
-                Supprimer
-              </button>
             </li>
           ))}
         </ul>
