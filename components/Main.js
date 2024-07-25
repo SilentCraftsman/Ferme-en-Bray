@@ -12,7 +12,7 @@ const products = [
     image: "./images/main-images/image-1.jpg",
     title: "Poulet Fermier",
     description: "Un poulet fermier élevé en plein air, tendre et savoureux.",
-    price: "15,99 €",
+    price: "10 €",
   },
   {
     id: 2,
@@ -20,14 +20,14 @@ const products = [
     title: "Dinde Bio",
     description:
       "Dinde biologique nourrie avec des aliments naturels, parfaite pour les repas de fête.",
-    price: "24,99 €",
+    price: "20 €",
   },
   {
     id: 3,
     image: "./images/main-images/image-3.jpg",
     title: "Canard Confit",
     description: "Canard confit préparé selon la tradition, riche en saveurs.",
-    price: "19,99 €",
+    price: "20 €",
   },
   {
     id: 4,
@@ -35,7 +35,7 @@ const products = [
     title: "Oie Rôtie",
     description:
       "Oie rôtie à la perfection, idéale pour les grandes occasions.",
-    price: "29,99 €",
+    price: "50 €",
   },
 ];
 

@@ -1,0 +1,70 @@
+/* Container principal du panier */
+.cart-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Titre du panier */
+.cart-container h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Liste des produits dans le panier */
+.cart-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Élément de la liste des produits */
+.cart-container li {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+/* Image du produit */
+.cart-container img {
+  max-width: 100px;
+  height: auto;
+  margin-right: 20px;
+  border-radius: 8px;
+}
+
+/* Informations sur le produit */
+.cart-container h3 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.cart-container p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Bouton de retrait */
+.cart-container button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cart-container button:hover {
+  background-color: #c0392b;
+}
+
+/* Total du panier */
+.cart-container h3.total {
+  font-size: 1.5rem;
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: right;
+}

@@ -1,62 +1,61 @@
+// Ajoutez cette directive en haut du fichier pour indiquer que ce fichier est un composant côté client
 "use client";
 
 import React, { createContext, useState, useContext } from "react";
 
-// Création du contexte
+// Créez un contexte pour le panier
 const CartContext = createContext();
 
-// Génère un identifiant unique pour chaque produit dans le panier
-const generateUniqueId = () => Math.random().toString(36).substring(2, 9);
-
-// Fournisseur du contexte
+// Créez un fournisseur pour le contexte
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  const addToCart = (product, quantity = 1) => {
-    console.log("Avant ajout au panier:", cart);
-
+  const addToCart = (product, quantity) => {
     setCart((prevCart) => {
-      // Trouver si le produit existe déjà dans le panier
-      const existingProductIndex = prevCart.findIndex(
-        (item) => item.id === product.id
-      );
+      const productInCart = prevCart.find((item) => item.id === product.id);
 
-      let updatedCart;
-
-      if (existingProductIndex !== -1) {
-        // Si le produit existe, mettre à jour la quantité
-        updatedCart = [...prevCart];
-        updatedCart[existingProductIndex] = {
-          ...updatedCart[existingProductIndex],
-          quantity: updatedCart[existingProductIndex].quantity + quantity,
-        };
+      if (productInCart) {
+        return prevCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
       } else {
-        // Ajouter le nouveau produit avec la quantité spécifiée
-        const productWithId = {
-          ...product,
-          cartId: generateUniqueId(),
-          quantity,
-        };
-        updatedCart = [...prevCart, productWithId];
+        return [...prevCart, { ...product, quantity }];
       }
-
-      console.log("Après ajout au panier:", updatedCart);
-      return updatedCart;
     });
   };
 
-  const removeFromCart = (cartId) => {
+  const removeFromCart = (productId) => {
     setCart((prevCart) =>
-      prevCart.filter((product) => product.cartId !== cartId)
+      prevCart
+        .map((item) =>
+          item.id === productId
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
     );
   };
 
+  const getTotal = () => {
+    return cart
+      .reduce(
+        (total, item) =>
+          total +
+          item.quantity *
+            parseFloat(item.price.replace("€", "").replace(",", ".")),
+        0
+      )
+      .toFixed(2);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getTotal }}>
       {children}
     </CartContext.Provider>
   );
 };
 
-// Hook personnalisé pour utiliser le contexte
+// Hook pour utiliser le contexte du panier
 export const useCart = () => useContext(CartContext);
