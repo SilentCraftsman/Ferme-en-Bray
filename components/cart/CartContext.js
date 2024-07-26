@@ -1,50 +1,86 @@
 "use client";
 
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 const CartContext = createContext();
 
+const LOCAL_STORAGE_KEY = "cart";
+
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState(() => {
-    // Récupère le panier depuis localStorage au chargement
-    const savedCart = localStorage.getItem("cart");
+  const [cart, setCart] = useState([]);
+
+  // Fonction pour sauvegarder le panier dans le localStorage
+  const saveCartToLocalStorage = (cart) => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cart));
+  };
+
+  // Fonction pour charger le panier depuis le localStorage
+  const loadCartFromLocalStorage = () => {
+    const savedCart = localStorage.getItem(LOCAL_STORAGE_KEY);
     return savedCart ? JSON.parse(savedCart) : [];
-  });
+  };
 
+  // Charger le panier depuis le localStorage lors du chargement du composant
   useEffect(() => {
-    // Sauvegarde le panier dans localStorage chaque fois qu'il change
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    const loadedCart = loadCartFromLocalStorage();
+    setCart(loadedCart);
+  }, []);
 
+  // Met à jour le panier dans l'état et le localStorage
   const addToCart = (product, quantity) => {
     setCart((prevCart) => {
       const existingProduct = prevCart.find((item) => item.id === product.id);
+      let updatedCart;
       if (existingProduct) {
-        return prevCart.map((item) =>
+        updatedCart = prevCart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       } else {
-        return [...prevCart, { ...product, quantity }];
+        updatedCart = [...prevCart, { ...product, quantity }];
       }
+      saveCartToLocalStorage(updatedCart);
+      return updatedCart;
     });
   };
 
+  // Supprime un produit du panier et met à jour le localStorage
   const removeFromCart = (id) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+    setCart((prevCart) => {
+      const updatedCart = prevCart.filter((item) => item.id !== id);
+      saveCartToLocalStorage(updatedCart);
+      return updatedCart;
+    });
+  };
+
+  // Met à jour la quantité d'un produit et supprime le produit si la quantité <= 0
+  const updateQuantity = (id, quantity) => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart
+        .map((item) => (item.id === id ? { ...item, quantity } : item))
+        .filter((item) => item.quantity > 0); // Supprimer les produits avec quantité <= 0
+      saveCartToLocalStorage(updatedCart);
+      return updatedCart;
+    });
   };
 
   const getTotal = () => {
-    return cart.reduce(
-      (total, item) =>
-        total + parseFloat(item.price.replace(" €", "")) * item.quantity,
-      0
-    );
+    return cart
+      .reduce(
+        (acc, item) =>
+          acc +
+          parseFloat(item.price.replace("€", "").replace(",", ".")) *
+            item.quantity,
+        0
+      )
+      .toFixed(2);
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getTotal }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, updateQuantity, getTotal }}
+    >
       {children}
     </CartContext.Provider>
   );

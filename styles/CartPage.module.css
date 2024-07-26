@@ -1,5 +1,7 @@
+/* styles/CartPage.module.css */
+
 /* Container principal du panier */
-.cart-container {
+.cartContainer {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
@@ -7,64 +9,111 @@
 }
 
 /* Titre du panier */
-.cart-container h2 {
+.cartContainer h2 {
   font-size: 2rem;
   margin-bottom: 20px;
+  color: #333;
 }
 
 /* Liste des produits dans le panier */
-.cart-container ul {
+.cartContainer ul {
   list-style-type: none;
   padding: 0;
-}
-
-/* Élément de la liste des produits */
-.cart-container li {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
-}
-
-/* Image du produit */
-.cart-container img {
-  max-width: 100px;
-  height: auto;
-  margin-right: 20px;
-  border-radius: 8px;
-}
-
-/* Informations sur le produit */
-.cart-container h3 {
-  font-size: 1.2rem;
   margin: 0;
 }
 
-.cart-container p {
+/* Élément de la liste des produits */
+.cartContainer li {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+  transition: background-color 0.3s ease;
+}
+
+.cartContainer li:hover {
+  background-color: #f9f9f9;
+}
+
+/* Image du produit */
+.cartContainer img {
+  max-width: 120px; /* Ajuster la taille des images */
+  height: auto;
+  margin-right: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Informations sur le produit */
+.cartContainer h3 {
+  font-size: 1.3rem;
+  margin: 0;
+  color: #333;
+}
+
+.cartContainer p {
   margin: 5px 0;
   font-size: 0.9rem;
   color: #555;
 }
 
+/* Conteneur pour les informations et les boutons */
+.cartContainer .product-info {
+  flex: 1;
+}
+
+/* Boutons pour la gestion de la quantité */
+.cartContainer .quantity-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.cartContainer .quantity-buttons button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 0 5px;
+}
+
+.cartContainer .quantity-buttons button:hover {
+  background-color: #2980b9;
+  transform: scale(1.1);
+}
+
+.cartContainer .quantity-buttons button:active {
+  transform: scale(0.9);
+}
+
 /* Bouton de retrait */
-.cart-container button {
+.cartContainer .remove-product {
   background-color: #e74c3c;
   color: #fff;
   border: none;
   padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-left: 10px;
 }
 
-.cart-container button:hover {
+.cartContainer .remove-product:hover {
   background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+.cartContainer .remove-product:active {
+  transform: scale(0.95);
 }
 
 /* Total du panier */
-.cart-container h3.total {
+.cartContainer .total {
   font-size: 1.5rem;
   margin-top: 20px;
   font-weight: bold;
   text-align: right;
+  color: #333;
 }

@@ -1,12 +1,10 @@
-// components/ProductCard.js
-
 "use client";
 
 import React from "react";
 import { useCart } from "./cart/CartContext";
 import "../styles/ProductCard.css";
 
-const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
+const ProductCard = ({ product, onShowDetails }) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {

@@ -14,7 +14,7 @@ const Modal = ({ product, onClose }) => {
       product,
       "Quantité:",
       quantity
-    );
+    ); // Ajout du log
     addToCart(product, quantity);
     onClose();
   };
@@ -22,8 +22,8 @@ const Modal = ({ product, onClose }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <img src={product.image} alt={product.title} className="modal-image" />
         <h2>{product.title}</h2>
+        <img src={product.image} alt={product.title} className="modal-image" />
         <p>{product.description}</p>
         <p>{product.price}</p>
         <label>
