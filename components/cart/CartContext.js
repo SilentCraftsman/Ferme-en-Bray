@@ -1,20 +1,25 @@
-// Ajoutez cette directive en haut du fichier pour indiquer que ce fichier est un composant côté client
 "use client";
 
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 
-// Créez un contexte pour le panier
 const CartContext = createContext();
 
-// Créez un fournisseur pour le contexte
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    // Récupère le panier depuis localStorage au chargement
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  useEffect(() => {
+    // Sauvegarde le panier dans localStorage chaque fois qu'il change
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (product, quantity) => {
     setCart((prevCart) => {
-      const productInCart = prevCart.find((item) => item.id === product.id);
-
-      if (productInCart) {
+      const existingProduct = prevCart.find((item) => item.id === product.id);
+      if (existingProduct) {
         return prevCart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + quantity }
@@ -26,28 +31,16 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const removeFromCart = (productId) => {
-    setCart((prevCart) =>
-      prevCart
-        .map((item) =>
-          item.id === productId
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
+  const removeFromCart = (id) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
   const getTotal = () => {
-    return cart
-      .reduce(
-        (total, item) =>
-          total +
-          item.quantity *
-            parseFloat(item.price.replace("€", "").replace(",", ".")),
-        0
-      )
-      .toFixed(2);
+    return cart.reduce(
+      (total, item) =>
+        total + parseFloat(item.price.replace(" €", "")) * item.quantity,
+      0
+    );
   };
 
   return (
@@ -57,5 +50,4 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-// Hook pour utiliser le contexte du panier
 export const useCart = () => useContext(CartContext);
