@@ -13,7 +13,7 @@ import "../styles/Header.css";
 
 export default function Header() {
   const { cart } = useCart();
-  const itemCount = cart.length;
+  const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0); // Assure le bon comptage des items
 
   return (
     <header className="header">
