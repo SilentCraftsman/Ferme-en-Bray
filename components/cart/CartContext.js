@@ -6,19 +6,106 @@ const CartContext = createContext();
 
 const LOCAL_STORAGE_KEY = "cart";
 
+// Exemple de produits
+const exampleProducts = [
+  {
+    id: 1,
+    image: "./images/main-images/image-1.jpg",
+    title: "Poulet Fermier",
+    description: "Un poulet fermier élevé en plein air, tendre et savoureux.",
+    price: "10 €",
+  },
+  {
+    id: 2,
+    image: "./images/main-images/image-2.jpg",
+    title: "Dinde Bio",
+    description:
+      "Dinde biologique nourrie avec des aliments naturels, parfaite pour les repas de fête.",
+    price: "20 €",
+  },
+  {
+    id: 3,
+    image: "./images/main-images/image-3.jpg",
+    title: "Canard Confit",
+    description: "Canard confit préparé selon la tradition, riche en saveurs.",
+    price: "20 €",
+  },
+  {
+    id: 4,
+    image: "./images/main-images/image-4.jpg",
+    title: "Oie Rôtie",
+    description:
+      "Oie rôtie à la perfection, idéale pour les grandes occasions.",
+    price: "50 €",
+  },
+];
+
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   // Fonction pour sauvegarder le panier dans le localStorage
   const saveCartToLocalStorage = (cart) => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cart));
+    try {
+      // Validation des données du panier avant sauvegarde
+      if (
+        Array.isArray(cart) &&
+        cart.every(
+          (item) => typeof item === "object" && item.id && item.quantity >= 0
+        )
+      ) {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cart));
+      } else {
+        console.error("Invalid cart data", cart);
+      }
+    } catch (error) {
+      console.error("Failed to save cart to localStorage", error);
+    }
   };
 
   // Fonction pour charger le panier depuis le localStorage
   const loadCartFromLocalStorage = () => {
-    const savedCart = localStorage.getItem(LOCAL_STORAGE_KEY);
-    return savedCart ? JSON.parse(savedCart) : [];
+    try {
+      const savedCart = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart);
+        if (
+          Array.isArray(parsedCart) &&
+          parsedCart.every(
+            (item) => typeof item === "object" && item.id && item.quantity >= 0
+          )
+        ) {
+          return parsedCart;
+        } else {
+          console.error("Invalid cart data in localStorage", parsedCart);
+          return [];
+        }
+      }
+      return [];
+    } catch (error) {
+      console.error("Failed to load cart from localStorage", error);
+      return [];
+    }
   };
+
+  // Nettoyage du localStorage s'il contient des données invalides
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const parsedCart = savedCart ? JSON.parse(savedCart) : [];
+      if (
+        !Array.isArray(parsedCart) ||
+        !parsedCart.every(
+          (item) => typeof item === "object" && item.id && item.quantity >= 0
+        )
+      ) {
+        console.error("Invalid cart data detected, clearing localStorage");
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+      }
+    } catch (error) {
+      console.error("Failed to parse cart data from localStorage", error);
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
+    }
+  }, []);
 
   // Charger le panier depuis le localStorage lors du chargement du composant
   useEffect(() => {

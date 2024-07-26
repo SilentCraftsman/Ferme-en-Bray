@@ -44,6 +44,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Conteneur pour les détails du produit */
+.cartContainer .productDetails {
+  flex: 1;
+}
+
 /* Informations sur le produit */
 .cartContainer h3 {
   font-size: 1.3rem;
@@ -57,18 +62,21 @@
   color: #555;
 }
 
-/* Conteneur pour les informations et les boutons */
-.cartContainer .product-info {
-  flex: 1;
+/* Conteneur pour le prix et la quantité */
+.cartContainer .priceQuantity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
 }
 
 /* Boutons pour la gestion de la quantité */
-.cartContainer .quantity-buttons {
+.cartContainer .quantityButtons {
   display: flex;
   align-items: center;
 }
 
-.cartContainer .quantity-buttons button {
+.cartContainer .quantityButtons button {
   background-color: #3498db;
   color: #fff;
   border: none;
@@ -79,17 +87,22 @@
   margin: 0 5px;
 }
 
-.cartContainer .quantity-buttons button:hover {
+.cartContainer .quantityButtons button:hover {
   background-color: #2980b9;
   transform: scale(1.1);
 }
 
-.cartContainer .quantity-buttons button:active {
+.cartContainer .quantityButtons button:active {
   transform: scale(0.9);
 }
 
+.cartContainer .quantityButtons span {
+  margin: 0 10px;
+  font-size: 1rem;
+}
+
 /* Bouton de retrait */
-.cartContainer .remove-product {
+.cartContainer .removeProduct {
   background-color: #e74c3c;
   color: #fff;
   border: none;
@@ -100,12 +113,12 @@
   margin-left: 10px;
 }
 
-.cartContainer .remove-product:hover {
+.cartContainer .removeProduct:hover {
   background-color: #c0392b;
   transform: scale(1.05);
 }
 
-.cartContainer .remove-product:active {
+.cartContainer .removeProduct:active {
   transform: scale(0.95);
 }
 

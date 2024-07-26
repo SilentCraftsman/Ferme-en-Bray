@@ -18,7 +18,7 @@ export default function Header() {
   return (
     <header className="header">
       <Link href="/" className="header-title">
-        <h1>La ferme en Bray</h1>
+        <h1>La Turc en Bray</h1>
       </Link>
       <nav>
         <ul className="nav-list">

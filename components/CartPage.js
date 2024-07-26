@@ -22,28 +22,33 @@ const CartPage = () => {
         {cart.map((item) => (
           <li key={item.id}>
             <img src={item.image} alt={item.title} />
-            <div>
+            <div className={styles.productDetails}>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-              <p>
-                Prix: {item.price} x
-                <button
-                  onClick={() =>
-                    handleQuantityChange(item.id, item.quantity - 1)
-                  }
-                >
-                  -
-                </button>
-                {item.quantity}
-                <button
-                  onClick={() =>
-                    handleQuantityChange(item.id, item.quantity + 1)
-                  }
-                >
-                  +
-                </button>
-              </p>
-              <button onClick={() => handleQuantityChange(item.id, 0)}>
+              <div className={styles.priceQuantity}>
+                <span>Prix: {item.price}</span>
+                <div className={styles.quantityButtons}>
+                  <button
+                    onClick={() =>
+                      handleQuantityChange(item.id, item.quantity - 1)
+                    }
+                  >
+                    -
+                  </button>
+                  <span>{item.quantity}</span>
+                  <button
+                    onClick={() =>
+                      handleQuantityChange(item.id, item.quantity + 1)
+                    }
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <button
+                className={styles.removeProduct}
+                onClick={() => handleQuantityChange(item.id, 0)}
+              >
                 Supprimer tout le produit
               </button>
             </div>
