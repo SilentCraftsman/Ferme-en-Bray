@@ -3,6 +3,7 @@
 import React from "react";
 import { useCart } from "./cart/CartContext";
 import "../styles/ProductCard.css";
+import { FaPlusCircle } from "react-icons/fa";
 
 const ProductCard = ({ product, onShowDetails }) => {
   const { addToCart } = useCart();
@@ -14,12 +15,23 @@ const ProductCard = ({ product, onShowDetails }) => {
 
   return (
     <div className="product-card">
-      <img src={product.image} alt={product.title} />
+      <div
+        className="product-image-container"
+        onClick={() => onShowDetails(product)}
+      >
+        <img
+          src={product.image}
+          alt={product.title}
+          className="product-image"
+        />
+        <div className="overlay">
+          <FaPlusCircle className="plus-icon" />
+        </div>
+      </div>
       <h4>{product.title}</h4>
       <p>{product.description}</p>
       <p>{product.price}</p>
       <button onClick={handleAddToCart}>Ajouter au panier</button>
-      <button onClick={() => onShowDetails(product)}>Détails</button>
     </div>
   );
 };
