@@ -8,21 +8,44 @@
   font-family: Arial, sans-serif;
 }
 
-/* Titre du panier */
+/* Message lorsque le panier est vide */
+.emptyCartMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px; /* Ajustez la hauteur selon vos besoins */
+  margin: 20px;
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.emptyCartMessage p {
+  font-size: 18px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.emptyCartMessage svg {
+  color: #007bff; /* Couleur de l'icône */
+}
+
+/* Reste des styles... */
+
 .cartContainer h2 {
   font-size: 2rem;
   margin-bottom: 20px;
   color: #333;
 }
 
-/* Liste des produits dans le panier */
 .cartContainer ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-/* Élément de la liste des produits */
 .cartContainer li {
   display: flex;
   align-items: center;
@@ -35,7 +58,6 @@
   background-color: #f9f9f9;
 }
 
-/* Image du produit */
 .cartContainer img {
   max-width: 120px; /* Ajuster la taille des images */
   height: auto;
@@ -44,12 +66,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Conteneur pour les détails du produit */
 .cartContainer .productDetails {
   flex: 1;
 }
 
-/* Informations sur le produit */
 .cartContainer h3 {
   font-size: 1.3rem;
   margin: 0;
@@ -62,7 +82,6 @@
   color: #555;
 }
 
-/* Conteneur pour le prix et la quantité */
 .cartContainer .priceQuantity {
   display: flex;
   align-items: center;
@@ -70,7 +89,6 @@
   margin: 10px 0;
 }
 
-/* Boutons pour la gestion de la quantité */
 .cartContainer .quantityButtons {
   display: flex;
   align-items: center;
@@ -101,7 +119,6 @@
   font-size: 1rem;
 }
 
-/* Bouton de retrait */
 .cartContainer .removeProduct {
   background-color: #e74c3c;
   color: #fff;
@@ -122,7 +139,6 @@
   transform: scale(0.95);
 }
 
-/* Total du panier */
 .cartContainer .total {
   font-size: 1.5rem;
   margin-top: 20px;
