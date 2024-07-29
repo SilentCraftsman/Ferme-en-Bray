@@ -1,6 +1,6 @@
 import React from "react";
 import MainContent from "../components/Main";
-import "../styles/HomePage.css";
+import "../styles/HomePage.scss";
 
 export const metadata = {
   title: "Accueil - Entreprise de Volailles",

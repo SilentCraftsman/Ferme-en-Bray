@@ -3,7 +3,7 @@
 import React from "react";
 import { useCart } from "./cart/CartContext";
 import { FaShoppingCart } from "react-icons/fa"; // Importer l'icône de panier
-import styles from "../styles/CartPage.module.css";
+import styles from "../styles/CartPage.module.scss";
 
 const CartPage = () => {
   const { cart, removeFromCart, updateQuantity, getTotal } = useCart();

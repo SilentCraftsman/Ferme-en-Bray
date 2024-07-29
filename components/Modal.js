@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useCart } from "./cart/CartContext";
-import "../styles/Modal.css";
+import "../styles/Modal.scss";
 
 const Modal = ({ product, onClose }) => {
   const [quantity, setQuantity] = useState(1);

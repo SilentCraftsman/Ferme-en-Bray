@@ -1,0 +1,163 @@
+// styles/header.scss
+
+// Variables (définies ici pour personnaliser facilement les couleurs, tailles et espacements)
+$header-bg-color: #333;
+$header-text-color: white;
+$nav-list-gap: 15px;
+$nav-link-bg-color: #333;
+$nav-link-hover-bg-color: #444;
+$nav-link-hover-color: #ddd;
+$cart-icon-bg-color: red;
+$cart-icon-text-color: white;
+$cart-icon-border-color: white;
+$cart-icon-font-size: 12px;
+
+// Style principal du header
+.header {
+  background-color: $header-bg-color;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeInFromLeft 2s ease-out;
+
+  .header-title {
+    font-size: 2.5rem;
+    font-family: "Georgia", serif;
+    color: $header-text-color;
+    margin-bottom: 1rem;
+    text-align: center;
+    word-wrap: break-word;
+    opacity: 0;
+    transform: translateX(-10px);
+    animation: slideInFromLeft 2s ease-out forwards;
+  }
+
+  .nav-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: $nav-list-gap;
+    opacity: 0;
+    transform: translateX(-10px);
+    animation: slideInFromLeft 2s ease-out 1s forwards;
+
+    li {
+      display: inline-block;
+      position: relative;
+
+      a {
+        text-decoration: none;
+        color: $header-text-color;
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        background-color: $nav-link-bg-color;
+
+        &:hover {
+          background-color: $nav-link-hover-bg-color;
+          color: $nav-link-hover-color;
+        }
+
+        svg {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+
+  .cart-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .cart-item-count {
+      position: absolute;
+      top: -24px;
+      right: -60px;
+      background-color: $cart-icon-bg-color;
+      color: $cart-icon-text-color;
+      border-radius: 50%;
+      padding: 5px 10px;
+      font-size: $cart-icon-font-size;
+      font-weight: bold;
+      border: 2px solid $cart-icon-border-color;
+    }
+  }
+}
+
+// Animations
+@keyframes fadeInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  // Tablettes en orientation paysage
+  .header-title {
+    font-size: 2rem;
+  }
+
+  .nav-list {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  // Tablettes en orientation portrait
+  .header-title {
+    font-size: 1.8rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .nav-list {
+    gap: 10px;
+    flex-direction: column; // Changer la direction pour mieux s'adapter
+    align-items: center; // Centrer les éléments
+  }
+
+  .cart-icon-container {
+    margin-top: 1rem; // Ajouter un espace en haut
+  }
+}
+
+@media (max-width: 480px) {
+  // Portables
+  .header-title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-list {
+    gap: 5px;
+    flex-direction: column; // Garder la direction verticale
+  }
+
+  .cart-icon-container {
+    margin-top: 0.5rem; // Réduire l'espace en haut
+  }
+}

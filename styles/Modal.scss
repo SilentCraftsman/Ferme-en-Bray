@@ -1,0 +1,112 @@
+// styles/Modal.scss
+
+// Conteneur de l'overlay de la modale
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); // Fond sombre avec opacité
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; // Assure que la modale est au-dessus du contenu
+
+  // Contenu de la modale
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px; // Ajuste la largeur maximale pour éviter que la modale soit trop large
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1001; // Assure que la modale est au-dessus de l'overlay
+    text-align: center;
+    overflow-y: auto; // Ajoute un défilement si le contenu dépasse la hauteur de l'écran
+
+    // Image dans la modale
+    .modal-image {
+      max-width: 100%; // Assure que l'image ne dépasse pas la largeur du conteneur
+      height: auto; // Conserve le ratio d'aspect
+      max-height: 300px; // Limite la hauteur maximale de l'image
+      border-radius: 8px;
+      margin-bottom: 20px; // Espacement sous l'image
+      object-fit: cover; // Assure que l'image remplit son conteneur sans déformer
+    }
+
+    // Boutons dans la modale
+    .modal-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:first-child {
+          background-color: #28a745;
+          color: #fff;
+        }
+
+        &:last-child {
+          background-color: #dc3545;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .modal-content {
+    padding: 15px; // Réduit le padding pour les écrans plus petits
+  }
+
+  .modal-image {
+    max-height: 250px; // Réduit la hauteur maximale pour les écrans plus petits
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 10px; // Réduit davantage le padding pour les tablettes
+    width: calc(
+      100% - 20px
+    ); // Réduit la largeur pour ajouter des espaces latéraux
+    margin: 0 10px; // Ajoute des marges latérales
+    max-width: none; // Supprime la largeur maximale pour les tablettes
+  }
+
+  .modal-image {
+    max-height: 200px; // Ajuste la hauteur maximale pour les tablettes
+  }
+
+  .modal-buttons {
+    flex-direction: column; // Change la direction des boutons pour s'adapter aux petits écrans
+    gap: 10px; // Ajoute de l'espace entre les boutons
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 15px; // Réduit le padding pour les très petits écrans
+    width: calc(
+      100% - 20px
+    ); // Réduit la largeur pour ajouter des espaces latéraux
+    margin: 0 15px; // Ajoute des marges latérales
+  }
+
+  .modal-image {
+    max-height: 150px; // Ajuste la hauteur maximale pour les très petits écrans
+  }
+
+  .modal-buttons {
+    gap: 5px; // Réduit l'espace entre les boutons
+  }
+}

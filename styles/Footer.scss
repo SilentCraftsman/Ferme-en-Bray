@@ -1,0 +1,55 @@
+// styles/footer.module.scss
+
+// Variables (définies ici pour personnaliser facilement les couleurs et les espacements)
+$footer-background: #333;
+$footer-text-color: white;
+$social-media-link-color: white;
+$social-media-link-hover-color: #ddd;
+$social-media-link-margin: 10px;
+
+// Style principal du footer
+.footer {
+  background-color: $footer-background;
+  color: $footer-text-color;
+  text-align: center;
+  padding: 10px 0;
+  position: relative; // Utilisation de 'relative' au lieu de 'fixed'
+  width: 100%;
+
+  .social-media {
+    a {
+      color: $social-media-link-color;
+      margin: 0 $social-media-link-margin;
+      text-decoration: none;
+
+      &:hover {
+        color: $social-media-link-hover-color;
+      }
+    }
+  }
+}
+
+// Responsive Design pour les tablettes et les mobiles
+@media (max-width: 768px) {
+  .footer {
+    padding: 15px 0;
+  }
+
+  .social-media {
+    a {
+      margin: 0 8px; // Réduit l'espace entre les liens pour les écrans plus petits
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 20px 0;
+  }
+
+  .social-media {
+    a {
+      margin: 0 5px; // Réduit encore plus l'espace entre les liens pour les très petits écrans
+    }
+  }
+}

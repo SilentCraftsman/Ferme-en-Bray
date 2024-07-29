@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import ProductCard from "./ProductCard";
 import Modal from "./Modal";
 import { useCart } from "./cart/CartContext";
-import "../styles/MainContent.css";
+import "../styles/MainContent.scss";
 
 const products = [
   {

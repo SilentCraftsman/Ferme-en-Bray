@@ -9,7 +9,7 @@ import {
   FaShoppingCart,
 } from "react-icons/fa";
 import { useCart } from "./cart/CartContext";
-import "../styles/Header.css";
+import "../styles/Header.scss";
 
 export default function Header() {
   const { cart } = useCart();
@@ -39,7 +39,10 @@ export default function Header() {
           </li>
           <li className="nav-item">
             <Link href="/cart" className="cart-link">
-              <div className="cart-icon-container">
+              <div
+                className="cart-icon-container"
+                style={{ marginTop: "2.5px" }}
+              >
                 <FaShoppingCart />
                 {itemCount > 0 && (
                   <span className="cart-item-count">{itemCount}</span>

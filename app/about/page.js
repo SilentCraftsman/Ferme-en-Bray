@@ -1,5 +1,5 @@
 // app/about/page.js
-import "../../styles/about.css";
+import "../../styles/about.scss";
 
 export const metadata = {
   title: "À propos - Entreprise de Volailles",

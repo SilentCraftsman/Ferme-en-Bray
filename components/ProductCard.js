@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useCart } from "./cart/CartContext";
-import "../styles/ProductCard.css";
+import "../styles/ProductCard.scss";
 import { FaPlusCircle } from "react-icons/fa";
 
 const ProductCard = ({ product, onShowDetails }) => {

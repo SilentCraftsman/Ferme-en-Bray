@@ -1,0 +1,106 @@
+// styles/ProductCard.scss
+
+// Style principal de la carte produit
+.product-card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  // Conteneur de l'image du produit
+  .product-image-container {
+    position: relative;
+
+    img {
+      display: block; // Assure qu'il n'y a pas de marges autour de l'image
+      width: 100%; // Assure que l'image prend toute la largeur du conteneur
+      height: auto; // Assure que l'image conserve son ratio d'aspect
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    // Overlay qui apparaît au survol de l'image
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.3s;
+
+      .plus-icon {
+        color: white;
+        font-size: 2rem;
+      }
+    }
+
+    &:hover .overlay {
+      opacity: 1;
+    }
+  }
+
+  button {
+    margin-top: 10px;
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .product-card {
+    margin: 15px; // Réduit la marge pour les écrans plus petits
+  }
+}
+
+@media (max-width: 992px) {
+  .product-card {
+    padding: 15px; // Réduit le padding pour les tablettes
+    margin: 10px; // Réduit la marge pour les tablettes
+  }
+
+  .product-image-container img {
+    height: 180px; // Ajuste la hauteur de l'image pour les écrans plus petits
+  }
+}
+
+@media (max-width: 768px) {
+  .product-card {
+    padding: 10px; // Réduit le padding pour les écrans mobiles
+    margin: 5px; // Réduit la marge pour les écrans mobiles
+  }
+
+  .product-image-container img {
+    height: 150px; // Ajuste la hauteur de l'image pour les petits écrans
+  }
+
+  .overlay .plus-icon {
+    font-size: 1.5rem; // Réduit la taille de l'icône pour les petits écrans
+  }
+}
+
+@media (max-width: 480px) {
+  .product-card {
+    padding: 5px; // Réduit davantage le padding pour les très petits écrans
+    margin: 2px; // Réduit davantage la marge pour les très petits écrans
+  }
+
+  .product-image-container img {
+    height: 120px; // Ajuste la hauteur de l'image pour les très petits écrans
+  }
+
+  .overlay .plus-icon {
+    font-size: 1.25rem; // Réduit encore la taille de l'icône pour les très petits écrans
+  }
+}

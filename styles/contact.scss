@@ -1,3 +1,13 @@
+// styles/contact.scss
+
+// Variables (définies ici pour personnaliser facilement les couleurs, espacements, etc.)
+$primary-color: #0070f3;
+$primary-color-hover: #005bb5;
+$border-color: #ccc;
+$border-radius: 4px;
+$animation-duration: 2s;
+
+// Conteneur principal du formulaire de contact
 .contact-container {
   max-width: 800px;
   margin: 0 auto;
@@ -5,6 +15,7 @@
   line-height: 1.6;
 }
 
+// Titres et descriptions avec animations
 .contact-title,
 .contact-description,
 .contact-info-title,
@@ -13,7 +24,7 @@
 .form-title,
 .contact-form {
   opacity: 0;
-  transform: translateX(-120vw); /* Démarrer très loin à gauche */
+  transform: translateX(-120vw); // Démarrer très loin à gauche
   transition: opacity 1s ease-out, transform 1s ease-out;
 }
 
@@ -21,12 +32,12 @@
   font-size: 2rem;
   margin-bottom: 1rem;
   text-decoration: underline;
-  animation: slideInFromFarLeft 2s ease-out forwards;
+  animation: slideInFromFarLeft $animation-duration ease-out forwards;
 }
 
 .contact-description {
   margin-bottom: 1rem;
-  animation: slideInFromFarLeft 2s ease-out 0.5s forwards;
+  animation: slideInFromFarLeft $animation-duration ease-out 0.5s forwards;
 }
 
 .contact-info {
@@ -37,12 +48,12 @@
   font-size: 1.5rem;
   margin-bottom: 1rem;
   text-decoration: underline;
-  animation: slideInFromFarLeft 2s ease-out 1s forwards;
+  animation: slideInFromFarLeft $animation-duration ease-out 1s forwards;
 }
 
 .contact-info-item {
   margin-bottom: 0.5rem;
-  animation: slideInFromFarLeft 2s ease-out 1.5s forwards;
+  animation: slideInFromFarLeft $animation-duration ease-out 1.5s forwards;
 }
 
 .map-container {
@@ -55,7 +66,7 @@
   font-size: 1.5rem;
   margin-bottom: 1rem;
   text-decoration: underline;
-  animation: slideInFromFarLeft 2s ease-out 2s forwards;
+  animation: slideInFromFarLeft $animation-duration ease-out 2s forwards;
 }
 
 .map-iframe {
@@ -64,51 +75,52 @@
   border: 0;
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 1.5s ease-out 2.5s forwards; /* Animation plus rapide */
+  animation: fadeInUp 1.5s ease-out 2.5s forwards; // Animation plus rapide
 }
 
 .form-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
   text-decoration: underline;
-  animation: slideInFromFarLeft 2s ease-out 3s forwards;
+  animation: slideInFromFarLeft $animation-duration ease-out 3s forwards;
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
-  animation: slideInFromFarLeft 2s ease-out 3.5s forwards;
+  animation: slideInFromFarLeft $animation-duration ease-out 0.5s forwards;
+
+  label {
+    margin: 0.5rem 0 0.2rem;
+  }
+
+  input,
+  textarea {
+    padding: 0.8rem;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    margin-bottom: 1rem;
+  }
+
+  button {
+    padding: 0.8rem;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $primary-color-hover;
+    }
+  }
 }
 
-.contact-form label {
-  margin: 0.5rem 0 0.2rem;
-}
-
-.contact-form input,
-.contact-form textarea {
-  padding: 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-}
-
-.contact-form button {
-  padding: 0.8rem;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.contact-form button:hover {
-  background-color: #005bb5;
-}
-
+// Animations
 @keyframes slideInFromFarLeft {
   from {
     opacity: 0;
-    transform: translateX(-120vw); /* Démarrer très loin à gauche */
+    transform: translateX(-120vw); // Démarrer très loin à gauche
   }
   to {
     opacity: 1;
@@ -127,6 +139,7 @@
   }
 }
 
+// Responsive Design
 @media (max-width: 768px) {
   .contact-container {
     padding: 15px;
