@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useCart } from "./cart/CartContext";
 import "../styles/Modal.scss";
 
 const Modal = ({ product, onClose }) => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
+  const modalRef = useRef(null);
 
   const handleAddToCart = () => {
     console.log(
@@ -14,14 +15,42 @@ const Modal = ({ product, onClose }) => {
       product,
       "Quantité:",
       quantity
-    ); // Ajout du log
+    );
     addToCart(product, quantity);
     onClose();
   };
 
+  useEffect(() => {
+    document.body.classList.add("modal-open");
+
+    const adjustModalPosition = () => {
+      if (modalRef.current) {
+        const rect = modalRef.current.getBoundingClientRect();
+        const offset = (window.innerHeight - rect.height) / 2;
+        window.scrollTo({
+          top: rect.top + window.pageYOffset - offset,
+          behavior: "smooth",
+        });
+      }
+    };
+
+    adjustModalPosition();
+
+    return () => {
+      document.body.classList.remove("modal-open");
+    };
+  }, []);
+
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal-content"
+        onClick={(e) => e.stopPropagation()}
+        ref={modalRef}
+      >
+        <button className="modal-close-button" onClick={onClose}>
+          ×
+        </button>
         <h2>{product.title}</h2>
         <img src={product.image} alt={product.title} className="modal-image" />
         <p>{product.description}</p>
