@@ -8,7 +8,16 @@ import { FaPlusCircle } from "react-icons/fa";
 const ProductCard = ({ product, onShowDetails }) => {
   const { addToCart } = useCart();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (event) => {
+    // Obtenir le bouton cliqué
+    const button = event.currentTarget;
+
+    // Ajouter la classe active au bouton cliqué
+    button.classList.add("active");
+
+    // Retirer la classe active après 300ms pour réinitialiser l'effet
+    setTimeout(() => button.classList.remove("active"), 300);
+
     console.log("Ajout du produit au panier:", product);
     addToCart(product, 1); // Ajouter une quantité de 1
   };
