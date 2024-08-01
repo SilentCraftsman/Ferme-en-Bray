@@ -41,7 +41,7 @@ $animation-duration: 2s;
 }
 
 .contact-info {
-  margin-bottom: 2rem;
+  margin-bottom: 0.2rem;
 }
 
 .contact-info-title {
@@ -116,6 +116,25 @@ $animation-duration: 2s;
   }
 }
 
+// Styles pour les messages de validation et de réussite
+.form-message {
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: $border-radius;
+  text-align: center;
+  animation: fadeInOut 4s ease-in-out;
+  &.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  &.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+}
+
 // Animations
 @keyframes slideInFromFarLeft {
   from {
@@ -136,6 +155,16 @@ $animation-duration: 2s;
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeInOut {
+  0%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
