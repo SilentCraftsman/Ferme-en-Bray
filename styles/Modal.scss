@@ -37,6 +37,13 @@
       cursor: pointer;
     }
 
+    // Ingrédient => dans la ProductCard
+    .description-title {
+      margin: 20px 0 0 0;
+      color: #130202;
+      text-decoration: underline;
+    }
+
     // Image dans la modale
     .modal-image {
       max-width: 100%;

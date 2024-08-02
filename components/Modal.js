@@ -53,6 +53,7 @@ const Modal = ({ product, onClose }) => {
         </button>
         <h2>{product.title}</h2>
         <img src={product.image} alt={product.title} className="modal-image" />
+        <p className="description-title">Ingrédient :</p>
         <p>{product.description}</p>
         <p>{product.price}</p>
         <label>

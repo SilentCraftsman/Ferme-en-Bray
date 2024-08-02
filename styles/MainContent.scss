@@ -1,5 +1,3 @@
-// styles/MainContent.scss
-
 // Animation de fondu et montée
 @keyframes fadeInUp {
   from {
@@ -13,7 +11,9 @@
 }
 
 // Titre principal
-.title-main-content {
+.title-main-content,
+.title-main-content-air,
+.title-main-content-holiday {
   text-align: center;
   margin: 2rem 0;
   opacity: 0; // Démarre avec une opacité à 0 pour l'animation
@@ -30,7 +30,9 @@
 }
 
 // Grille des produits
-.product-grid {
+.product-grid,
+.product-grid-air,
+.product-grid-holiday {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
@@ -89,13 +91,17 @@
 
 // Responsive Design
 @media (max-width: 1200px) {
-  .product-grid {
+  .product-grid,
+  .product-grid-air,
+  .product-grid-holiday {
     padding: 0 1rem; // Padding ajusté pour les écrans plus petits
   }
 }
 
 @media (max-width: 992px) {
-  .title-main-content {
+  .title-main-content,
+  .title-main-content-air,
+  .title-main-content-holiday {
     h3 {
       font-size: 1.75rem; // Réduit la taille de la police du titre principal
     }
@@ -113,13 +119,17 @@
 }
 
 @media (max-width: 768px) {
-  .title-main-content {
+  .title-main-content,
+  .title-main-content-air,
+  .title-main-content-holiday {
     h3 {
       font-size: 1.5rem; // Réduit davantage la taille de la police du titre principal
     }
   }
 
-  .product-grid {
+  .product-grid,
+  .product-grid-air,
+  .product-grid-holiday {
     grid-template-columns: repeat(
       auto-fit,
       minmax(150px, 1fr)
@@ -142,7 +152,9 @@
 }
 
 @media (max-width: 480px) {
-  .title-main-content {
+  .title-main-content,
+  .title-main-content-air,
+  .title-main-content-holiday {
     h3 {
       font-size: 1.25rem; // Réduit encore la taille de la police du titre principal pour les très petits écrans
     }

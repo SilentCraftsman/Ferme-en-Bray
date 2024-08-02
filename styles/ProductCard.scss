@@ -7,7 +7,6 @@ $color-text-dark: black;
 $color-text-light: #666;
 
 .product-card {
-  width: 16rem;
   height: $product-card-height;
   border-radius: $product-card-radius;
   overflow: hidden;
@@ -77,6 +76,13 @@ $color-text-light: #666;
   button {
     margin: 0;
     padding: 0;
+  }
+
+  // Ingrédient => dans la ProductCard
+  .description-title {
+    margin: 20px 0 0 0;
+    color: #130202;
+    text-decoration: underline;
   }
 
   h4 {

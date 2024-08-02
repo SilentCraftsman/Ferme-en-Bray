@@ -38,6 +38,7 @@ const ProductCard = ({ product, onShowDetails }) => {
         </div>
       </div>
       <h4>{product.title}</h4>
+      <p className="description-title">Ingrédient :</p>
       <p>{product.description}</p>
       <p>{product.price}</p>
       <button onClick={handleAddToCart}>Ajouter au panier</button>
