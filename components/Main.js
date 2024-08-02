@@ -14,7 +14,7 @@ const specialtyProducts = [
     //Prix pour 800gr - Prix déjà converti
     id: 1,
     image: "./images/main-images/image-1.jpg",
-    title: "Roulade de poulet - 18.20, € le kg",
+    title: "Roulade de poulet - 18.20 €, le kg",
     description:
       "Poulet, épaule de porc, boudin blanc, lait, pain, oignon, sel et poivre.",
     price: "14.56 €",
@@ -23,7 +23,7 @@ const specialtyProducts = [
     //Prix pour 600gr - Prix déjà converti
     id: 2,
     image: "./images/main-images/image-2.jpg",
-    title: "Roulade de pintade - 23.40, € le kilo",
+    title: "Roulade de pintade - 23.40 €, le kilo",
     description:
       "Pintade, porc échine, boudin blanc, lait, pain, oignon, sel et poivre.",
     price: "14.04 €",
@@ -57,7 +57,8 @@ const specialtyProducts = [
     //Prix pour la pièce de 150gr - Prix déjà converti
     id: 6,
     image: "./images/main-images/image-2.jpg",
-    title: "Bouchée de volaille - vendu par pièce de 150 gr",
+    title:
+      "Bouchée de volaille - vendu par pièce de 150 gr. Le prix au kg est de 19.80 €",
     description:
       "Filet de poulet, crème fraîche, boudin blanc, quenelle, champignons.",
     price: "2.80 €",

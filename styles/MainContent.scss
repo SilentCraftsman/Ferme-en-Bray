@@ -1,3 +1,12 @@
+// MainContent.scss
+
+// Variables pour les styles
+$title-font-size: 1.6rem;
+$title-margin: 0.5rem 0;
+$grid-gap: 2rem;
+$paragraph-font-size: 1rem;
+$paragraph-color: #666;
+
 // Animation de fondu et montée
 @keyframes fadeInUp {
   from {
@@ -10,167 +19,54 @@
   }
 }
 
-// Titre principal
+// Section pour les spécialités
 .title-main-content,
 .title-main-content-air,
 .title-main-content-holiday {
   text-align: center;
-  margin: 2rem 0;
-  opacity: 0; // Démarre avec une opacité à 0 pour l'animation
-  transform: translateY(20px); // Position initiale décalée pour l'animation
-  animation: fadeInUp 1.5s ease-out forwards; // Animation douce de fondu et montée
+  margin: $title-margin;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1.5s ease-out forwards;
 
   h3 {
-    font-size: 2rem;
-    color: #333;
-    text-decoration: underline;
-    text-decoration-color: #e91e63; // Couleur de la ligne de soulignement
-    text-decoration-thickness: 2px; // Épaisseur de la ligne de soulignement
+    font-size: $title-font-size;
+    text-decoration: underline red;
+    margin: 40px 0 30px 0;
   }
 }
 
-// Grille des produits
 .product-grid,
 .product-grid-air,
 .product-grid-holiday {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  padding: 0rem 1rem 1rem;
-  opacity: 0; // Démarre avec une opacité à 0 pour l'animation
-  transform: translateY(20px); // Position initiale décalée pour l'animation
-  animation: fadeInUp 1.5s ease-out 0.5s forwards; // Animation douce de fondu et montée avec délai
-
-  // Cartes de produits
-  .product-container {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; // Transition douce pour l'hover
-
-    img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-bottom: 2px solid #e91e63;
-    }
-
-    h4 {
-      font-size: 1.5rem;
-      color: #333;
-      margin: 0.5rem 0;
-    }
-
-    p {
-      font-size: 1rem;
-      color: #666;
-      padding: 0 1rem;
-    }
-
-    &:hover {
-      transform: translateY(-10px); // Légère élévation lors du survol
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); // Ombre portée plus prononcée lors du survol
-    }
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: $grid-gap;
+  justify-content: center;
 }
 
-// Bouton d'ajout au panier
-.add-to-cart-button {
-  padding: 0.5rem 1rem;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #005bb5;
-  }
+.product-grid > .product-card,
+.product-grid-air > .product-card,
+.product-grid-holiday > .product-card {
+  flex: 1 1 calc(33.333% - $grid-gap); // Trois cartes par ligne
+  max-width: calc(33.333% - $grid-gap);
 }
 
 // Responsive Design
-@media (max-width: 1200px) {
-  .product-grid,
-  .product-grid-air,
-  .product-grid-holiday {
-    padding: 0 1rem; // Padding ajusté pour les écrans plus petits
-  }
-}
-
-@media (max-width: 992px) {
-  .title-main-content,
-  .title-main-content-air,
-  .title-main-content-holiday {
-    h3 {
-      font-size: 1.75rem; // Réduit la taille de la police du titre principal
-    }
-  }
-
-  .product-container {
-    h4 {
-      font-size: 1.25rem; // Réduit la taille de la police des titres des produits
-    }
-
-    p {
-      font-size: 0.9rem; // Réduit la taille de la police des descriptions des produits
-    }
-  }
-}
-
 @media (max-width: 768px) {
-  .title-main-content,
-  .title-main-content-air,
-  .title-main-content-holiday {
-    h3 {
-      font-size: 1.5rem; // Réduit davantage la taille de la police du titre principal
-    }
-  }
-
-  .product-grid,
-  .product-grid-air,
-  .product-grid-holiday {
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(150px, 1fr)
-    ); // Ajuste la taille des colonnes pour les écrans plus petits
-  }
-
-  .product-container {
-    img {
-      height: 180px; // Ajuste la hauteur des images pour les écrans plus petits
-    }
-
-    h4 {
-      font-size: 1rem; // Réduit la taille de la police des titres des produits
-    }
-
-    p {
-      font-size: 0.85rem; // Réduit la taille de la police des descriptions des produits
-    }
+  .product-grid > .product-card,
+  .product-grid-air > .product-card,
+  .product-grid-holiday > .product-card {
+    flex: 1 1 calc(50% - $grid-gap); // Deux cartes par ligne
+    max-width: calc(50% - $grid-gap);
   }
 }
 
 @media (max-width: 480px) {
-  .title-main-content,
-  .title-main-content-air,
-  .title-main-content-holiday {
-    h3 {
-      font-size: 1.25rem; // Réduit encore la taille de la police du titre principal pour les très petits écrans
-    }
-  }
-
-  .product-container {
-    img {
-      height: 150px; // Ajuste la hauteur des images pour les très petits écrans
-    }
-
-    h4 {
-      font-size: 0.875rem; // Réduit la taille de la police des titres des produits pour les très petits écrans
-    }
-
-    p {
-      font-size: 0.75rem; // Réduit la taille de la police des descriptions des produits pour les très petits écrans
-    }
+  .product-grid > .product-card,
+  .product-grid-air > .product-card,
+  .product-grid-holiday > .product-card {
+    flex: 1 1 100%; // Une carte par ligne
+    max-width: 100%;
   }
 }
