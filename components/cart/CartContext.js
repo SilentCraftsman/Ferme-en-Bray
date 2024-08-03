@@ -6,40 +6,6 @@ const CartContext = createContext();
 
 const LOCAL_STORAGE_KEY = "cart";
 
-// Exemple de produits
-const exampleProducts = [
-  {
-    id: 1,
-    image: "./images/main-images/image-1.jpg",
-    title: "Poulet Fermier",
-    description: "Un poulet fermier élevé en plein air, tendre et savoureux.",
-    price: "10 €",
-  },
-  {
-    id: 2,
-    image: "./images/main-images/image-2.jpg",
-    title: "Dinde Bio",
-    description:
-      "Dinde biologique nourrie avec des aliments naturels, parfaite pour les repas de fête.",
-    price: "20 €",
-  },
-  {
-    id: 3,
-    image: "./images/main-images/image-3.jpg",
-    title: "Canard Confit",
-    description: "Canard confit préparé selon la tradition, riche en saveurs.",
-    price: "20 €",
-  },
-  {
-    id: 4,
-    image: "./images/main-images/image-4.jpg",
-    title: "Oie Rôtie",
-    description:
-      "Oie rôtie à la perfection, idéale pour les grandes occasions.",
-    price: "50 €",
-  },
-];
-
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 

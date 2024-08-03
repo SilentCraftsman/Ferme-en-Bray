@@ -41,6 +41,10 @@ const Modal = ({ product, onClose }) => {
     };
   }, []);
 
+  if (!product) {
+    return null; // Pas de produit à afficher
+  }
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div
@@ -55,7 +59,9 @@ const Modal = ({ product, onClose }) => {
         <img src={product.image} alt={product.title} className="modal-image" />
         <p className="description-title">Ingrédient :</p>
         <p>{product.description}</p>
-        <p>{product.price}</p>
+        <p>
+          <strong>Prix :</strong> {product.price}
+        </p>
         <label>
           Quantité:
           <input
