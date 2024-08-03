@@ -27,8 +27,13 @@ const MainContent = () => {
     loadProducts();
   }, []);
 
-  const handleAddToCart = (product) => {
-    addToCart(product, 1);
+  // Fonction pour ajouter un produit au panier
+  const handleAddToCart = (product, quantity) => {
+    if (typeof addToCart === "function") {
+      addToCart(product, quantity);
+    } else {
+      console.error("addToCart n'est pas une fonction");
+    }
   };
 
   const handleShowDetails = (product) => {

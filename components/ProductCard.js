@@ -1,47 +1,64 @@
-"use client";
-
-import React from "react";
-import { useCart } from "./cart/CartContext";
+import React, { useState } from "react";
 import "../styles/ProductCard.scss";
-import { FaPlusCircle } from "react-icons/fa";
 
-const ProductCard = ({ product, onShowDetails }) => {
-  const { addToCart } = useCart();
+const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
+  const [quantity, setQuantity] = useState(1);
+  const [selectedVariant, setSelectedVariant] = useState(
+    product.variants ? product.variants[0] : null
+  );
 
-  const handleAddToCart = (event) => {
-    // Obtenir le bouton cliqué
-    const button = event.currentTarget;
-
-    // Ajouter la classe active au bouton cliqué
-    button.classList.add("active");
-
-    // Retirer la classe active après 300ms pour réinitialiser l'effet
-    setTimeout(() => button.classList.remove("active"), 300);
-
-    console.log("Ajout du produit au panier:", product);
-    addToCart(product, 1); // Ajouter une quantité de 1
+  const handleAddToCart = () => {
+    // Passe le produit avec la variante sélectionnée
+    onAddToCart({ ...product, selectedVariant }, quantity);
   };
 
   return (
     <div className="product-card">
-      <div
-        className="product-image-container"
-        onClick={() => onShowDetails(product)}
-      >
-        <img
-          src={product.image}
-          alt={product.title}
-          className="product-image"
-        />
-        <div className="overlay">
-          <FaPlusCircle className="plus-icon" />
-        </div>
-      </div>
+      <img
+        src={product.image}
+        alt={product.title}
+        className="product-image"
+        // Réduit la taille de l'image. Ajustez ces styles si nécessaire.
+        style={{ width: "150px", height: "150px" }} // Modifiez les dimensions selon vos besoins
+      />
       <h4>{product.title}</h4>
-      <p className="description-title">Ingrédient :</p>
+      <p className="description-title">Description:</p>
       <p>{product.description}</p>
-      <p>Prix : {product.price}</p>
+      <p className="price">
+        {selectedVariant ? selectedVariant.price : product.price}
+      </p>
+      {product.variants && (
+        <label>
+          Type:
+          <select
+            value={selectedVariant ? selectedVariant.type : ""}
+            onChange={(e) =>
+              setSelectedVariant(
+                product.variants.find((v) => v.type === e.target.value)
+              )
+            }
+          >
+            {product.variants.map((variant) => (
+              <option key={variant.variantId} value={variant.type}>
+                {variant.type} - {variant.weight}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
+      <label>
+        Quantité:
+        <input
+          type="number"
+          value={quantity}
+          min="1"
+          onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+        />
+      </label>
       <button onClick={handleAddToCart}>Ajouter au panier</button>
+      {onShowDetails && (
+        <button onClick={() => onShowDetails(product)}>Voir les détails</button>
+      )}
     </div>
   );
 };

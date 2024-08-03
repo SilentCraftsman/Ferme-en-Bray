@@ -4,59 +4,73 @@
       "id": 1,
       "image": "./images/main-images/image-1.jpg",
       "title": "Roulade de poulet - 18.20 €, le kg",
-      "description": "Poulet, épaule de porc, boudin blanc, lait, pain, oignon, sel et poivre.",
+      "description": "800g - Délicieuse roulade de poulet, parfaitement assaisonnée et prête à cuire pour un repas savoureux.",
       "price": "14.56 €"
     },
     {
       "id": 2,
       "image": "./images/main-images/image-2.jpg",
       "title": "Roulade de pintade - 23.40 €, le kilo",
-      "description": "Pintade, porc échine, boudin blanc, lait, pain, oignon, sel et poivre.",
+      "description": "600g - Savoureuse roulade de pintade, tendre et juteuse, idéale pour les dîners gastronomiques.",
       "price": "14.04 €"
     },
     {
       "id": 3,
       "image": "./images/main-images/image-3.jpg",
       "title": "Boudin blanc de volaille - 15.90 €, le kg",
-      "description": "Lait, filet de poulet, farine, beurre, oeufs, sel et épices.",
+      "description": "130g - Boudin blanc de volaille délicatement épicé, parfait pour vos apéritifs ou plats principaux.",
       "price": "2.07 €"
     },
     {
       "id": 4,
       "image": "./images/main-images/image-4.jpg",
       "title": "Quenelles de volaille - 16.80 €, le kg",
-      "description": "Lait, filets de poulet, farine, beurre, oeufs, sel et épices",
+      "description": "125g - Quenelles de volaille moelleuses, idéales pour accompagner vos plats en sauce.",
       "price": "2.10 €"
     },
     {
       "id": 5,
       "image": "./images/main-images/image-1.jpg",
       "title": "Croquettes de poulet - 19.80 €, le kg",
-      "description": "Filets et cuisses de poulet, lait, fromages, pain, sel, épices.",
+      "description": "75g - Croquettes de poulet croustillantes et savoureuses, un régal pour toute la famille.",
       "price": "1.49 €"
     },
     {
       "id": 6,
       "image": "./images/main-images/image-2.jpg",
       "title": "Bouchée de volaille - vendu par pièce de 150 gr. Le prix au kg est de 19.80 €",
-      "description": "Filet de poulet, crème fraîche, boudin blanc, quenelle, champignons.",
+      "description": "150g - Bouchée de volaille gourmande, idéale pour un repas raffiné.",
       "price": "2.80 €"
     },
     {
       "id": 7,
       "image": "./images/main-images/image-2.jpg",
       "title": "Terrine de volaille à la coupe - 17.20 €, le kg",
-      "description": "Poulet (viande et abats), gorge de porc, vin blanc (sulfites), oignons, champignons, oeufs, pulpe d'ail, fécule de pomme de terre, poivre et sucre.",
+      "description": "250g - Terrine de volaille savoureuse, parfaite pour vos entrées ou apéritifs.",
       "price": "4.30 €"
     }
   ],
   "outdoorPoultryProducts": [
     {
-      "id": 8,
       "image": "./images/main-images/image-2.jpg",
       "title": "Poulet - \"cou nu, roux, blanc\" - 9.10 €, le kg",
       "description": "Poulet est vendu en 2 types : - Soit en poulet petit qui lui fera un prix de 13.65 euros. - Soit en poulet moyen qui lui fera un prix de 18.20 euros.",
-      "price": "9.10 €"
+      "price": "9.10 €",
+      "id": "chicken",
+      "variants": [
+        {
+          "variantId": "chicken-small-1.5kg",
+          "type": "Petit",
+          "weight": "1.5kg",
+          "price": "13.65"
+        },
+        {
+          "variantId": "chicken-medium-2.0kg",
+          "type": "Moyen",
+          "weight": "2.0kg",
+          "price": "18.20"
+        }
+      ]
     },
     {
       "id": 9,

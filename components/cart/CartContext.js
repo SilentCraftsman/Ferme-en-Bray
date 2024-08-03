@@ -9,14 +9,16 @@ const LOCAL_STORAGE_KEY = "cart";
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  // Fonction pour sauvegarder le panier dans le localStorage
   const saveCartToLocalStorage = (cart) => {
     try {
-      // Validation des données du panier avant sauvegarde
       if (
         Array.isArray(cart) &&
         cart.every(
-          (item) => typeof item === "object" && item.id && item.quantity >= 0
+          (item) =>
+            typeof item === "object" &&
+            item.id &&
+            item.quantity >= 0 &&
+            (!item.selectedVariant || item.selectedVariant.variantId) // variantId only if there's a selectedVariant
         )
       ) {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cart));
@@ -28,7 +30,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Fonction pour charger le panier depuis le localStorage
   const loadCartFromLocalStorage = () => {
     try {
       const savedCart = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -37,7 +38,11 @@ export const CartProvider = ({ children }) => {
         if (
           Array.isArray(parsedCart) &&
           parsedCart.every(
-            (item) => typeof item === "object" && item.id && item.quantity >= 0
+            (item) =>
+              typeof item === "object" &&
+              item.id &&
+              item.quantity >= 0 &&
+              (!item.selectedVariant || item.selectedVariant.variantId) // variantId only if there's a selectedVariant
           )
         ) {
           return parsedCart;
@@ -53,7 +58,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Nettoyage du localStorage s'il contient des données invalides
   useEffect(() => {
     try {
       const savedCart = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -61,7 +65,11 @@ export const CartProvider = ({ children }) => {
       if (
         !Array.isArray(parsedCart) ||
         !parsedCart.every(
-          (item) => typeof item === "object" && item.id && item.quantity >= 0
+          (item) =>
+            typeof item === "object" &&
+            item.id &&
+            item.quantity >= 0 &&
+            (!item.selectedVariant || item.selectedVariant.variantId) // variantId only if there's a selectedVariant
         )
       ) {
         console.error("Invalid cart data detected, clearing localStorage");
@@ -73,46 +81,59 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
 
-  // Charger le panier depuis le localStorage lors du chargement du composant
   useEffect(() => {
     const loadedCart = loadCartFromLocalStorage();
     setCart(loadedCart);
   }, []);
 
-  // Met à jour le panier dans l'état et le localStorage
   const addToCart = (product, quantity) => {
+    // Generate a uniqueId based on whether the product has a selected variant
+    const uniqueId = product.selectedVariant
+      ? `${product.id}-${product.selectedVariant.variantId}`
+      : product.id;
+
     setCart((prevCart) => {
-      const existingProduct = prevCart.find((item) => item.id === product.id);
+      const existingProduct = prevCart.find(
+        (item) => item.uniqueId === uniqueId
+      );
       let updatedCart;
       if (existingProduct) {
         updatedCart = prevCart.map((item) =>
-          item.id === product.id
+          item.uniqueId === uniqueId
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       } else {
-        updatedCart = [...prevCart, { ...product, quantity }];
+        updatedCart = [
+          ...prevCart,
+          {
+            ...product,
+            quantity,
+            uniqueId,
+            selectedVariant: product.selectedVariant,
+          },
+        ];
       }
       saveCartToLocalStorage(updatedCart);
       return updatedCart;
     });
   };
 
-  // Supprime un produit du panier et met à jour le localStorage
-  const removeFromCart = (id) => {
+  const removeFromCart = (uniqueId) => {
     setCart((prevCart) => {
-      const updatedCart = prevCart.filter((item) => item.id !== id);
+      const updatedCart = prevCart.filter((item) => item.uniqueId !== uniqueId);
       saveCartToLocalStorage(updatedCart);
       return updatedCart;
     });
   };
 
-  // Met à jour la quantité d'un produit et supprime le produit si la quantité <= 0
-  const updateQuantity = (id, quantity) => {
+  const updateQuantity = (uniqueId, quantity) => {
     setCart((prevCart) => {
       const updatedCart = prevCart
-        .map((item) => (item.id === id ? { ...item, quantity } : item))
-        .filter((item) => item.quantity > 0); // Supprimer les produits avec quantité <= 0
+        .map((item) =>
+          item.uniqueId === uniqueId ? { ...item, quantity } : item
+        )
+        .filter((item) => item.quantity > 0);
       saveCartToLocalStorage(updatedCart);
       return updatedCart;
     });
@@ -123,7 +144,11 @@ export const CartProvider = ({ children }) => {
       .reduce(
         (acc, item) =>
           acc +
-          parseFloat(item.price.replace("€", "").replace(",", ".")) *
+          parseFloat(
+            item.selectedVariant
+              ? item.selectedVariant.price.replace("€", "").replace(",", ".")
+              : item.price.replace("€", "").replace(",", ".")
+          ) *
             item.quantity,
         0
       )
