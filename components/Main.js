@@ -46,10 +46,25 @@ const MainContent = () => {
 
   return (
     <div>
+      {/* NavBar secondaire */}
+      <nav className="secondary-nav">
+        <ul>
+          <li>
+            <a href="#specialties">Nos spécialités</a>
+          </li>
+          <li>
+            <a href="#outdoor-poultry">Nos produits de plein air</a>
+          </li>
+          <li>
+            <a href="#holiday-products">Nos produits de fête</a>
+          </li>
+        </ul>
+      </nav>
+
       {/* Section pour les spécialités */}
-      <section id="specialties">
-        <h2>Spécialités</h2>
-        <div className="products-grid">
+      <section id="specialties" className="main-section">
+        <h2>Nos spécialités</h2>
+        <div className="product-grid">
           {specialtyProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -62,9 +77,9 @@ const MainContent = () => {
       </section>
 
       {/* Section pour les produits de plein air */}
-      <section id="outdoor-poultry">
-        <h2>Produits de plein air</h2>
-        <div className="products-container">
+      <section id="outdoor-poultry" className="main-section">
+        <h2>Nos produits de plein air</h2>
+        <div className="product-grid">
           {outdoorPoultryProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -77,9 +92,13 @@ const MainContent = () => {
       </section>
 
       {/* Section pour les produits de fête */}
-      <section id="holiday-products">
-        <h2>Produits de fête</h2>
-        <div className="products-container">
+      <section id="holiday-products" className="main-section">
+        <h2>Nos produits de fête</h2>
+        <p className="holiday-products-text">
+          Veuillez noter que les produits de cette section sont disponibles
+          uniquement sur commande.
+        </p>
+        <div className="product-grid">
           {holidayProducts.map((product) => (
             <ProductCard
               key={product.id}

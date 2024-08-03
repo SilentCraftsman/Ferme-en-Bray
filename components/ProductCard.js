@@ -14,22 +14,27 @@ const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
 
   return (
     <div className="product-card">
-      <img
-        src={product.image}
-        alt={product.title}
-        className="product-image"
-        // Réduit la taille de l'image. Ajustez ces styles si nécessaire.
-        style={{ width: "150px", height: "150px" }} // Modifiez les dimensions selon vos besoins
-      />
+      <div className="product-image-container">
+        <img
+          src={product.image}
+          alt={product.title}
+          className="product-image"
+        />
+        {selectedVariant && (
+          <div className="overlay">
+            <span className="plus-icon">+</span>
+          </div>
+        )}
+      </div>
       <h4>{product.title}</h4>
-      <p className="description-title">Description:</p>
+      <p className="description-title">Description :</p>
       <p>{product.description}</p>
       <p className="price">
-        {selectedVariant ? selectedVariant.price : product.price}
+        Prix : {selectedVariant ? selectedVariant.price : product.price}
       </p>
       {product.variants && (
         <label>
-          Type:
+          Type :
           <select
             value={selectedVariant ? selectedVariant.type : ""}
             onChange={(e) =>
@@ -47,7 +52,7 @@ const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
         </label>
       )}
       <label>
-        Quantité:
+        Quantité :
         <input
           type="number"
           value={quantity}

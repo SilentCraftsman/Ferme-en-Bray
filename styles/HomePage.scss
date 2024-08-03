@@ -14,32 +14,60 @@
 
 // Conteneur principal de la page d'accueil
 .home-container {
-  padding: 1rem; // Réduction de l'espacement général
+  padding: 1rem;
   text-align: center;
-  opacity: 0; // Démarre avec une opacité à 0 pour l'animation
-  transform: translateY(20px); // Position initiale décalée pour l'animation
-  animation: fadeInUp 1.5s ease-out forwards; // Animation douce de fondu et montée
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1.5s ease-out forwards;
   margin-bottom: 1rem;
 
   // Titre principal
   h1 {
-    font-size: 2rem; // Réduction de la taille de la police du titre principal
-    color: #333333;
-    margin-bottom: 0.5rem; // Réduction de l'espacement en bas du titre
-    opacity: 0; // Démarre avec une opacité à 0 pour l'animation
-    transform: translateY(20px); // Position initiale décalée pour l'animation
-    animation: fadeInUp 1.5s ease-out 0.5s forwards; // Animation douce de fondu et montée avec délai
+    font-size: 3rem;
+    color: #333;
+    margin-top: 5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1.5s ease-out 1.5s forwards;
+  }
+
+  h2 {
+    text-decoration: underline black 2px;
+    font-size: 1.5rem;
+    color: #333;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1.5s ease-out 1.5s forwards;
   }
 
   // Paragraphe
   p {
-    font-size: 1rem; // Réduction de la taille de la police des paragraphes
+    font-size: 1rem;
     color: #666;
-    margin: 8px 0 0 0;
-    line-height: 1.4; // Ajustement de l'interligne pour une meilleure lisibilité
-    opacity: 0; // Démarre avec une opacité à 0 pour l'animation
-    transform: translateY(20px); // Position initiale décalée pour l'animation
-    animation: fadeInUp 1.5s ease-out 1s forwards; // Animation douce de fondu et montée avec délai
+    margin: 8px 0 0;
+    line-height: 1.4;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1.5s ease-out 1.5s forwards;
+  }
+
+  .holiday-products-text {
+    margin-bottom: 2rem;
+  }
+
+  label {
+    margin-right: 55px;
+  }
+
+  input,
+  select {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+    text-align: center;
   }
 }
 
@@ -47,11 +75,10 @@
 @media (max-width: 768px) {
   .home-container {
     h1 {
-      font-size: 1.75rem; // Réduit la taille de la police du titre principal
+      font-size: 1.75rem;
     }
-
     p {
-      font-size: 0.9rem; // Réduit la taille de la police des paragraphes
+      font-size: 0.9rem;
     }
   }
 }
@@ -59,11 +86,10 @@
 @media (max-width: 480px) {
   .home-container {
     h1 {
-      font-size: 1.5rem; // Réduit davantage la taille de la police du titre principal pour les très petits écrans
+      font-size: 1.5rem;
     }
-
     p {
-      font-size: 0.8rem; // Réduit davantage la taille de la police des paragraphes pour les très petits écrans
+      font-size: 0.8rem;
     }
   }
 }

@@ -4,8 +4,6 @@
 $title-font-size: 1.6rem;
 $title-margin: 0.5rem 0;
 $grid-gap: 2rem;
-$paragraph-font-size: 1rem;
-$paragraph-color: #666;
 
 // Animation de fondu et montée
 @keyframes fadeInUp {
@@ -19,7 +17,88 @@ $paragraph-color: #666;
   }
 }
 
-// Section pour les spécialités
+// NavBar Secondaire
+.secondary-nav {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 80%;
+  max-width: 1200px;
+  transform: translateX(-50%);
+  background-color: #f8f8f8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  transition: all 0.3s ease;
+
+  ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin: 0 1rem;
+
+      a {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+          background-color: #495154c9;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design pour la NavBar
+@media (max-width: 768px) {
+  .secondary-nav {
+    padding: 0.5rem;
+    ul {
+      flex-direction: column;
+
+      li {
+        margin: 0.5rem 0;
+
+        a {
+          padding: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .secondary-nav {
+    padding: 0.25rem;
+    ul {
+      flex-direction: column;
+
+      li {
+        margin: 0.25rem 0;
+
+        a {
+          padding: 0.25rem;
+        }
+      }
+    }
+  }
+}
+
+.main-section {
+  padding-top: 1rem;
+}
+
+// Sections principales
 .title-main-content,
 .title-main-content-air,
 .title-main-content-holiday {
@@ -48,7 +127,7 @@ $paragraph-color: #666;
 .product-grid > .product-card,
 .product-grid-air > .product-card,
 .product-grid-holiday > .product-card {
-  flex: 1 1 calc(33.333% - $grid-gap); // Trois cartes par ligne
+  flex: 1 1 calc(33.333% - $grid-gap);
   max-width: calc(33.333% - $grid-gap);
 }
 
@@ -57,7 +136,7 @@ $paragraph-color: #666;
   .product-grid > .product-card,
   .product-grid-air > .product-card,
   .product-grid-holiday > .product-card {
-    flex: 1 1 calc(50% - $grid-gap); // Deux cartes par ligne
+    flex: 1 1 calc(50% - $grid-gap);
     max-width: calc(50% - $grid-gap);
   }
 }
@@ -66,7 +145,7 @@ $paragraph-color: #666;
   .product-grid > .product-card,
   .product-grid-air > .product-card,
   .product-grid-holiday > .product-card {
-    flex: 1 1 100%; // Une carte par ligne
+    flex: 1 1 100%;
     max-width: 100%;
   }
 }
