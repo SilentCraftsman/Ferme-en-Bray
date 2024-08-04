@@ -1,4 +1,13 @@
 // Variables pour les styles
+$nav-background-color: #f8f8f8;
+$nav-text-color: #333;
+$nav-link-hover-bg: #495154c9;
+$nav-link-hover-color: #fff;
+$nav-font-size: 16px;
+$nav-padding: 1rem;
+$nav-margin-bottom: 2rem;
+$nav-text-padding: 0.5rem;
+$nav-text-align: center;
 $title-font-size: 1.6rem;
 $title-margin: 0.5rem 0;
 $grid-gap: 2rem;
@@ -23,34 +32,48 @@ $grid-gap: 2rem;
   width: 80%;
   max-width: 1200px;
   transform: translateX(-50%);
-  background-color: #f8f8f8;
+  background-color: $nav-background-color;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  padding: 1rem;
+  padding: $nav-padding;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   transition: all 0.3s ease;
+  margin-bottom: $nav-margin-bottom;
+
+  .nav-description {
+    margin: 0;
+    color: $nav-text-color;
+    font-size: $nav-font-size;
+    text-align: $nav-text-align;
+    padding: $nav-text-padding;
+    width: 100%;
+    box-sizing: border-box;
+    text-decoration: underline;
+  }
 
   ul {
     display: flex;
     justify-content: center;
     list-style-type: none;
-    margin: 0;
+    margin-top: 1.2rem;
     padding: 0;
+    width: 100%;
 
     li {
       margin: 0 1rem;
 
       a {
         text-decoration: none;
-        color: #333;
+        color: $nav-text-color;
         font-weight: bold;
         padding: 0.5rem 1rem;
         transition: background-color 0.3s, color 0.3s;
 
         &:hover {
-          background-color: #495154c9;
-          color: #fff;
+          background-color: $nav-link-hover-bg;
+          color: $nav-link-hover-color;
         }
       }
     }
@@ -61,6 +84,12 @@ $grid-gap: 2rem;
 @media (max-width: 768px) {
   .secondary-nav {
     padding: 0.5rem;
+
+    .nav-description {
+      font-size: 14px;
+      padding: 0.5rem;
+    }
+
     ul {
       flex-direction: column;
 
@@ -78,6 +107,12 @@ $grid-gap: 2rem;
 @media (max-width: 480px) {
   .secondary-nav {
     padding: 0.25rem;
+
+    .nav-description {
+      font-size: 12px;
+      padding: 0.25rem;
+    }
+
     ul {
       flex-direction: column;
 
@@ -143,12 +178,18 @@ $grid-gap: 2rem;
 }
 
 // Flèche de retour en haut
-.scroll-to-top {
+.scroll-container {
+  display: flex;
+  justify-content: flex-end;
   position: sticky;
-  bottom: 5rem;
-  width: 60px;
-  height: 60px;
-  margin-left: 71.875rem;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.scroll-to-top {
+  width: 45px;
+  height: 45px;
   background-color: #495154c9;
   color: #fff;
   border: none;
@@ -168,5 +209,24 @@ $grid-gap: 2rem;
 
   &:hover {
     background-color: #333;
+  }
+}
+
+// Responsive design pour la flèche
+@media (max-width: 768px) {
+  .scroll-to-top {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-to-top {
+    background-color: #35393be0;
+    margin-right: -0.7rem;
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
   }
 }

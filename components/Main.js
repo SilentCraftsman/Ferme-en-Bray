@@ -67,6 +67,10 @@ const MainContent = () => {
     <div>
       {/* NavBar secondaire */}
       <nav className="secondary-nav">
+        <p className="nav-description">
+          Si vous souhaitez accéder directement à une section de produits qui
+          vous intéresse, cliquez sur l'un de ces trois liens.
+        </p>
         <ul>
           <li>
             <a href="#specialties">Nos spécialités</a>
@@ -134,13 +138,15 @@ const MainContent = () => {
         <Modal product={selectedProduct} onClose={handleCloseModal} />
       )}
 
-      {/* Flèche pour remonter en haut de la page */}
-      <button
-        className={`scroll-to-top ${showScrollToTop ? "visible" : ""}`}
-        onClick={handleScrollToTop}
-      >
-        <FaArrowUp />
-      </button>
+      {/* Conteneur pour la flèche de retour en haut */}
+      <div className="scroll-container">
+        <button
+          className={`scroll-to-top ${showScrollToTop ? "visible" : ""}`}
+          onClick={handleScrollToTop}
+        >
+          <FaArrowUp />
+        </button>
+      </div>
     </div>
   );
 };
