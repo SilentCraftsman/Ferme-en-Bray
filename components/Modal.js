@@ -1,51 +1,37 @@
+// Modal.js
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 import { useCart } from "./cart/CartContext";
 import "../styles/Modal.scss";
 
-const Modal = ({ product, onClose }) => {
+const Modal = ({ show, onClose, product }) => {
+  const modalRef = useRef(null);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
-  const modalRef = useRef(null);
 
   const handleAddToCart = () => {
-    console.log(
-      "Ajout du produit à partir de la modale:",
-      product,
-      "Quantité:",
-      quantity
-    );
     addToCart(product, quantity);
     onClose();
   };
 
+  // Fermer la modale en appuyant sur la touche "Échap"
   useEffect(() => {
-    document.body.classList.add("modal-open");
-
-    const adjustModalPosition = () => {
-      if (modalRef.current) {
-        const rect = modalRef.current.getBoundingClientRect();
-        const offset = (window.innerHeight - rect.height) / 2;
-        window.scrollTo({
-          top: rect.top + window.pageYOffset - offset,
-          behavior: "smooth",
-        });
+    const handleEsc = (event) => {
+      if (event.key === "Escape") {
+        onClose();
       }
     };
-
-    adjustModalPosition();
-
+    window.addEventListener("keydown", handleEsc);
     return () => {
-      document.body.classList.remove("modal-open");
+      window.removeEventListener("keydown", handleEsc);
     };
-  }, []);
+  }, [onClose]);
 
-  if (!product) {
-    return null; // Pas de produit à afficher
-  }
+  if (!show) return null;
 
-  return (
+  return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div
         className="modal-content"
@@ -76,7 +62,8 @@ const Modal = ({ product, onClose }) => {
           <button onClick={onClose}>Fermer</button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

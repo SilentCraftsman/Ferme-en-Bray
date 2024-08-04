@@ -1,8 +1,9 @@
+// MainContent.js
 "use client";
 
 import React, { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
-import Modal from "./Modal";
+import Modal from "./Modal"; // Importation du composant de la modale
 import { useCart } from "./cart/CartContext";
 import "../styles/MainContent.scss";
 import { FaArrowUp } from "react-icons/fa";
@@ -13,6 +14,7 @@ const MainContent = () => {
   const [outdoorPoultryProducts, setOutdoorPoultryProducts] = useState([]);
   const [holidayProducts, setHolidayProducts] = useState([]);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [savedScrollPosition, setSavedScrollPosition] = useState(0);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -26,24 +28,24 @@ const MainContent = () => {
     };
 
     loadProducts();
-  }, []);
 
-  useEffect(() => {
     const handleScroll = () => {
-      setShowScrollToTop(window.scrollY > 200);
+      if (window.scrollY > 300) {
+        setShowScrollToTop(true);
+      } else {
+        setShowScrollToTop(false);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Fonction pour ajouter un produit au panier
@@ -56,11 +58,13 @@ const MainContent = () => {
   };
 
   const handleShowDetails = (product) => {
+    setSavedScrollPosition(window.scrollY); // Sauvegarder la position de défilement
     setSelectedProduct(product);
   };
 
   const handleCloseModal = () => {
     setSelectedProduct(null);
+    window.scrollTo(0, savedScrollPosition); // Restaurer la position de défilement
   };
 
   return (
@@ -133,9 +137,13 @@ const MainContent = () => {
         </div>
       </section>
 
-      {/* Modale pour afficher les détails du produit */}
+      {/* Modale */}
       {selectedProduct && (
-        <Modal product={selectedProduct} onClose={handleCloseModal} />
+        <Modal
+          show={!!selectedProduct}
+          onClose={handleCloseModal}
+          product={selectedProduct}
+        />
       )}
 
       {/* Conteneur pour la flèche de retour en haut */}
