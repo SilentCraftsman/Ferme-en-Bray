@@ -5,16 +5,17 @@ import ProductCard from "./ProductCard";
 import Modal from "./Modal";
 import { useCart } from "./cart/CartContext";
 import "../styles/MainContent.scss";
+import { FaArrowUp } from "react-icons/fa";
 
 const MainContent = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [specialtyProducts, setSpecialtyProducts] = useState([]);
   const [outdoorPoultryProducts, setOutdoorPoultryProducts] = useState([]);
   const [holidayProducts, setHolidayProducts] = useState([]);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
   const { addToCart } = useCart();
 
   useEffect(() => {
-    // Fonction pour charger les données depuis le fichier JSON
     const loadProducts = async () => {
       const response = await fetch("/products.json");
       const data = await response.json();
@@ -26,6 +27,24 @@ const MainContent = () => {
 
     loadProducts();
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollToTop(window.scrollY > 200);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   // Fonction pour ajouter un produit au panier
   const handleAddToCart = (product, quantity) => {
@@ -114,6 +133,14 @@ const MainContent = () => {
       {selectedProduct && (
         <Modal product={selectedProduct} onClose={handleCloseModal} />
       )}
+
+      {/* Flèche pour remonter en haut de la page */}
+      <button
+        className={`scroll-to-top ${showScrollToTop ? "visible" : ""}`}
+        onClick={handleScrollToTop}
+      >
+        <FaArrowUp />
+      </button>
     </div>
   );
 };

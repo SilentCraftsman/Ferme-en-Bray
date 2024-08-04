@@ -1,5 +1,3 @@
-// MainContent.scss
-
 // Variables pour les styles
 $title-font-size: 1.6rem;
 $title-margin: 0.5rem 0;
@@ -107,12 +105,6 @@ $grid-gap: 2rem;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 1.5s ease-out forwards;
-
-  h3 {
-    font-size: $title-font-size;
-    text-decoration: underline red;
-    margin: 40px 0 30px 0;
-  }
 }
 
 .product-grid,
@@ -147,5 +139,34 @@ $grid-gap: 2rem;
   .product-grid-holiday > .product-card {
     flex: 1 1 100%;
     max-width: 100%;
+  }
+}
+
+// Flèche de retour en haut
+.scroll-to-top {
+  position: sticky;
+  bottom: 5rem;
+  width: 60px;
+  height: 60px;
+  margin-left: 71.875rem;
+  background-color: #495154c9;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 24px;
+  opacity: 0.7;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  visibility: hidden;
+
+  &.visible {
+    visibility: visible;
+  }
+
+  &:hover {
+    background-color: #333;
   }
 }
