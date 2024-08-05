@@ -15,14 +15,18 @@
 
 .modal-content {
   background: #fff;
-  padding: 20px;
+  padding: 15px;
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
+  max-height: 80vh; /* Limite la hauteur de la modale */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
   z-index: 1001;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Assure que les boutons restent en bas */
 
   .modal-close-button {
     position: absolute;
@@ -35,33 +39,63 @@
     cursor: pointer;
   }
 
-  .description-title {
-    margin: 20px 0 0 0;
-    color: #130202;
-    text-decoration: underline;
-  }
-
   .modal-image {
     max-width: 100%;
+    max-height: 120px; /* Réduit la hauteur pour les petits écrans */
     height: auto;
-    max-height: 300px;
     border-radius: 8px;
-    margin-bottom: 20px;
+    margin: 10px 0;
     object-fit: cover;
   }
 
-  .modal-buttons {
-    margin-top: 20px;
+  .description-title {
+    margin: 10px 0;
+    color: #130202;
+    text-decoration: underline;
+    font-size: 1rem;
+  }
+
+  .rating-summary {
+    margin: 10px 0;
+    font-size: 1rem;
     display: flex;
-    justify-content: space-between;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .rating-stars {
+      font-size: 1.2rem; /* Ajuste la taille des étoiles */
+      margin-right: 5px;
+    }
+  }
+
+  label {
+    display: block;
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #333;
+
+    input {
+      margin-left: 5px;
+      padding: 5px;
+      font-size: 0.9rem;
+      width: 60px;
+      text-align: center;
+    }
+  }
+
+  .modal-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10px; /* Espace entre les boutons */
 
     button {
-      padding: 10px 20px;
+      padding: 5px 10px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      margin-bottom: 10px;
+      font-size: 0.9rem;
 
       &:first-child {
         background-color: #28a745;
@@ -76,17 +110,15 @@
   }
 }
 
-.modal-open {
-  overflow: hidden;
-}
-
 @media (max-width: 1200px) {
   .modal-content {
-    padding: 15px;
+    padding: 10px;
+    max-width: 450px;
+    margin: 20px;
   }
 
   .modal-image {
-    max-height: 250px;
+    max-height: 100px;
   }
 }
 
@@ -94,32 +126,55 @@
   .modal-content {
     padding: 10px;
     width: calc(100% - 20px);
-    margin: 0 10px;
-    max-width: none;
+    margin: 20px;
   }
 
   .modal-image {
-    max-height: 200px;
+    max-height: 80px;
   }
 
   .modal-buttons {
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+  }
+
+  .rating-summary {
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
   .modal-content {
-    padding: 15px;
+    padding: 10px;
     width: calc(100% - 20px);
-    margin: 0 15px;
+    margin: 10px;
+    box-sizing: border-box;
   }
 
   .modal-image {
-    max-height: 150px;
+    max-height: 80px;
+  }
+
+  .rating-summary {
+    font-size: 0.7rem;
   }
 
   .modal-buttons {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     gap: 5px;
+    width: 100%;
+  }
+
+  .modal-buttons button {
+    padding: 5px;
+    font-size: 0.8rem;
+    box-sizing: border-box;
+    margin: 0;
+    height: 2.5rem;
+    width: 40%;
+    text-align: center;
   }
 }

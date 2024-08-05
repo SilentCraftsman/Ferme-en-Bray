@@ -9,14 +9,16 @@ import "../styles/Modal.scss";
 const Modal = ({ show, onClose, product }) => {
   const modalRef = useRef(null);
   const [quantity, setQuantity] = useState(1);
+  const [selectedVariant, setSelectedVariant] = useState(
+    product.variants ? product.variants[0] : null
+  );
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    addToCart(product, quantity);
+    addToCart({ ...product, selectedVariant }, quantity);
     onClose();
   };
 
-  // Fermer la modale en appuyant sur la touche "Échap"
   useEffect(() => {
     const handleEsc = (event) => {
       if (event.key === "Escape") {
@@ -43,11 +45,37 @@ const Modal = ({ show, onClose, product }) => {
         </button>
         <h2>{product.title}</h2>
         <img src={product.image} alt={product.title} className="modal-image" />
-        <p className="description-title">Ingrédient :</p>
-        <p>{product.description}</p>
-        <p>
-          <strong>Prix :</strong> {product.price}
-        </p>
+
+        <p className="description-title">Description :</p>
+        <p>{product.ingredients}</p>
+
+        {product.variants && (
+          <div>
+            <label>
+              Type :
+              <select
+                value={selectedVariant ? selectedVariant.type : ""}
+                onChange={(e) =>
+                  setSelectedVariant(
+                    product.variants.find((v) => v.type === e.target.value)
+                  )
+                }
+              >
+                {product.variants.map((variant) => (
+                  <option key={variant.variantId} value={variant.type}>
+                    {variant.type} - {variant.weight}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <p>
+              <strong>Prix :</strong>{" "}
+              {selectedVariant ? selectedVariant.price : product.price}
+            </p>
+          </div>
+        )}
+
         <label>
           Quantité:
           <input
@@ -57,6 +85,7 @@ const Modal = ({ show, onClose, product }) => {
             onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
           />
         </label>
+
         <div className="modal-buttons">
           <button onClick={handleAddToCart}>Ajouter au panier</button>
           <button onClick={onClose}>Fermer</button>
