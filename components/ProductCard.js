@@ -6,10 +6,27 @@ const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
   const [selectedVariant, setSelectedVariant] = useState(
     product.variants ? product.variants[0] : null
   );
+  const [error, setError] = useState("");
 
   const handleAddToCart = () => {
-    // Passe le produit avec la variante sélectionnée
-    onAddToCart({ ...product, selectedVariant }, quantity);
+    if (quantity <= 0) {
+      setError("Impossible d’ajouter 0 quantité au panier.");
+    } else {
+      setError("");
+      onAddToCart({ ...product, selectedVariant }, quantity);
+    }
+  };
+
+  // Fonction pour gérer les changements dans le champ de saisie de la quantité
+  const handleQuantityChange = (e) => {
+    const value = e.target.value;
+    // Vérifie si la valeur est un nombre valide et non négatif
+    const numberValue = parseInt(value, 10);
+    if (!isNaN(numberValue) && numberValue >= 1) {
+      setQuantity(numberValue);
+    } else if (value === "") {
+      setQuantity(""); // Permet au champ de rester vide
+    }
   };
 
   return (
@@ -57,9 +74,10 @@ const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
           type="number"
           value={quantity}
           min="1"
-          onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+          onChange={handleQuantityChange}
         />
       </label>
+      {error && <p className="error-message">{error}</p>}
       <button onClick={handleAddToCart}>Ajouter au panier</button>
       {onShowDetails && (
         <button onClick={() => onShowDetails(product)}>Voir les détails</button>

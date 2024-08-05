@@ -1,4 +1,3 @@
-// Modal.js
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -12,11 +11,17 @@ const Modal = ({ show, onClose, product }) => {
   const [selectedVariant, setSelectedVariant] = useState(
     product.variants ? product.variants[0] : null
   );
+  const [error, setError] = useState("");
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    addToCart({ ...product, selectedVariant }, quantity);
-    onClose();
+    if (quantity <= 0) {
+      setError("Impossible d’ajouter 0 quantité au panier.");
+    } else {
+      setError("");
+      addToCart({ ...product, selectedVariant }, quantity);
+      onClose();
+    }
   };
 
   useEffect(() => {
@@ -32,6 +37,22 @@ const Modal = ({ show, onClose, product }) => {
   }, [onClose]);
 
   if (!show) return null;
+
+  // Function to handle quantity change
+  const handleQuantityChange = (e) => {
+    const value = e.target.value;
+    const parsedValue = parseInt(value, 10);
+
+    // Update quantity only if it is a valid number and >= 1
+    if (value === "" || parsedValue > 0) {
+      setQuantity(parsedValue || "");
+      if (parsedValue <= 0) {
+        setError("Impossible d’ajouter 0 quantité au panier.");
+      } else {
+        setError("");
+      }
+    }
+  };
 
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose}>
@@ -82,9 +103,10 @@ const Modal = ({ show, onClose, product }) => {
             type="number"
             value={quantity}
             min="1"
-            onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+            onChange={handleQuantityChange}
           />
         </label>
+        {error && <p className="error-message">{error}</p>}
 
         <div className="modal-buttons">
           <button onClick={handleAddToCart}>Ajouter au panier</button>

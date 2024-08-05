@@ -122,4 +122,11 @@ $image-height: 200px;
       background-color: $button-hover-background;
     }
   }
+
+  // Style pour le message d'erreur
+  .error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
 }

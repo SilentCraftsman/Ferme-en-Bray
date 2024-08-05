@@ -108,6 +108,13 @@
       }
     }
   }
+
+  // Style pour le message d'erreur
+  .error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
 }
 
 @media (max-width: 1200px) {
