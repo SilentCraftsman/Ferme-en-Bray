@@ -1,35 +1,23 @@
 // components/Footer.js
-import { FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
 import "../styles/Footer.scss";
 
 const Footer = () => {
   return (
     <footer className="footer">
-      <p>&copy; 2024 Entreprise de Volailles. Tous droits réservés.</p>
+      <p>
+        La volaille en bray - &copy; 2024
+        <br></br>
+        <br></br> Tous droits réservés.
+      </p>
       <div className="social-media">
         <a
-          href="https://twitter.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Twitter"
-        >
-          <FaTwitter size={24} />
-        </a>
-        <a
-          href="https://facebook.com"
+          href="https://www.facebook.com/groups/355255679901634/"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Facebook"
         >
-          <FaFacebook size={24} />
-        </a>
-        <a
-          href="https://instagram.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram"
-        >
-          <FaInstagram size={24} />
+          <FaFacebook size={32} />
         </a>
       </div>
     </footer>
