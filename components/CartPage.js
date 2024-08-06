@@ -51,7 +51,8 @@ const CartPage = () => {
                         Prix:{" "}
                         {item.selectedVariant
                           ? item.selectedVariant.price
-                          : item.price}
+                          : item.price}{" "}
+                        €
                       </span>
                       <span>
                         Total pour cet article:{" "}
