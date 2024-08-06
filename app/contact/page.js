@@ -16,6 +16,11 @@ export default function ContactPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Validation simple côté client
+    if (name === "email" && !/\S+@\S+\.\S+/.test(value)) {
+      // Validation de l'email
+      return;
+    }
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
@@ -25,11 +30,21 @@ export default function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation basique des données
+    if (
+      !formData.prenom ||
+      !formData.nom ||
+      !formData.email ||
+      !formData.message
+    ) {
+      setMessageType("error");
+      setMessage("Tous les champs sont requis.");
+      return;
+    }
+
     try {
-      /***************************************************************************************************************************
-       N'oublie de pas de mettre le vrai lien avec l'id dans fetch
-        ***************************************************************************************************************************/
-      const response = await fetch("id", {
+      const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+        // Remplacez "YOUR_FORM_ID" par votre vrai ID de formulaire
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,6 +108,7 @@ export default function ContactPage() {
           style={{ border: 0 }}
           allowFullScreen=""
           loading="lazy"
+          title="Localisation de l'entreprise"
         ></iframe>
       </div>
       <h2 className="form-title">Formulaire</h2>

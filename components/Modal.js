@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
 import { useCart } from "./cart/CartContext";
 import "../styles/Modal.scss";
 
@@ -38,12 +39,11 @@ const Modal = ({ show, onClose, product }) => {
 
   if (!show) return null;
 
-  // Function to handle quantity change
   const handleQuantityChange = (e) => {
     const value = e.target.value;
     const parsedValue = parseInt(value, 10);
 
-    // Update quantity only if it is a valid number and >= 1
+    // Validate quantity
     if (value === "" || parsedValue > 0) {
       setQuantity(parsedValue || "");
       if (parsedValue <= 0) {
@@ -51,8 +51,16 @@ const Modal = ({ show, onClose, product }) => {
       } else {
         setError("");
       }
+    } else {
+      setError("Quantité invalide.");
     }
   };
+
+  // Sanitize and validate product data
+  const sanitizedTitle = product.title || "Produit";
+  const sanitizedImage = product.image || "/default-image.jpg";
+  const sanitizedIngredients =
+    product.ingredients || "Aucun ingrédient spécifié.";
 
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose}>
@@ -64,11 +72,14 @@ const Modal = ({ show, onClose, product }) => {
         <button className="modal-close-button" onClick={onClose}>
           ×
         </button>
-        <h2>{product.title}</h2>
-        <img src={product.image} alt={product.title} className="modal-image" />
-
+        <h2>{sanitizedTitle}</h2>
+        <img
+          src={sanitizedImage}
+          alt={sanitizedTitle}
+          className="modal-image"
+        />
         <p className="description-title">Description :</p>
-        <p>{product.ingredients}</p>
+        <p>{sanitizedIngredients}</p>
 
         {product.variants && (
           <div>
@@ -89,7 +100,6 @@ const Modal = ({ show, onClose, product }) => {
                 ))}
               </select>
             </label>
-
             <p>
               <strong>Prix :</strong>{" "}
               {selectedVariant ? selectedVariant.price : product.price}
@@ -116,6 +126,26 @@ const Modal = ({ show, onClose, product }) => {
     </div>,
     document.body
   );
+};
+
+// Validation des props avec PropTypes
+Modal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  product: PropTypes.shape({
+    title: PropTypes.string,
+    image: PropTypes.string,
+    ingredients: PropTypes.string,
+    price: PropTypes.string.isRequired,
+    variants: PropTypes.arrayOf(
+      PropTypes.shape({
+        variantId: PropTypes.string,
+        type: PropTypes.string.isRequired,
+        weight: PropTypes.string.isRequired,
+        price: PropTypes.string.isRequired,
+      })
+    ),
+  }).isRequired,
 };
 
 export default Modal;

@@ -23,22 +23,22 @@ export default function Header() {
       <nav>
         <ul className="nav-list">
           <li>
-            <Link href="/">
+            <Link href="/" passHref>
               <FaHome /> Accueil
             </Link>
           </li>
           <li>
-            <Link href="/about">
+            <Link href="/about" passHref>
               <FaInfoCircle /> À propos
             </Link>
           </li>
           <li>
-            <Link href="/contact">
+            <Link href="/contact" passHref>
               <FaEnvelope /> Contact
             </Link>
           </li>
           <li className="nav-item">
-            <Link href="/cart" className="cart-link">
+            <Link href="/cart" className="cart-link" passHref>
               <div
                 className="cart-icon-container"
                 style={{ marginTop: "2.5px" }}

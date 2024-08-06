@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import "../styles/ProductCard.scss";
 
 const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
@@ -17,10 +18,8 @@ const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
     }
   };
 
-  // Fonction pour gérer les changements dans le champ de saisie de la quantité
   const handleQuantityChange = (e) => {
     const value = e.target.value;
-    // Vérifie si la valeur est un nombre valide et non négatif
     const numberValue = parseInt(value, 10);
     if (!isNaN(numberValue) && numberValue >= 1) {
       setQuantity(numberValue);
@@ -34,7 +33,7 @@ const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
       <div className="product-image-container">
         <img
           src={product.image}
-          alt={product.title}
+          alt={product.title || "Image du produit"}
           className="product-image"
         />
         {selectedVariant && (
@@ -84,6 +83,26 @@ const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
       )}
     </div>
   );
+};
+
+ProductCard.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    variants: PropTypes.arrayOf(
+      PropTypes.shape({
+        variantId: PropTypes.string,
+        type: PropTypes.string.isRequired,
+        weight: PropTypes.string.isRequired,
+        price: PropTypes.string.isRequired,
+      })
+    ),
+  }).isRequired,
+  onAddToCart: PropTypes.func.isRequired,
+  onShowDetails: PropTypes.func,
 };
 
 export default ProductCard;

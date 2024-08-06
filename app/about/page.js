@@ -1,5 +1,6 @@
 // app/about/page.js
 import "../../styles/about.scss";
+import Image from "next/image";
 
 export const metadata = {
   title: "À propos - Entreprise de Volailles",
@@ -18,10 +19,13 @@ export default function AboutPage() {
           respectant les standards les plus stricts en matière de sécurité
           alimentaire et de durabilité.
         </p>
-        <img
-          src="./images/about-images/farm-image.jpg"
+        {/* Utilisation du composant Image de Next.js pour une gestion sécurisée des images */}
+        <Image
+          src="/images/about-images/farm-image.jpg"
           alt="Image illustrant notre entreprise"
           className="about-image"
+          width={600}
+          height={400}
         />
       </div>
       <div className="about-content">

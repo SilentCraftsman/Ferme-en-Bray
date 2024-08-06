@@ -7,13 +7,19 @@ const Footer = () => {
     <footer className="footer">
       <p>&copy; 2024 Entreprise de Volailles. Tous droits réservés.</p>
       <div className="social-media">
-        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://twitter.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Twitter"
+        >
           <FaTwitter size={24} />
         </a>
         <a
           href="https://facebook.com"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Facebook"
         >
           <FaFacebook size={24} />
         </a>
@@ -21,6 +27,7 @@ const Footer = () => {
           href="https://instagram.com"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Instagram"
         >
           <FaInstagram size={24} />
         </a>
