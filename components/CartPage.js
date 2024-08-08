@@ -1,18 +1,63 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "./cart/CartContext";
-import { FaShoppingCart } from "react-icons/fa"; // Importer l'icône de panier
+import { FaShoppingCart } from "react-icons/fa";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import axios from "axios";
 import styles from "../styles/CartPage.module.scss";
 
 const CartPage = () => {
   const { cart, removeFromCart, updateQuantity, getTotal } = useCart();
+  const [error, setError] = useState(null);
 
-  const handleQuantityChange = (uniqueId, quantity) => {
-    if (quantity <= 0) {
-      removeFromCart(uniqueId);
+  const createOrder = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/paypal/create-order",
+        {
+          items: cart.map((item) => ({
+            title: item.title,
+            price: parseFloat(
+              item.selectedVariant
+                ? item.selectedVariant.price.replace("€", "").replace(",", ".")
+                : item.price.replace("€", "").replace(",", ".")
+            ),
+            quantity: item.quantity,
+          })),
+          currency: "EUR", // Assurez-vous d'envoyer la devise correcte
+        }
+      );
+      return response.data.orderID;
+    } catch (err) {
+      setError("Erreur lors de la création de la commande.");
+      console.error(err);
+      return null;
+    }
+  };
+
+  const handleApprove = async (orderID) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/paypal/capture-payment",
+        {
+          orderID: orderID,
+        }
+      );
+      console.log("Paiement capturé avec succès :", response.data);
+      alert("Paiement réussi, merci pour votre achat !");
+    } catch (err) {
+      setError("Erreur lors de la capture du paiement.");
+      console.error(err);
+    }
+  };
+
+  // Fonction pour gérer le changement de quantité ou la suppression d'un produit
+  const handleQuantityChange = (uniqueId, newQuantity) => {
+    if (newQuantity === 0) {
+      removeFromCart(uniqueId); // Supprime l'article du panier
     } else {
-      updateQuantity(uniqueId, quantity);
+      updateQuantity(uniqueId, newQuantity); // Met à jour la quantité de l'article
     }
   };
 
@@ -97,6 +142,27 @@ const CartPage = () => {
             ))}
           </ul>
           <h3 className={styles.total}>Total: {getTotal()} €</h3>
+
+          {/* PayPal Button */}
+          <div className={styles.paypalContainer}>
+            <PayPalScriptProvider
+              options={{
+                "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+                currency: "EUR",
+              }}
+            >
+              <PayPalButtons
+                createOrder={createOrder} // Utilisation correcte de la fonction asynchrone
+                onApprove={(data) => handleApprove(data.orderID)}
+                onError={(err) => {
+                  setError("Erreur lors du paiement.");
+                  console.error(err);
+                }}
+              />
+            </PayPalScriptProvider>
+          </div>
+
+          {error && <div className={styles.error}>{error}</div>}
         </>
       )}
     </div>
