@@ -14,7 +14,7 @@ const CartPage = () => {
   const createOrder = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/paypal/create-order",
+        "http://localhost:3001/api/paypal/create-order", // Ajouter un chemin relatif pour l'API
         {
           items: cart.map((item) => ({
             title: item.title,
@@ -25,7 +25,13 @@ const CartPage = () => {
             ),
             quantity: item.quantity,
           })),
-          currency: "EUR", // Assurez-vous d'envoyer la devise correcte
+          currency: "EUR",
+        },
+        {
+          // Ajout de headers pour la sécurité
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
       return response.data.orderID;
@@ -39,9 +45,14 @@ const CartPage = () => {
   const handleApprove = async (orderID) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/paypal/capture-payment",
+        "http://localhost:3001/api/paypal/capture-payment", // Ajouter un chemin relatif pour l'API
         {
           orderID: orderID,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
       console.log("Paiement capturé avec succès :", response.data);
@@ -52,7 +63,6 @@ const CartPage = () => {
     }
   };
 
-  // Fonction pour gérer le changement de quantité ou la suppression d'un produit
   const handleQuantityChange = (uniqueId, newQuantity) => {
     if (newQuantity === 0) {
       removeFromCart(uniqueId); // Supprime l'article du panier
