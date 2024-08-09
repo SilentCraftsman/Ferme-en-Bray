@@ -10,11 +10,27 @@ import styles from "../styles/CartPage.module.scss";
 const CartPage = () => {
   const { cart, removeFromCart, updateQuantity, getTotal } = useCart();
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleOverlayClick = (e) => {
+    // Fermer la modale si on clique sur l'overlay, mais pas sur le contenu de la modale
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
 
   const createOrder = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/paypal/create-order", // Ajouter un chemin relatif pour l'API
+        "http://localhost:3001/api/paypal/create-order",
         {
           items: cart.map((item) => ({
             title: item.title,
@@ -28,7 +44,6 @@ const CartPage = () => {
           currency: "EUR",
         },
         {
-          // Ajout de headers pour la sécurité
           headers: {
             "Content-Type": "application/json",
           },
@@ -45,7 +60,7 @@ const CartPage = () => {
   const handleApprove = async (orderID) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/paypal/capture-payment", // Ajouter un chemin relatif pour l'API
+        "http://localhost:3001/api/paypal/capture-payment",
         {
           orderID: orderID,
         },
@@ -153,24 +168,39 @@ const CartPage = () => {
           </ul>
           <h3 className={styles.total}>Total: {getTotal()} €</h3>
 
-          {/* PayPal Button */}
-          <div className={styles.paypalContainer}>
-            <PayPalScriptProvider
-              options={{
-                "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
-                currency: "EUR",
-              }}
-            >
-              <PayPalButtons
-                createOrder={createOrder} // Utilisation correcte de la fonction asynchrone
-                onApprove={(data) => handleApprove(data.orderID)}
-                onError={(err) => {
-                  setError("Erreur lors du paiement.");
-                  console.error(err);
-                }}
-              />
-            </PayPalScriptProvider>
-          </div>
+          {/* Ajout du bouton "Payer ma commande" */}
+          <button onClick={openModal} className={styles.checkoutButton}>
+            Payer ma commande
+          </button>
+
+          {/* Modale contenant le bouton PayPal */}
+          {isModalOpen && (
+            <div className={styles.modalOverlay} onClick={handleOverlayClick}>
+              <div className={styles.modalContent}>
+                <button onClick={closeModal} className={styles.closeButton}>
+                  X
+                </button>
+                <PayPalScriptProvider
+                  options={{
+                    "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+                    currency: "EUR",
+                  }}
+                >
+                  <PayPalButtons
+                    style={{
+                      layout: "vertical", // Pour que les boutons soient les uns sous les autres
+                    }}
+                    createOrder={createOrder}
+                    onApprove={(data) => handleApprove(data.orderID)}
+                    onError={(err) => {
+                      setError("Erreur lors du paiement.");
+                      console.error(err);
+                    }}
+                  />
+                </PayPalScriptProvider>
+              </div>
+            </div>
+          )}
 
           {error && <div className={styles.error}>{error}</div>}
         </>
