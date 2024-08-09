@@ -179,6 +179,7 @@ $transition: 0.3s ease;
   }
 }
 
+// Modale du bouton pour PayPal
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -215,6 +216,7 @@ $transition: 0.3s ease;
 
 .checkoutButton {
   background-color: $primary-color;
+  margin-bottom: 15px;
   color: white;
   padding: 10px 20px;
   border: none;

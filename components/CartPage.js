@@ -11,6 +11,7 @@ const CartPage = () => {
   const { cart, removeFromCart, updateQuantity, getTotal } = useCart();
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [orderAmount, setOrderAmount] = useState(null);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -21,7 +22,6 @@ const CartPage = () => {
   };
 
   const handleOverlayClick = (e) => {
-    // Fermer la modale si on clique sur l'overlay, mais pas sur le contenu de la modale
     if (e.target === e.currentTarget) {
       closeModal();
     }
@@ -57,20 +57,21 @@ const CartPage = () => {
     }
   };
 
-  const handleApprove = async (orderID) => {
+  const handleApprove = async (data) => {
     try {
+      const { orderID } = data;
       const response = await axios.post(
         "http://localhost:3001/api/paypal/capture-payment",
-        {
-          orderID: orderID,
-        },
+        { orderID },
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
+
       console.log("Paiement capturé avec succès :", response.data);
+      setOrderAmount(getTotal());
       alert("Paiement réussi, merci pour votre achat !");
     } catch (err) {
       setError("Erreur lors de la capture du paiement.");
@@ -168,12 +169,10 @@ const CartPage = () => {
           </ul>
           <h3 className={styles.total}>Total: {getTotal()} €</h3>
 
-          {/* Ajout du bouton "Payer ma commande" */}
           <button onClick={openModal} className={styles.checkoutButton}>
             Payer ma commande
           </button>
 
-          {/* Modale contenant le bouton PayPal */}
           {isModalOpen && (
             <div className={styles.modalOverlay} onClick={handleOverlayClick}>
               <div className={styles.modalContent}>
@@ -188,10 +187,10 @@ const CartPage = () => {
                 >
                   <PayPalButtons
                     style={{
-                      layout: "vertical", // Pour que les boutons soient les uns sous les autres
+                      layout: "vertical",
                     }}
                     createOrder={createOrder}
-                    onApprove={(data) => handleApprove(data.orderID)}
+                    onApprove={handleApprove}
                     onError={(err) => {
                       setError("Erreur lors du paiement.");
                       console.error(err);
@@ -203,6 +202,11 @@ const CartPage = () => {
           )}
 
           {error && <div className={styles.error}>{error}</div>}
+          {orderAmount && (
+            <div className={styles.orderAmount}>
+              Montant de la commande : {orderAmount} €
+            </div>
+          )}
         </>
       )}
     </div>
