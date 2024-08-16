@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCart } from "./cart/CartContext";
 import { FaShoppingCart } from "react-icons/fa";
-import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import axios from "axios";
 import styles from "../styles/CartPage.module.scss";
 
@@ -11,7 +10,15 @@ const CartPage = () => {
   const { cart, removeFromCart, updateQuantity, getTotal } = useCart();
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [orderAmount, setOrderAmount] = useState(null);
+  const [stripeLoaded, setStripeLoaded] = useState(false);
+
+  useEffect(() => {
+    if (window.Stripe) {
+      setStripeLoaded(true);
+    } else {
+      console.error("Stripe.js has not loaded.");
+    }
+  }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -27,21 +34,26 @@ const CartPage = () => {
     }
   };
 
-  const createOrder = async () => {
+  const handleQuantityChange = (id, quantity) => {
+    updateQuantity(id, quantity);
+  };
+
+  const createPayment = async () => {
+    if (!stripeLoaded) {
+      setError("Stripe.js has not loaded.");
+      return;
+    }
+
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/paypal/create-order",
+        "http://localhost:3001/api/stripe/create-checkout-session",
         {
           items: cart.map((item) => ({
             title: item.title,
-            price: parseFloat(
-              item.selectedVariant
-                ? item.selectedVariant.price.replace("€", "").replace(",", ".")
-                : item.price.replace("€", "").replace(",", ".")
-            ),
+            image: item.image,
+            price: item.price,
             quantity: item.quantity,
           })),
-          currency: "EUR",
         },
         {
           headers: {
@@ -49,41 +61,24 @@ const CartPage = () => {
           },
         }
       );
-      return response.data.orderID;
+
+      const { id } = response.data;
+      const stripe = window.Stripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+      );
+
+      if (!stripe) {
+        throw new Error("Stripe.js has not loaded.");
+      }
+
+      const { error } = await stripe.redirectToCheckout({ sessionId: id });
+
+      if (error) {
+        setError(error.message);
+      }
     } catch (err) {
       setError("Erreur lors de la création de la commande.");
       console.error(err);
-      return null;
-    }
-  };
-
-  const handleApprove = async (data) => {
-    try {
-      const { orderID } = data;
-      const response = await axios.post(
-        "http://localhost:3001/api/paypal/capture-payment",
-        { orderID },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      console.log("Paiement capturé avec succès :", response.data);
-      setOrderAmount(getTotal());
-      alert("Paiement réussi, merci pour votre achat !");
-    } catch (err) {
-      setError("Erreur lors de la capture du paiement.");
-      console.error(err);
-    }
-  };
-
-  const handleQuantityChange = (uniqueId, newQuantity) => {
-    if (newQuantity === 0) {
-      removeFromCart(uniqueId); // Supprime l'article du panier
-    } else {
-      updateQuantity(uniqueId, newQuantity); // Met à jour la quantité de l'article
     }
   };
 
@@ -129,11 +124,7 @@ const CartPage = () => {
                         Total pour cet article:{" "}
                         {(
                           parseFloat(
-                            item.selectedVariant
-                              ? item.selectedVariant.price
-                                  .replace("€", "")
-                                  .replace(",", ".")
-                              : item.price.replace("€", "").replace(",", ".")
+                            item.price.replace("€", "").replace(",", ".")
                           ) * item.quantity
                         ).toFixed(2)}{" "}
                         €
@@ -168,45 +159,9 @@ const CartPage = () => {
             ))}
           </ul>
           <h3 className={styles.total}>Total: {getTotal()} €</h3>
-
-          <button onClick={openModal} className={styles.checkoutButton}>
-            Payer ma commande
-          </button>
-
-          {isModalOpen && (
-            <div className={styles.modalOverlay} onClick={handleOverlayClick}>
-              <div className={styles.modalContent}>
-                <button onClick={closeModal} className={styles.closeButton}>
-                  X
-                </button>
-                <PayPalScriptProvider
-                  options={{
-                    "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
-                    currency: "EUR",
-                  }}
-                >
-                  <PayPalButtons
-                    style={{
-                      layout: "vertical",
-                    }}
-                    createOrder={createOrder}
-                    onApprove={handleApprove}
-                    onError={(err) => {
-                      setError("Erreur lors du paiement.");
-                      console.error(err);
-                    }}
-                  />
-                </PayPalScriptProvider>
-              </div>
-            </div>
-          )}
-
-          {error && <div className={styles.error}>{error}</div>}
-          {orderAmount && (
-            <div className={styles.orderAmount}>
-              Montant de la commande : {orderAmount} €
-            </div>
-          )}
+          <div>
+            <button onClick={createPayment}>Payer avec Stripe</button>
+          </div>
         </>
       )}
     </div>

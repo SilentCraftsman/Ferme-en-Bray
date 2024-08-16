@@ -9,6 +9,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <body>
+        <script src="https://js.stripe.com/v3/" async></script>
         <CartProvider>
           <Header />
           <main>{children}</main>
