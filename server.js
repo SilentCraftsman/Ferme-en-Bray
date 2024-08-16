@@ -76,8 +76,8 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       return sum + item.price_data.unit_amount * item.quantity;
     }, 0);
 
-    // Calculer la commission pour l'admin (4%)
-    const commissionAmount = Math.round(totalAmount * 0.04);
+    // Calculer la commission pour l'admin (5%)
+    const applicationFeeAmount = Math.round(totalAmount * 0.05); // Application fee amount for Stripe
 
     // Créer une Checkout Session
     const session = await stripe.checkout.sessions.create({
@@ -87,9 +87,9 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       success_url: `${baseUrl}/success`,
       cancel_url: `${baseUrl}/cancel`,
       payment_intent_data: {
-        application_fee_amount: commissionAmount,
+        application_fee_amount: applicationFeeAmount, // Commission de plateforme
         transfer_data: {
-          destination: producerAccountId,
+          destination: producerAccountId, // Compte du producteur
         },
       },
     });

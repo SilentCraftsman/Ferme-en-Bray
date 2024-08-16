@@ -7,9 +7,8 @@ import axios from "axios";
 import styles from "../styles/CartPage.module.scss";
 
 const CartPage = () => {
-  const { cart, removeFromCart, updateQuantity, getTotal } = useCart();
+  const { cart, updateQuantity, getTotal } = useCart();
   const [error, setError] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [stripeLoaded, setStripeLoaded] = useState(false);
 
   useEffect(() => {
@@ -19,20 +18,6 @@ const CartPage = () => {
       console.error("Stripe.js has not loaded.");
     }
   }, []);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) {
-      closeModal();
-    }
-  };
 
   const handleQuantityChange = (id, quantity) => {
     updateQuantity(id, quantity);
