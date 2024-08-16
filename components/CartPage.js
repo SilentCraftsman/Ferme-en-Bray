@@ -38,6 +38,18 @@ const CartPage = () => {
     updateQuantity(id, quantity);
   };
 
+  const calculateTotalPrice = (item) => {
+    // Calculer le prix total en fonction du poids et du prix au kilo
+    const pricePerKg = parseFloat(
+      item.price.replace("€", "").replace(",", ".")
+    );
+    const weightInKg = item.selectedVariant
+      ? parseFloat(item.selectedVariant.weight.replace("kg", ""))
+      : 1;
+    const totalPrice = pricePerKg * weightInKg;
+    return (totalPrice * item.quantity).toFixed(2);
+  };
+
   const createPayment = async () => {
     if (!stripeLoaded) {
       setError("Stripe.js has not loaded.");
@@ -51,7 +63,7 @@ const CartPage = () => {
           items: cart.map((item) => ({
             title: item.title,
             image: item.image,
-            price: item.price,
+            price: calculateTotalPrice(item),
             quantity: item.quantity,
           })),
         },
@@ -114,20 +126,10 @@ const CartPage = () => {
                     </span>
                     <div className={styles.priceInfo}>
                       <span>
-                        Prix:{" "}
-                        {item.selectedVariant
-                          ? item.selectedVariant.price
-                          : item.price}{" "}
-                        €
+                        Prix: {calculateTotalPrice(item) / item.quantity} €
                       </span>
                       <span>
-                        Total pour cet article:{" "}
-                        {(
-                          parseFloat(
-                            item.price.replace("€", "").replace(",", ".")
-                          ) * item.quantity
-                        ).toFixed(2)}{" "}
-                        €
+                        Total pour cet article: {calculateTotalPrice(item)} €
                       </span>
                     </div>
                   </div>

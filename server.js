@@ -40,12 +40,23 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       .send("Internal Server Error: BASE_URL not set correctly");
   }
 
+  // Validation des données entrantes
+  if (!Array.isArray(items) || items.length === 0) {
+    console.error("Invalid items data:", items);
+    return res.status(400).send("Bad Request: Invalid items data");
+  }
+
   try {
     // Calcul des détails des lignes de produits et de la commission
     const lineItems = items.map((item) => {
-      const unitAmount =
+      // Convertir le total en nombre de centimes
+      const totalAmount =
         parseFloat(item.price.replace("€", "").replace(",", ".")) * 100;
-      const commission = Math.round(unitAmount * 0.04); // Commission de 4%
+      const unitAmount = Math.round(totalAmount / item.quantity); // Calculer le prix unitaire
+
+      if (isNaN(unitAmount) || unitAmount <= 0) {
+        throw new Error(`Invalid price for item ${item.title}: ${item.price}`);
+      }
 
       return {
         price_data: {
@@ -54,9 +65,9 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
             name: item.title,
             images: [item.image],
           },
-          unit_amount: unitAmount, // Montant total sans commission
+          unit_amount: unitAmount, // Prix unitaire en centimes
         },
-        quantity: item.quantity,
+        quantity: item.quantity, // Quantité
       };
     });
 
@@ -65,19 +76,20 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       return sum + item.price_data.unit_amount * item.quantity;
     }, 0);
 
-    const commissionAmount = Math.round(totalAmount * 0.04); // Commission pour l'admin (4%)
+    // Calculer la commission pour l'admin (4%)
+    const commissionAmount = Math.round(totalAmount * 0.04);
 
     // Créer une Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `${baseUrl}/success`, // Assure-toi que cette URL est correcte
-      cancel_url: `${baseUrl}/cancel`, // Assure-toi que cette URL est correcte
+      success_url: `${baseUrl}/success`,
+      cancel_url: `${baseUrl}/cancel`,
       payment_intent_data: {
         application_fee_amount: commissionAmount,
         transfer_data: {
-          destination: producerAccountId, // Montant payé au producteur
+          destination: producerAccountId,
         },
       },
     });
@@ -85,7 +97,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     res.json({ id: session.id });
   } catch (err) {
     console.error("Error creating checkout session:", err);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send(`Internal Server Error: ${err.message}`);
   }
 });
 
