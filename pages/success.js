@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { clearCart } from "../utils/utility";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/success.module.scss"; // Importation des styles
 

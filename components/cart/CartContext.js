@@ -96,14 +96,25 @@ export const CartProvider = ({ children }) => {
       const existingProduct = prevCart.find(
         (item) => item.uniqueId === uniqueId
       );
+
       let updatedCart;
+
       if (existingProduct) {
+        const newQuantity = existingProduct.quantity + quantity;
+        if (newQuantity > 80) {
+          // If adding this quantity exceeds the limit, show an error or handle it as needed
+          console.warn("Cannot add more than 80 units of this product.");
+          return prevCart; // Return the cart unchanged
+        }
         updatedCart = prevCart.map((item) =>
-          item.uniqueId === uniqueId
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+          item.uniqueId === uniqueId ? { ...item, quantity: newQuantity } : item
         );
       } else {
+        if (quantity > 80) {
+          // If the initial quantity exceeds the limit, show an error or handle it as needed
+          console.warn("Cannot add more than 80 units of this product.");
+          return prevCart; // Return the cart unchanged
+        }
         updatedCart = [
           ...prevCart,
           {
@@ -114,6 +125,7 @@ export const CartProvider = ({ children }) => {
           },
         ];
       }
+
       saveCartToLocalStorage(updatedCart);
       return updatedCart;
     });

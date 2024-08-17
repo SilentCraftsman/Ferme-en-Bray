@@ -6,6 +6,8 @@ import { FaShoppingCart } from "react-icons/fa";
 import axios from "axios";
 import styles from "../styles/CartPage.module.scss";
 
+const MAX_QUANTITY = 80;
+
 const CartPage = () => {
   const { cart, updateQuantity, getTotal } = useCart();
   const [error, setError] = useState(null);
@@ -19,8 +21,18 @@ const CartPage = () => {
     }
   }, []);
 
-  const handleQuantityChange = (id, quantity) => {
-    updateQuantity(id, quantity);
+  const handleQuantityChange = (id, newQuantity) => {
+    const existingCartItem = cart.find((item) => item.uniqueId === id);
+
+    if (newQuantity > MAX_QUANTITY) {
+      setError(`La quantité maximale pour cet article est ${MAX_QUANTITY}.`);
+      updateQuantity(id, MAX_QUANTITY);
+    } else if (newQuantity <= 0) {
+      updateQuantity(id, 0); // Cela devrait supprimer l'article si la quantité est 0
+    } else {
+      setError("");
+      updateQuantity(id, newQuantity);
+    }
   };
 
   const calculateTotalPrice = (item) => {

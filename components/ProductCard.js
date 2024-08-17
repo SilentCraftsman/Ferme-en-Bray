@@ -1,30 +1,55 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/ProductCard.scss";
+import { useCart } from "./cart/CartContext"; // Assurez-vous d'importer useCart
 
-const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
+const MAX_QUANTITY = 80;
+
+const ProductCard = ({ product, onShowDetails }) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(
     product.variants ? product.variants[0] : null
   );
   const [error, setError] = useState("");
+  const { cart, addToCart } = useCart(); // Utilisez le hook useCart
 
   const handleAddToCart = () => {
+    const existingCartItem = cart.find(
+      (item) => item.uniqueId === product.uniqueId
+    );
+    const totalQuantity = existingCartItem
+      ? existingCartItem.quantity + quantity
+      : quantity;
+
     if (quantity <= 0) {
       setError("Impossible d’ajouter 0 quantité au panier.");
+    } else if (totalQuantity > MAX_QUANTITY) {
+      setError(`La quantité maximale pour cet article est ${MAX_QUANTITY}.`);
     } else {
       setError("");
-      onAddToCart({ ...product, selectedVariant }, quantity);
+      addToCart({ ...product, selectedVariant }, quantity);
     }
   };
 
   const handleQuantityChange = (e) => {
     const value = e.target.value;
     const numberValue = parseInt(value, 10);
-    if (!isNaN(numberValue) && numberValue >= 1) {
+
+    if (
+      !isNaN(numberValue) &&
+      numberValue >= 1 &&
+      numberValue <= MAX_QUANTITY
+    ) {
       setQuantity(numberValue);
+      setError(""); // Clear error message if quantity is valid
+    } else if (numberValue > MAX_QUANTITY) {
+      setQuantity(MAX_QUANTITY);
+      setError(`La quantité maximale pour cet article est ${MAX_QUANTITY}.`);
     } else if (value === "") {
       setQuantity(""); // Permet au champ de rester vide
+      setError("");
+    } else {
+      setError("Quantité invalide.");
     }
   };
 
@@ -73,6 +98,7 @@ const ProductCard = ({ product, onAddToCart, onShowDetails }) => {
           type="number"
           value={quantity}
           min="1"
+          max={MAX_QUANTITY}
           onChange={handleQuantityChange}
         />
       </label>
@@ -101,7 +127,6 @@ ProductCard.propTypes = {
       })
     ),
   }).isRequired,
-  onAddToCart: PropTypes.func.isRequired,
   onShowDetails: PropTypes.func,
 };
 

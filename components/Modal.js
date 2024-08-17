@@ -1,10 +1,10 @@
-"use client";
-
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { useCart } from "./cart/CartContext";
 import "../styles/Modal.scss";
+
+const MAX_QUANTITY = 80;
 
 const Modal = ({ show, onClose, product }) => {
   const modalRef = useRef(null);
@@ -13,10 +13,19 @@ const Modal = ({ show, onClose, product }) => {
     product.variants ? product.variants[0] : null
   );
   const [error, setError] = useState("");
-  const { addToCart } = useCart();
+  const { addToCart, cart } = useCart();
 
   const handleAddToCart = () => {
-    if (quantity <= 0) {
+    const existingCartItem = cart.find(
+      (item) => item.uniqueId === product.uniqueId
+    );
+    const totalQuantity = existingCartItem
+      ? existingCartItem.quantity + quantity
+      : quantity;
+
+    if (totalQuantity > MAX_QUANTITY) {
+      setError(`La quantité maximale pour cet article est ${MAX_QUANTITY}.`);
+    } else if (quantity <= 0) {
       setError("Impossible d’ajouter 0 quantité au panier.");
     } else {
       setError("");
@@ -43,12 +52,12 @@ const Modal = ({ show, onClose, product }) => {
     const value = e.target.value;
     const parsedValue = parseInt(value, 10);
 
-    // Validate quantity
     if (value === "" || parsedValue > 0) {
-      setQuantity(parsedValue || "");
-      if (parsedValue <= 0) {
-        setError("Impossible d’ajouter 0 quantité au panier.");
+      if (parsedValue > MAX_QUANTITY) {
+        setQuantity(MAX_QUANTITY);
+        setError(`La quantité maximale pour cet article est ${MAX_QUANTITY}.`);
       } else {
+        setQuantity(parsedValue || "");
         setError("");
       }
     } else {
@@ -56,7 +65,6 @@ const Modal = ({ show, onClose, product }) => {
     }
   };
 
-  // Sanitize and validate product data
   const sanitizedTitle = product.title || "Produit";
   const sanitizedImage = product.image || "/default-image.jpg";
   const sanitizedIngredients =
@@ -113,6 +121,7 @@ const Modal = ({ show, onClose, product }) => {
             type="number"
             value={quantity}
             min="1"
+            max={MAX_QUANTITY}
             onChange={handleQuantityChange}
           />
         </label>
@@ -128,15 +137,15 @@ const Modal = ({ show, onClose, product }) => {
   );
 };
 
-// Validation des props avec PropTypes
 Modal.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   product: PropTypes.shape({
-    title: PropTypes.string,
-    image: PropTypes.string,
-    ingredients: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
     variants: PropTypes.arrayOf(
       PropTypes.shape({
         variantId: PropTypes.string,
@@ -145,6 +154,7 @@ Modal.propTypes = {
         price: PropTypes.string.isRequired,
       })
     ),
+    ingredients: PropTypes.string,
   }).isRequired,
 };
 
