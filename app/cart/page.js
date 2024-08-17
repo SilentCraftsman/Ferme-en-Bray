@@ -7,7 +7,6 @@ import { Suspense } from "react";
 
 // Importation dynamique pour éviter les charges inutiles lors du rendu initial
 const CartPage = dynamic(() => import("../../components/CartPage"), {
-  ssr: false, // Désactive le rendu côté serveur si nécessaire
   loading: () => <p>Chargement...</p>, // Composant de chargement pour améliorer l'expérience utilisateur
 });
 

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import styles from "../styles/cancel.module.scss"; // Importation des styles
 
 const CancelPage = () => {
   const router = useRouter();
@@ -12,11 +13,11 @@ const CancelPage = () => {
 
       if (session_id) {
         try {
-          // Vous pouvez ajouter une logique pour récupérer les détails de la session si nécessaire
           const response = await fetch(`/api/stripe/session/${session_id}`);
           const data = await response.json();
-          // Traitez les données ici si nécessaire
-          setMessage("Votre paiement a été annulé. Vous pouvez réessayer.");
+          setMessage(
+            "Votre paiement a été annulé. Nous sommes désolés pour le désagrément."
+          );
         } catch (error) {
           console.error("Error fetching session:", error);
           setMessage("Impossible de récupérer les détails de la session.");
@@ -30,17 +31,31 @@ const CancelPage = () => {
     };
 
     fetchSession();
+
+    const timer = setTimeout(() => {
+      router.push("/");
+    }, 10000);
+
+    return () => clearTimeout(timer);
   }, [router.query]);
 
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div>
-      <h1>Annulation du Paiement</h1>
-      <p>{message}</p>
+    <div className={styles.page}>
+      <h1 className={styles.title}>Annulation du Paiement</h1>
+      <p className={styles.message}>{message}</p>
+      <p className={styles.message}>
+        Il est possible que votre paiement ait été annulé en raison d'un
+        problème avec les informations de paiement ou une expiration de session.
+      </p>
+      <p className={styles.message}>
+        Vous serez redirigé vers la page d'accueil dans 10 secondes.
+      </p>
       <p>
-        Vous pouvez revenir au <a href="/cart">panier</a> pour réessayer le
-        paiement.
+        <a href="/" className={styles.link}>
+          Retour à l'accueil
+        </a>
       </p>
     </div>
   );
