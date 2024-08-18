@@ -178,3 +178,82 @@ $transition: 0.3s ease;
     color: $primary-color;
   }
 }
+
+// Calendrier
+.datePickerContainer {
+  width: 95%;
+  margin: 40px auto;
+  padding: 10px;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  background-color: #fff;
+  box-shadow: $box-shadow;
+  max-width: 600px; // Limiter la largeur sur les grands écrans
+  text-decoration: underline black;
+
+  .dateTitle {
+    font-size: 1.2rem;
+    margin: 0 0 15px;
+    color: $text-color-dark;
+    text-align: center; // Centrer le texte pour une meilleure apparence sur petits écrans
+  }
+
+  .dateSelect {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    transition: border-color $transition;
+    margin-top: 10px;
+
+    &:focus {
+      border-color: $primary-color;
+      outline: none;
+    }
+  }
+
+  .errorMessage {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid $danger-color;
+    border-radius: $border-radius;
+    background-color: #f8d7da;
+    color: $danger-color;
+    font-size: 0.9rem;
+    text-align: center; // Centrer le texte de l'erreur
+  }
+}
+
+// Styles responsifs pour les tablettes et mobiles
+@media (max-width: 768px) {
+  .datePickerContainer {
+    padding: 15px;
+  }
+
+  .dateSelect {
+    font-size: 0.9rem; // Réduire légèrement la taille de la police sur les petits écrans
+  }
+}
+
+@media (max-width: 480px) {
+  .datePickerContainer {
+    width: 100%;
+    margin: 20px auto;
+    padding: 10px;
+  }
+
+  .dateTitle {
+    font-size: 1rem; // Réduire la taille de la police pour les petits écrans
+    margin: 0 0 10px;
+  }
+
+  .dateSelect {
+    font-size: 0.8rem; // Réduire encore la taille de la police pour les très petits écrans
+  }
+
+  .errorMessage {
+    font-size: 0.8rem; // Réduire la taille de la police de l'erreur pour les petits écrans
+  }
+}

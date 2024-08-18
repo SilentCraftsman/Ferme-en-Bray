@@ -12,6 +12,9 @@ const CartPage = () => {
   const { cart, updateQuantity, getTotal } = useCart();
   const [error, setError] = useState(null);
   const [stripeLoaded, setStripeLoaded] = useState(false);
+  const [pickupDay, setPickupDay] = useState("vendredi");
+  const [pickupTime, setPickupTime] = useState("17:30");
+  const [dateError, setDateError] = useState("");
 
   useEffect(() => {
     if (window.Stripe) {
@@ -47,9 +50,31 @@ const CartPage = () => {
     return (totalPrice * item.quantity).toFixed(2);
   };
 
+  const validateDateTime = () => {
+    const validDays = ["vendredi", "samedi"];
+    const validHours = ["17:30", "18:00", "18:30", "19:00", "19:30", "20:00"];
+
+    if (!validDays.includes(pickupDay)) {
+      setDateError("La date doit être un vendredi ou un samedi.");
+      return false;
+    }
+
+    if (!validHours.includes(pickupTime)) {
+      setDateError("L'heure doit être entre 17h30 et 20h00.");
+      return false;
+    }
+
+    setDateError("");
+    return true;
+  };
+
   const createPayment = async () => {
     if (!stripeLoaded) {
       setError("Stripe.js has not loaded.");
+      return;
+    }
+
+    if (!validateDateTime()) {
       return;
     }
 
@@ -63,6 +88,8 @@ const CartPage = () => {
             price: calculateTotalPrice(item),
             quantity: item.quantity,
           })),
+          pickupDay,
+          pickupTime,
         },
         {
           headers: {
@@ -158,6 +185,33 @@ const CartPage = () => {
             ))}
           </ul>
           <h3 className={styles.total}>Total: {getTotal()} €</h3>
+          <div className={styles.datePickerContainer}>
+            <h3 className="dateTitle">
+              Sélectionnez le jour et l'heure de retrait :
+            </h3>
+            <select
+              value={pickupDay}
+              onChange={(e) => setPickupDay(e.target.value)}
+            >
+              <option value="vendredi">Vendredi</option>
+              <option value="samedi">Samedi</option>
+            </select>
+            <select
+              className="dateSelect"
+              value={pickupTime}
+              onChange={(e) => setPickupTime(e.target.value)}
+            >
+              <option value="17:30">17:30</option>
+              <option value="18:00">18:00</option>
+              <option value="18:30">18:30</option>
+              <option value="19:00">19:00</option>
+              <option value="19:30">19:30</option>
+              <option value="20:00">20:00</option>
+            </select>
+            {dateError && (
+              <div className={styles.errorMessage}>{dateError}</div>
+            )}
+          </div>
           <div>
             <button onClick={createPayment}>Payer avec Stripe</button>
           </div>
