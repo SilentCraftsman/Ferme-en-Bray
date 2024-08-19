@@ -5,8 +5,28 @@ import styles from "../styles/success.module.scss"; // Importation des styles
 
 const SuccessPage = () => {
   const router = useRouter();
+  const { session_id } = router.query; // Récupérer le session_id depuis l'URL
 
   useEffect(() => {
+    const checkPaymentStatusAndSendEmail = async (sessionId) => {
+      try {
+        const response = await fetch(
+          `http://localhost:3001/api/stripe/success?session_id=${sessionId}`
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Payment status checked:", data);
+      } catch (error) {
+        console.error("Erreur lors de la vérification du paiement:", error);
+      }
+    };
+
+    if (session_id) {
+      checkPaymentStatusAndSendEmail(session_id);
+    }
+
     clearCart();
 
     const timer = setTimeout(() => {
@@ -14,7 +34,7 @@ const SuccessPage = () => {
     }, 10000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [session_id, router]);
 
   return (
     <div className={styles.page}>

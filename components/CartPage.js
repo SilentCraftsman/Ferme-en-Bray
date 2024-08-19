@@ -39,7 +39,6 @@ const CartPage = () => {
   };
 
   const calculateTotalPrice = (item) => {
-    // Calculer le prix total en fonction du poids et du prix au kilo
     const pricePerKg = parseFloat(
       item.price.replace("€", "").replace(",", ".")
     );
@@ -98,6 +97,8 @@ const CartPage = () => {
         }
       );
 
+      console.log("Checkout session created:", response.data);
+
       const { id } = response.data;
       const stripe = window.Stripe(
         process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -114,7 +115,7 @@ const CartPage = () => {
       }
     } catch (err) {
       setError("Erreur lors de la création de la commande.");
-      console.error(err);
+      console.error("Error in createPayment:", err);
     }
   };
 
@@ -150,7 +151,9 @@ const CartPage = () => {
                     </span>
                     <div className={styles.priceInfo}>
                       <span>
-                        Prix: {calculateTotalPrice(item) / item.quantity} €
+                        Prix:{" "}
+                        {(calculateTotalPrice(item) / item.quantity).toFixed(2)}{" "}
+                        €
                       </span>
                       <span>
                         Total pour cet article: {calculateTotalPrice(item)} €
