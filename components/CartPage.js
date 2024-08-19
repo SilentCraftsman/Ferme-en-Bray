@@ -36,21 +36,37 @@ const CartPage = () => {
     updateQuantity(id, newQuantity);
   };
 
-  // Fonction pour calculer le prix unitaire en euros
-  const calculatePricePerUnit = (item) => {
-    const pricePerKg = parseFloat(
-      item.price.replace("€", "").replace(",", ".")
-    );
-    const weightInKg = item.selectedVariant
-      ? parseFloat(item.selectedVariant.weight.replace("kg", ""))
-      : 1;
-    return (pricePerKg * weightInKg).toFixed(2);
+  const calculateTotalPrice = (item) => {
+    let unitPrice = 0;
+
+    if (item.selectedVariant) {
+      // Produit avec variantes
+      const pricePerUnit = parseFloat(
+        item.selectedVariant.price.replace("€", "").replace(",", ".")
+      );
+      unitPrice = pricePerUnit;
+    } else {
+      // Produit sans variantes
+      unitPrice = parseFloat(item.price.replace("€", "").replace(",", "."));
+    }
+
+    return (unitPrice * item.quantity).toFixed(2);
   };
 
-  // Fonction pour calculer le prix total d'un article
-  const calculateTotalPrice = (item) => {
-    const pricePerUnit = parseFloat(calculatePricePerUnit(item));
-    return (pricePerUnit * item.quantity).toFixed(2);
+  const getUnitPrice = (item) => {
+    let unitPrice = 0;
+
+    if (item.selectedVariant) {
+      // Produit avec variantes
+      unitPrice = parseFloat(
+        item.selectedVariant.price.replace("€", "").replace(",", ".")
+      );
+    } else {
+      // Produit sans variantes
+      unitPrice = parseFloat(item.price.replace("€", "").replace(",", "."));
+    }
+
+    return unitPrice.toFixed(2);
   };
 
   const validateDateTime = () => {
@@ -88,7 +104,7 @@ const CartPage = () => {
           items: cart.map((item) => ({
             title: item.title,
             image: item.image,
-            price: calculatePricePerUnit(item), // Envoie le prix unitaire
+            price: getUnitPrice(item), // Prix unitaire pour Stripe
             quantity: item.quantity,
           })),
           pickupDay,
@@ -152,9 +168,7 @@ const CartPage = () => {
                       </span>
                     )}
                     <div className={styles.priceInfo}>
-                      <span>
-                        Prix unitaire: {calculatePricePerUnit(item)} €
-                      </span>
+                      <span>Prix unitaire: {getUnitPrice(item)} €</span>
                       <span>
                         Total pour cet article: {calculateTotalPrice(item)} €
                       </span>
