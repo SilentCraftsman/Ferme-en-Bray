@@ -25,28 +25,32 @@ const CartPage = () => {
   }, []);
 
   const handleQuantityChange = (id, newQuantity) => {
-    const existingCartItem = cart.find((item) => item.uniqueId === id);
-
     if (newQuantity > MAX_QUANTITY) {
       setError(`La quantité maximale pour cet article est ${MAX_QUANTITY}.`);
-      updateQuantity(id, MAX_QUANTITY);
+      newQuantity = MAX_QUANTITY;
     } else if (newQuantity <= 0) {
-      updateQuantity(id, 0); // Cela devrait supprimer l'article si la quantité est 0
+      newQuantity = 0; // Cela supprimera l'article si la quantité est 0
     } else {
       setError("");
-      updateQuantity(id, newQuantity);
     }
+    updateQuantity(id, newQuantity);
   };
 
-  const calculateTotalPrice = (item) => {
+  // Fonction pour calculer le prix unitaire en euros
+  const calculatePricePerUnit = (item) => {
     const pricePerKg = parseFloat(
       item.price.replace("€", "").replace(",", ".")
     );
     const weightInKg = item.selectedVariant
       ? parseFloat(item.selectedVariant.weight.replace("kg", ""))
       : 1;
-    const totalPrice = pricePerKg * weightInKg;
-    return (totalPrice * item.quantity).toFixed(2);
+    return (pricePerKg * weightInKg).toFixed(2);
+  };
+
+  // Fonction pour calculer le prix total d'un article
+  const calculateTotalPrice = (item) => {
+    const pricePerUnit = parseFloat(calculatePricePerUnit(item));
+    return (pricePerUnit * item.quantity).toFixed(2);
   };
 
   const validateDateTime = () => {
@@ -84,7 +88,7 @@ const CartPage = () => {
           items: cart.map((item) => ({
             title: item.title,
             image: item.image,
-            price: calculateTotalPrice(item),
+            price: calculatePricePerUnit(item), // Envoie le prix unitaire
             quantity: item.quantity,
           })),
           pickupDay,
@@ -139,21 +143,17 @@ const CartPage = () => {
                 />
                 <div className={styles.productDetails}>
                   <h3>{item.title}</h3>
-                  <p>{item.description}</p>
+                  <p>{item.description || "Description non disponible"}</p>
                   <div className={styles.priceQuantity}>
-                    <span>
-                      {item.selectedVariant && (
-                        <>
-                          {item.selectedVariant.type} -{" "}
-                          {item.selectedVariant.weight}
-                        </>
-                      )}
-                    </span>
+                    {item.selectedVariant && (
+                      <span>
+                        {item.selectedVariant.type} -{" "}
+                        {item.selectedVariant.weight}
+                      </span>
+                    )}
                     <div className={styles.priceInfo}>
                       <span>
-                        Prix:{" "}
-                        {(calculateTotalPrice(item) / item.quantity).toFixed(2)}{" "}
-                        €
+                        Prix unitaire: {calculatePricePerUnit(item)} €
                       </span>
                       <span>
                         Total pour cet article: {calculateTotalPrice(item)} €

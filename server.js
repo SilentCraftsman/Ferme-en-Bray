@@ -15,9 +15,9 @@ const port = process.env.PORT || 3001;
 
 // Configure CORS
 const corsOptions = {
-  origin: "http://localhost:3000", // Autoriser seulement les requêtes venant de cette origine
-  methods: ["GET", "POST"], // Autoriser ces méthodes HTTP
-  allowedHeaders: ["Content-Type", "Authorization"], // Autoriser ces en-têtes
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
@@ -26,10 +26,10 @@ app.use(bodyParser.json());
 // Route pour créer une session de paiement
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
   const { items, pickupDay, pickupTime } = req.body;
+
   const producerAccountId = process.env.PRODUCER_ACCOUNT_ID;
   const baseUrl = process.env.BASE_URL;
 
-  // Vérification de la configuration de l'URL de base
   if (
     !baseUrl ||
     (!baseUrl.startsWith("http://") && !baseUrl.startsWith("https://"))
@@ -40,25 +40,30 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       .send("Internal Server Error: BASE_URL not set correctly");
   }
 
-  // Validation des données entrantes
   if (!Array.isArray(items) || items.length === 0) {
     console.error("Invalid items data:", items);
     return res.status(400).send("Bad Request: Invalid items data");
   }
 
   try {
-    // Calcul des détails des lignes de produits et de la commission
-    const lineItems = items.map((item) => ({
-      price_data: {
-        currency: "eur",
-        product_data: {
-          name: item.title,
-          images: [item.image],
+    const lineItems = items.map((item) => {
+      // Convert price from string to integer (cents) for Stripe
+      const unitAmount = Math.round(
+        parseFloat(item.price.replace("€", "").replace(",", ".")) * 100
+      );
+
+      return {
+        price_data: {
+          currency: "eur",
+          product_data: {
+            name: item.title,
+            images: [item.image],
+          },
+          unit_amount: unitAmount, // Utilisez le montant unitaire directement
         },
-        unit_amount: Math.round(item.price * 100), // Convertir en centimes
-      },
-      quantity: item.quantity,
-    }));
+        quantity: item.quantity, // Stripe gère la quantité
+      };
+    });
 
     const totalAmount = lineItems.reduce(
       (sum, item) => sum + item.price_data.unit_amount * item.quantity,
@@ -66,7 +71,6 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     );
     const applicationFeeAmount = Math.round(totalAmount * 0.05);
 
-    // Création de la session Stripe Checkout
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
@@ -79,9 +83,13 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
           destination: producerAccountId,
         },
       },
+      metadata: {
+        items: JSON.stringify(items),
+        pickupDay,
+        pickupTime,
+      },
     });
 
-    // Répondre avec l'ID de la session
     res.json({ id: session.id });
   } catch (err) {
     console.error("Error creating checkout session:", err);
@@ -92,29 +100,34 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
 // Route pour vérifier le statut de paiement et envoyer l'email si le paiement est réussi
 app.get("/api/stripe/success", async (req, res) => {
   const { session_id } = req.query;
-  console.log("Received session_id:", session_id);
 
   try {
     const session = await stripe.checkout.sessions.retrieve(session_id);
-    console.log("Retrieved session:", session);
 
     if (session.payment_status === "paid") {
-      const itemsHtml = (session.display_items || [])
+      const items = JSON.parse(session.metadata.items);
+
+      const itemsHtml = items
         .map(
           (item) => `
-                <tr>
-                    <td>${item.custom.name || "Sans description"}</td>
-                    <td>${item.amount_total / 100} €</td>
-                    <td>${item.quantity}</td>
-                </tr>`
+            <tr>
+              <td>${item.title || "Sans description"}</td>
+              <td>${(parseFloat(item.price) / 100).toFixed(2)} €</td>
+              <td>${item.quantity}</td>
+              <td>${
+                item.selectedVariant
+                  ? `${item.selectedVariant.type} - ${item.selectedVariant.weight}`
+                  : "Sans variante"
+              }</td>
+            </tr>`
         )
         .join("");
 
       const totalHtml = `
-                <tr>
-                    <td colspan="2"><strong>Total</strong></td>
-                    <td><strong>${session.amount_total / 100} €</strong></td>
-                </tr>`;
+        <tr>
+          <td colspan="3"><strong>Total</strong></td>
+          <td><strong>${(session.amount_total / 100).toFixed(2)} €</strong></td>
+        </tr>`;
 
       const msg = {
         to: process.env.PRODUCER_EMAIL,
@@ -122,21 +135,22 @@ app.get("/api/stripe/success", async (req, res) => {
         subject: "Confirmation de votre commande",
         text: `Merci pour votre commande. Votre retrait est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.`,
         html: `
-                    <strong>Merci pour votre commande</strong><br>
-                    Votre retrait est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.<br><br>
-                    <table border="1" cellpadding="5" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Description</th>
-                                <th>Prix</th>
-                                <th>Quantité</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${itemsHtml}
-                            ${totalHtml}
-                        </tbody>
-                    </table>`,
+          <strong>Merci pour votre commande</strong><br>
+          Votre retrait est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.<br><br>
+          <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Variante</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsHtml}
+              ${totalHtml}
+            </tbody>
+          </table>`,
       };
 
       await sgMail.send(msg);
@@ -153,5 +167,5 @@ app.get("/api/stripe/success", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server running on port ${port}`);
 });
