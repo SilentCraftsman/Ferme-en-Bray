@@ -1,9 +1,11 @@
+// Importation des modules nécessaires
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import Stripe from "stripe";
 import sgMail from "@sendgrid/mail";
 import bodyParser from "body-parser";
+import { MongoClient, ObjectId } from "mongodb";
 
 dotenv.config();
 
@@ -13,32 +15,34 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Configure CORS
-const corsOptions = {
-  origin: "http://localhost:3000",
-  methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
+// Connexion à MongoDB
+const mongoUri = process.env.MONGODB_URI;
+const client = new MongoClient(mongoUri);
+let ordersCollection;
 
-app.use(cors(corsOptions));
+(async () => {
+  try {
+    await client.connect();
+    console.log("Connected to MongoDB");
+    const db = client.db("shop");
+    ordersCollection = db.collection("orders");
+  } catch (error) {
+    console.error("Error connecting to MongoDB", error);
+  }
+})();
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(bodyParser.json());
 
 // Route pour créer une session de paiement
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
   const { items, pickupDay, pickupTime } = req.body;
-
-  const producerAccountId = process.env.PRODUCER_ACCOUNT_ID;
-  const baseUrl = process.env.BASE_URL;
-
-  if (
-    !baseUrl ||
-    (!baseUrl.startsWith("http://") && !baseUrl.startsWith("https://"))
-  ) {
-    console.error("BASE_URL is not defined correctly in .env");
-    return res
-      .status(500)
-      .send("Internal Server Error: BASE_URL not set correctly");
-  }
 
   if (!Array.isArray(items) || items.length === 0) {
     console.error("Invalid items data:", items);
@@ -47,19 +51,16 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
 
   try {
     const lineItems = items.map((item) => {
-      // Trouver la variante sélectionnée
       const selectedVariant = item.selectedVariant;
       let updatedTitle = item.title;
 
       if (selectedVariant) {
-        // Modifier le titre du produit en fonction de la variante sélectionnée
         updatedTitle = updatedTitle.replace(
           /(\d+(\.\d+)?kg)/,
           selectedVariant.weight
         );
       }
 
-      // Convert price from string to integer (cents) for Stripe
       const unitAmount = Math.round(
         parseFloat(
           selectedVariant
@@ -87,22 +88,30 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     );
     const applicationFeeAmount = Math.round(totalAmount * 0.05);
 
+    // Stockage des détails de la commande dans MongoDB
+    const order = {
+      items,
+      pickupDay,
+      pickupTime,
+      createdAt: new Date(),
+    };
+    const result = await ordersCollection.insertOne(order);
+    const orderId = result.insertedId;
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/cancel`,
+      success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.BASE_URL}/cancel`,
       payment_intent_data: {
         application_fee_amount: applicationFeeAmount,
         transfer_data: {
-          destination: producerAccountId,
+          destination: process.env.PRODUCER_ACCOUNT_ID,
         },
       },
       metadata: {
-        items: JSON.stringify(items),
-        pickupDay,
-        pickupTime,
+        order_id: orderId.toString(), // Utilisation d'un identifiant court pour `metadata`
       },
     });
 
@@ -121,23 +130,28 @@ app.get("/api/stripe/success", async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
     if (session.payment_status === "paid") {
-      const items = JSON.parse(session.metadata.items);
+      // Récupération des détails de la commande depuis MongoDB
+      const order = await ordersCollection.findOne({
+        _id: new ObjectId(session.metadata.order_id),
+      });
 
-      // Gérer les articles et leurs variantes
-      const itemsHtml = items
+      if (!order) {
+        console.error("Order not found");
+        return res.status(404).send("Order not found");
+      }
+
+      const itemsHtml = order.items
         .map((item) => {
-          // Vérifier si l'article a une variante sélectionnée
           const variantInfo = item.selectedVariant
             ? `${item.selectedVariant.type} - ${item.selectedVariant.weight}`
             : "Sans variante";
-
           return `
-            <tr>
-              <td>${item.title || "Sans description"}</td>
-              <td>${parseFloat(item.price).toFixed(2)} €</td>
-              <td>${item.quantity}</td>
-              <td>${variantInfo}</td>
-            </tr>`;
+          <tr>
+            <td>${item.title || "Sans description"}</td>
+            <td>${parseFloat(item.price).toFixed(2)} €</td>
+            <td>${item.quantity}</td>
+            <td>${variantInfo}</td>
+          </tr>`;
         })
         .join("");
 
