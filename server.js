@@ -98,6 +98,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     const result = await ordersCollection.insertOne(order);
     const orderId = result.insertedId;
 
+    // Création de la session Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
@@ -111,7 +112,9 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
         },
       },
       metadata: {
-        order_id: orderId.toString(), // Utilisation d'un identifiant court pour `metadata`
+        order_id: orderId.toString(),
+        pickupDay, // Ajout de pickupDay aux métadonnées
+        pickupTime, // Ajout de pickupTime aux métadonnées
       },
     });
 
@@ -161,19 +164,20 @@ app.get("/api/stripe/success", async (req, res) => {
           <td><strong>${(session.amount_total / 100).toFixed(2)} €</strong></td>
         </tr>`;
 
+      // Construction du message avec les informations récupérées depuis les métadonnées
       const msg = {
         to: process.env.PRODUCER_EMAIL,
         from: process.env.EMAIL_USER,
         subject: "Confirmation de votre commande",
-        text: `Merci pour votre commande. Votre retrait est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.`,
+        text: `Nouvelle commande ! Le retrait de la commande est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.`,
         html: `
-          <strong>Merci pour votre commande</strong><br>
-          Votre retrait est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.<br><br>
+          <strong>Nouvelle commande !</strong><br>
+          Le retrait de la commande est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.<br><br>
           <table border="1" cellpadding="5" cellspacing="0">
             <thead>
               <tr>
                 <th>Description</th>
-                <th>Prix</th>
+                <th>Prix à l'unité du produit</th>
                 <th>Quantité</th>
                 <th>Variante</th>
               </tr>
