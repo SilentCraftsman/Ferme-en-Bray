@@ -47,21 +47,37 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
 
   try {
     const lineItems = items.map((item) => {
+      // Trouver la variante sélectionnée
+      const selectedVariant = item.selectedVariant;
+      let updatedTitle = item.title;
+
+      if (selectedVariant) {
+        // Modifier le titre du produit en fonction de la variante sélectionnée
+        updatedTitle = updatedTitle.replace(
+          /(\d+(\.\d+)?kg)/,
+          selectedVariant.weight
+        );
+      }
+
       // Convert price from string to integer (cents) for Stripe
       const unitAmount = Math.round(
-        parseFloat(item.price.replace("€", "").replace(",", ".")) * 100
+        parseFloat(
+          selectedVariant
+            ? selectedVariant.price
+            : item.price.replace("€", "").replace(",", ".")
+        ) * 100
       );
 
       return {
         price_data: {
           currency: "eur",
           product_data: {
-            name: item.title,
+            name: updatedTitle,
             images: [item.image],
           },
-          unit_amount: unitAmount, // Utilisez le montant unitaire directement
+          unit_amount: unitAmount,
         },
-        quantity: item.quantity, // Stripe gère la quantité
+        quantity: item.quantity,
       };
     });
 
@@ -107,25 +123,27 @@ app.get("/api/stripe/success", async (req, res) => {
     if (session.payment_status === "paid") {
       const items = JSON.parse(session.metadata.items);
 
+      // Gérer les articles et leurs variantes
       const itemsHtml = items
-        .map(
-          (item) => `
+        .map((item) => {
+          // Vérifier si l'article a une variante sélectionnée
+          const variantInfo = item.selectedVariant
+            ? `${item.selectedVariant.type} - ${item.selectedVariant.weight}`
+            : "Sans variante";
+
+          return `
             <tr>
               <td>${item.title || "Sans description"}</td>
-              <td>${(parseFloat(item.price) / 100).toFixed(2)} €</td>
+              <td>${parseFloat(item.price).toFixed(2)} €</td>
               <td>${item.quantity}</td>
-              <td>${
-                item.selectedVariant
-                  ? `${item.selectedVariant.type} - ${item.selectedVariant.weight}`
-                  : "Sans variante"
-              }</td>
-            </tr>`
-        )
+              <td>${variantInfo}</td>
+            </tr>`;
+        })
         .join("");
 
       const totalHtml = `
         <tr>
-          <td colspan="3"><strong>Total</strong></td>
+          <td colspan="4"><strong>Total</strong></td>
           <td><strong>${(session.amount_total / 100).toFixed(2)} €</strong></td>
         </tr>`;
 

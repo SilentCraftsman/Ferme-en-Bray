@@ -36,6 +36,14 @@ const CartPage = () => {
     updateQuantity(id, newQuantity);
   };
 
+  const getUpdatedTitle = (item) => {
+    if (item.selectedVariant) {
+      // Met à jour le titre du produit en fonction de la variante sélectionnée
+      return item.title.replace(/(\d+(\.\d+)?kg)/, item.selectedVariant.weight);
+    }
+    return item.title;
+  };
+
   const calculateTotalPrice = (item) => {
     let unitPrice = 0;
 
@@ -102,10 +110,11 @@ const CartPage = () => {
         "http://localhost:3001/api/stripe/create-checkout-session",
         {
           items: cart.map((item) => ({
-            title: item.title,
+            title: getUpdatedTitle(item), // Titre mis à jour pour Stripe
             image: item.image,
             price: getUnitPrice(item), // Prix unitaire pour Stripe
             quantity: item.quantity,
+            selectedVariant: item.selectedVariant, // Assurez-vous d'envoyer les détails de la variante
           })),
           pickupDay,
           pickupTime,
@@ -158,7 +167,8 @@ const CartPage = () => {
                   className={styles.productImage}
                 />
                 <div className={styles.productDetails}>
-                  <h3>{item.title}</h3>
+                  <h3>{getUpdatedTitle(item)}</h3>{" "}
+                  {/* Affiche le titre mis à jour */}
                   <p>{item.description || "Description non disponible"}</p>
                   <div className={styles.priceQuantity}>
                     {item.selectedVariant && (
