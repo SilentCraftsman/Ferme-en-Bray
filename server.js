@@ -42,7 +42,8 @@ app.use(bodyParser.json());
 
 // Route pour créer une session de paiement
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
-  const { items, pickupDay, pickupTime } = req.body;
+  const { items, pickupDay, pickupTime, customerName, customerEmail } =
+    req.body;
 
   if (!Array.isArray(items) || items.length === 0) {
     console.error("Invalid items data:", items);
@@ -93,6 +94,8 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       items,
       pickupDay,
       pickupTime,
+      customerName, // Ajout du nom du client
+      customerEmail, // Ajout de l'email du client
       createdAt: new Date(),
     };
     const result = await ordersCollection.insertOne(order);
@@ -111,11 +114,15 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
           destination: process.env.PRODUCER_ACCOUNT_ID,
         },
       },
+      customer_email: customerEmail, // Ajouter l'email du client à la session Stripe
       metadata: {
         order_id: orderId.toString(),
-        pickupDay, // Ajout de pickupDay aux métadonnées
-        pickupTime, // Ajout de pickupTime aux métadonnées
+        pickupDay,
+        pickupTime,
+        // Ne pas ajouter le nom et l'email ici car on les récupérera de Stripe après le paiement
       },
+      billing_address_collection: "required", // Demande l'adresse du client
+      customer_creation: "always", // Crée toujours un client dans Stripe pour cette session
     });
 
     res.json({ id: session.id });
@@ -143,6 +150,10 @@ app.get("/api/stripe/success", async (req, res) => {
         return res.status(404).send("Order not found");
       }
 
+      // Récupérer les informations du client depuis Stripe
+      const customerName = session.customer_details.name;
+      const customerEmail = session.customer_details.email;
+
       const itemsHtml = order.items
         .map((item) => {
           const variantInfo = item.selectedVariant
@@ -164,20 +175,22 @@ app.get("/api/stripe/success", async (req, res) => {
           <td><strong>${(session.amount_total / 100).toFixed(2)} €</strong></td>
         </tr>`;
 
-      // Construction du message avec les informations récupérées depuis les métadonnées
+      // Construction du message avec les informations récupérées depuis la session Stripe
       const msg = {
         to: process.env.PRODUCER_EMAIL,
         from: process.env.EMAIL_USER,
         subject: "Confirmation de votre commande",
-        text: `Nouvelle commande ! Le retrait de la commande est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.`,
+        text: `Le client de la commande : ${customerName}. 
+               Le retrait de la commande par le client est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.`,
         html: `
-          <strong>Nouvelle commande !</strong><br>
-          Le retrait de la commande est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.<br><br>
+          <strong>Le client de la commande : ${customerName}</strong><br>
+          Le retrait de la commande par le client est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.<br><br>
+          <strong>Email du client :</strong> ${customerEmail}<br><br>
           <table border="1" cellpadding="5" cellspacing="0">
             <thead>
               <tr>
                 <th>Description</th>
-                <th>Prix à l'unité du produit</th>
+                <th>Prix</th>
                 <th>Quantité</th>
                 <th>Variante</th>
               </tr>
