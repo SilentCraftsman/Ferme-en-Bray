@@ -1,11 +1,12 @@
-// Importation des modules nécessaires
 import express from "express";
+import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import Stripe from "stripe";
 import sgMail from "@sendgrid/mail";
 import bodyParser from "body-parser";
 import { MongoClient, ObjectId } from "mongodb";
+import fs from "fs"; // Importer fs correctement
 
 dotenv.config();
 
@@ -151,8 +152,9 @@ app.get("/api/stripe/success", async (req, res) => {
       }
 
       // Récupérer les informations du client depuis Stripe
-      const customerName = session.customer_details.name;
-      const customerEmail = session.customer_details.email;
+      const customerName = session.customer_details.name || order.customerName; // Utiliser la valeur de MongoDB si Stripe ne fournit pas
+      const customerEmail =
+        session.customer_details.email || order.customerEmail; // Utiliser la valeur de MongoDB si Stripe ne fournit pas
 
       const itemsHtml = order.items
         .map((item) => {
@@ -204,6 +206,17 @@ app.get("/api/stripe/success", async (req, res) => {
 
       await sgMail.send(msg);
       console.log("Confirmation email sent successfully.");
+
+      const invoicePath = `C:/Users/giogi/Desktop/factures/facture-${session.metadata.order_id}.pdf`;
+
+      // Créez la facture
+      createInvoice(order, invoicePath);
+
+      // Attendez que le fichier soit complètement écrit
+      setTimeout(() => {
+        // Envoyez la facture par email
+        sendInvoiceEmail(customerEmail, invoicePath);
+      }, 1000); // Temporisation de 1 seconde pour s'assurer que le fichier est écrit
     } else {
       console.log("Payment not completed. Email not sent.");
     }
