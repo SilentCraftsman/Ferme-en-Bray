@@ -11,6 +11,9 @@ const orderSchema = new mongoose.Schema({
   ],
   pickupDay: { type: String, required: true },
   pickupTime: { type: String, required: true },
+  customerName: { type: String, required: true },
+  customerEmail: { type: String, required: true },
+  customerAddress: { type: String, required: true }, // Ajout de l'adresse
   createdAt: { type: Date, default: Date.now },
 });
 

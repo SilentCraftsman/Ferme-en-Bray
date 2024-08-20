@@ -15,6 +15,9 @@ const CartPage = () => {
   const [pickupDay, setPickupDay] = useState("vendredi");
   const [pickupTime, setPickupTime] = useState("17:30");
   const [dateError, setDateError] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
 
   useEffect(() => {
     if (window.Stripe) {
@@ -118,6 +121,10 @@ const CartPage = () => {
           })),
           pickupDay,
           pickupTime,
+          customerEmail, // Incluez les informations du client ici
+          customerName,
+          customerAddress, // Incluez l'adresse du client ici
+          totalPrice: getTotal(), // Inclure le coût total
         },
         {
           headers: {
@@ -238,6 +245,27 @@ const CartPage = () => {
             {dateError && (
               <div className={styles.errorMessage}>{dateError}</div>
             )}
+          </div>
+          <div className={styles.customerInfo}>
+            <h3>Informations du client</h3>
+            <input
+              type="text"
+              placeholder="Nom"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Adresse"
+              value={customerAddress}
+              onChange={(e) => setCustomerAddress(e.target.value)}
+            />
           </div>
           <div>
             <button onClick={createPayment}>Payer avec Stripe</button>

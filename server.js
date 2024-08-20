@@ -6,7 +6,8 @@ import Stripe from "stripe";
 import sgMail from "@sendgrid/mail";
 import bodyParser from "body-parser";
 import { MongoClient, ObjectId } from "mongodb";
-import fs from "fs"; // Importer fs correctement
+import fs from "fs";
+import path from "path";
 
 dotenv.config();
 
@@ -42,13 +43,26 @@ app.use(
 app.use(bodyParser.json());
 
 // Route pour créer une session de paiement
+// Route pour créer une session de paiement
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
-  const { items, pickupDay, pickupTime, customerName, customerEmail } =
-    req.body;
+  const {
+    items,
+    pickupDay,
+    pickupTime,
+    customerName,
+    customerEmail,
+    customerAddress,
+  } = req.body;
 
-  if (!Array.isArray(items) || items.length === 0) {
-    console.error("Invalid items data:", items);
-    return res.status(400).send("Bad Request: Invalid items data");
+  if (
+    !Array.isArray(items) ||
+    items.length === 0 ||
+    !customerName ||
+    !customerEmail ||
+    !customerAddress
+  ) {
+    console.error("Invalid request data:", req.body);
+    return res.status(400).send("Bad Request: Invalid request data");
   }
 
   try {
@@ -88,6 +102,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       (sum, item) => sum + item.price_data.unit_amount * item.quantity,
       0
     );
+
     const applicationFeeAmount = Math.round(totalAmount * 0.05);
 
     // Stockage des détails de la commande dans MongoDB
@@ -95,10 +110,12 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       items,
       pickupDay,
       pickupTime,
-      customerName, // Ajout du nom du client
-      customerEmail, // Ajout de l'email du client
+      customerName,
+      customerEmail,
+      customerAddress, // Inclure l'adresse du client
       createdAt: new Date(),
     };
+
     const result = await ordersCollection.insertOne(order);
     const orderId = result.insertedId;
 
@@ -115,15 +132,14 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
           destination: process.env.PRODUCER_ACCOUNT_ID,
         },
       },
-      customer_email: customerEmail, // Ajouter l'email du client à la session Stripe
+      customer_email: customerEmail,
       metadata: {
         order_id: orderId.toString(),
         pickupDay,
         pickupTime,
-        // Ne pas ajouter le nom et l'email ici car on les récupérera de Stripe après le paiement
       },
-      billing_address_collection: "required", // Demande l'adresse du client
-      customer_creation: "always", // Crée toujours un client dans Stripe pour cette session
+      billing_address_collection: "required",
+      customer_creation: "always",
     });
 
     res.json({ id: session.id });
@@ -151,10 +167,11 @@ app.get("/api/stripe/success", async (req, res) => {
         return res.status(404).send("Order not found");
       }
 
-      // Récupérer les informations du client depuis Stripe
-      const customerName = session.customer_details.name || order.customerName; // Utiliser la valeur de MongoDB si Stripe ne fournit pas
+      // Récupérer les informations du client depuis la session Stripe
+      const customerName = session.customer_details.name || order.customerName;
       const customerEmail =
-        session.customer_details.email || order.customerEmail; // Utiliser la valeur de MongoDB si Stripe ne fournit pas
+        session.customer_details.email || order.customerEmail;
+      const customerAddress = order.customerAddress;
 
       const itemsHtml = order.items
         .map((item) => {
@@ -187,7 +204,8 @@ app.get("/api/stripe/success", async (req, res) => {
         html: `
           <strong>Le client de la commande : ${customerName}</strong><br>
           Le retrait de la commande par le client est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.<br><br>
-          <strong>Email du client :</strong> ${customerEmail}<br><br>
+          <strong>Email du client :</strong> ${customerEmail}<br>
+          <strong>Adresse du client :</strong> ${customerAddress}<br><br>
           <table border="1" cellpadding="5" cellspacing="0">
             <thead>
               <tr>
