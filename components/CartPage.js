@@ -16,8 +16,8 @@ const CartPage = () => {
   const [pickupTime, setPickupTime] = useState("17:30");
   const [dateError, setDateError] = useState("");
   const [customerName, setCustomerName] = useState("");
-  const [customerEmail, setCustomerEmail] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
 
   useEffect(() => {
     if (window.Stripe) {
@@ -41,7 +41,6 @@ const CartPage = () => {
 
   const getUpdatedTitle = (item) => {
     if (item.selectedVariant) {
-      // Met à jour le titre du produit en fonction de la variante sélectionnée
       return item.title.replace(/(\d+(\.\d+)?kg)/, item.selectedVariant.weight);
     }
     return item.title;
@@ -51,13 +50,11 @@ const CartPage = () => {
     let unitPrice = 0;
 
     if (item.selectedVariant) {
-      // Produit avec variantes
       const pricePerUnit = parseFloat(
         item.selectedVariant.price.replace("€", "").replace(",", ".")
       );
       unitPrice = pricePerUnit;
     } else {
-      // Produit sans variantes
       unitPrice = parseFloat(item.price.replace("€", "").replace(",", "."));
     }
 
@@ -68,12 +65,10 @@ const CartPage = () => {
     let unitPrice = 0;
 
     if (item.selectedVariant) {
-      // Produit avec variantes
       unitPrice = parseFloat(
         item.selectedVariant.price.replace("€", "").replace(",", ".")
       );
     } else {
-      // Produit sans variantes
       unitPrice = parseFloat(item.price.replace("€", "").replace(",", "."));
     }
 
@@ -121,10 +116,9 @@ const CartPage = () => {
           })),
           pickupDay,
           pickupTime,
-          customerEmail, // Incluez les informations du client ici
           customerName,
-          customerAddress, // Incluez l'adresse du client ici
-          totalPrice: getTotal(), // Inclure le coût total
+          customerEmail,
+          customerAddress, // Ajout de l'adresse
         },
         {
           headers: {
@@ -174,8 +168,7 @@ const CartPage = () => {
                   className={styles.productImage}
                 />
                 <div className={styles.productDetails}>
-                  <h3>{getUpdatedTitle(item)}</h3>{" "}
-                  {/* Affiche le titre mis à jour */}
+                  <h3>{getUpdatedTitle(item)}</h3>
                   <p>{item.description || "Description non disponible"}</p>
                   <div className={styles.priceQuantity}>
                     {item.selectedVariant && (
@@ -247,18 +240,12 @@ const CartPage = () => {
             )}
           </div>
           <div className={styles.customerInfo}>
-            <h3>Informations du client</h3>
+            <h3>Informations sur le client</h3>
             <input
               type="text"
-              placeholder="Nom"
+              placeholder="Nom complet"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              value={customerEmail}
-              onChange={(e) => setCustomerEmail(e.target.value)}
             />
             <input
               type="text"
@@ -266,10 +253,15 @@ const CartPage = () => {
               value={customerAddress}
               onChange={(e) => setCustomerAddress(e.target.value)}
             />
+            <input
+              type="email"
+              placeholder="Adresse email"
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+            />
           </div>
-          <div>
-            <button onClick={createPayment}>Payer avec Stripe</button>
-          </div>
+          <button onClick={createPayment}>Procéder au paiement</button>
+          {error && <div className={styles.errorMessage}>{error}</div>}
         </>
       )}
     </div>

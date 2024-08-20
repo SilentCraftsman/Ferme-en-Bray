@@ -43,7 +43,6 @@ app.use(
 app.use(bodyParser.json());
 
 // Route pour créer une session de paiement
-// Route pour créer une session de paiement
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
   const {
     items,
@@ -58,8 +57,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     !Array.isArray(items) ||
     items.length === 0 ||
     !customerName ||
-    !customerEmail ||
-    !customerAddress
+    !customerEmail
   ) {
     console.error("Invalid request data:", req.body);
     return res.status(400).send("Bad Request: Invalid request data");
@@ -102,7 +100,6 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       (sum, item) => sum + item.price_data.unit_amount * item.quantity,
       0
     );
-
     const applicationFeeAmount = Math.round(totalAmount * 0.05);
 
     // Stockage des détails de la commande dans MongoDB
@@ -112,10 +109,9 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       pickupTime,
       customerName,
       customerEmail,
-      customerAddress, // Inclure l'adresse du client
+      customerAddress, // Stockage de l'adresse
       createdAt: new Date(),
     };
-
     const result = await ordersCollection.insertOne(order);
     const orderId = result.insertedId;
 
