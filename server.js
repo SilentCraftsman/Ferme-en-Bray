@@ -6,8 +6,6 @@ import Stripe from "stripe";
 import sgMail from "@sendgrid/mail";
 import bodyParser from "body-parser";
 import { MongoClient, ObjectId } from "mongodb";
-import fs from "fs";
-import path from "path";
 
 dotenv.config();
 
@@ -198,7 +196,7 @@ app.get("/api/stripe/success", async (req, res) => {
         text: `Le client de la commande : ${customerName}. 
                Le retrait de la commande par le client est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.`,
         html: `
-          <strong>Le client de la commande : ${customerName}</strong><br>
+          <strong>Le nom et prénom qui figure sur la carte bancaire qui a payé de la commande : ${customerName}</strong><br>
           Le retrait de la commande par le client est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.<br><br>
           <strong>Email du client :</strong> ${customerEmail}<br>
           <strong>Adresse du client :</strong> ${customerAddress}<br><br>
@@ -206,9 +204,9 @@ app.get("/api/stripe/success", async (req, res) => {
             <thead>
               <tr>
                 <th>Description</th>
-                <th>Prix</th>
+                <th>Prix unitaire du produit</th>
                 <th>Quantité</th>
-                <th>Variante</th>
+                <th>Variante en terme de poids du produit</th>
               </tr>
             </thead>
             <tbody>
