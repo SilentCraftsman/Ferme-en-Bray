@@ -8,42 +8,150 @@ if (!fs.existsSync(directory)) {
   fs.mkdirSync(directory, { recursive: true });
 }
 
-// Génération de la facture en PDF
+// Fonction pour créer une facture
 export function createInvoice(order, path) {
   const doc = new PDFDocument({ margin: 50 });
 
+  // Pipe the document to a file
   doc.pipe(fs.createWriteStream(path));
 
-  doc.fontSize(20).text("Facture", { align: "center" });
+  // Constants for positioning
+  const margin = 50;
+  const pageWidth = doc.page.width - 2 * margin;
 
+  // En-tête de l'entreprise
+  doc.fontSize(16).text("La volaille en Bray", { align: "left" });
+
+  doc.moveDown(1.2); // Ajoute de l'espace après l'en-tête
+
+  doc
+    .fontSize(12)
+    .text("24 Rte de Beauvais, 76220 Ferrières-en-Bray", { align: "left" });
+  doc.moveDown(0.2);
+  doc.text(`Numéro de TVA : ${process.env.PRODUCER_TAX_ID}`, { align: "left" });
+
+  doc.moveDown(2); // Espacement avant le titre de la facture
+
+  doc.fontSize(20).text("Facture", { align: "left" });
+
+  doc.moveDown(1.4); // Espacement après le titre de la facture
+
+  // Informations sur la facture
   doc.fontSize(12).text(`Date : ${new Date().toLocaleDateString()}`);
+  doc.moveDown(0.2);
   doc.text(`Nom du producteur : ${process.env.PRODUCER_NAME}`);
+  doc.moveDown(0.2);
   doc.text(`Adresse du producteur : ${process.env.PRODUCER_ADDRESS}`);
-  doc.text(`Numéro de TVA : ${process.env.PRODUCER_TAX_ID}`);
 
-  doc.text(`\nClient : ${order.customerName}`);
+  doc.moveDown(1.5); // Espacement après les informations du producteur
+
+  // Informations sur le client
+  doc.text(`Client : ${order.customerName}`);
+  doc.moveDown(0.2);
   doc.text(`Adresse : ${order.customerAddress}`);
+  doc.moveDown(0.2);
   doc.text(`Email : ${order.customerEmail}`);
 
-  doc.text(`\nProduits commandés :`);
-  order.items.forEach((item, index) => {
-    doc.text(
-      `${index + 1}. ${item.title} - ${item.quantity} x ${item.price} €`
-    );
-  });
+  doc.moveDown(8); // Espace avant le tableau pour le placer vers le milieu
 
-  // Calcul du coût total
+  // Ajout d'un espace avant le tableau
+  const tableTop = doc.y;
+
+  // En-tête du tableau avec une bordure
+  const table = {
+    header: ["Produit", "Quantité", "Prix Unitaire", "Total"],
+    rows: order.items.map((item) => [
+      item.title,
+      item.quantity,
+      parseFloat(item.price).toFixed(2) + " €",
+      (item.quantity * parseFloat(item.price)).toFixed(2) + " €",
+    ]),
+    columnWidths: [pageWidth * 0.45, 80, 90, 90],
+  };
+
+  // Dessiner le tableau
+  drawTable(doc, tableTop, table);
+
+  doc.moveDown(2); // Espace après le tableau
+
+  // Ajouter cet espace avant le "Total TTC :"
+  doc.moveDown(1.6);
+
+  // Calcul du montant total
   const totalAmount = order.items.reduce(
     (sum, item) => sum + item.quantity * parseFloat(item.price),
     0
   );
 
-  doc.text(`\nTotal : ${totalAmount.toFixed(2)} €`);
+  // Section Total
+  // Ajout du total et du montant avec un alignement horizontal correct
+  const totalLabelX = margin;
+  const totalValueX = pageWidth + margin - 90; // Ajuster pour être en ligne avec "Total TTC :"
+  const totalY = doc.y;
 
+  doc.fontSize(12).text("Total TTC :", totalLabelX, totalY);
+  doc.text(`${totalAmount.toFixed(2)} €`, totalValueX, totalY);
+
+  doc.moveDown(6.5); // Espacement après le total
+
+  // Ajout d'un pied de page avec un mot de remerciement et les informations de contact, étiré sur toute la largeur
+  doc.fontSize(15).text("Merci pour votre achat !", margin, doc.y, {
+    align: "center",
+    width: pageWidth,
+  });
+
+  // Finalisation du document
   doc.end();
 }
 
-// Envoi de la facture par email
+// Fonction pour dessiner un tableau
+function drawTable(doc, startY, table) {
+  const { header, rows, columnWidths } = table;
+  let y = startY;
+
+  // Dessiner l'en-tête du tableau
+  doc
+    .fillColor("#f2f2f2")
+    .rect(
+      50,
+      y - 10,
+      columnWidths.reduce((a, b) => a + b, 0),
+      30
+    )
+    .fill();
+  doc.fillColor("#000").fontSize(12);
+
+  let x = 50;
+  header.forEach((text, i) => {
+    doc.text(text, x, y, { width: columnWidths[i], align: "center" });
+    x += columnWidths[i];
+  });
+
+  y += 30;
+
+  // Dessiner les lignes du tableau
+  rows.forEach((row) => {
+    x = 50;
+    row.forEach((text, i) => {
+      doc.text(text, x, y, { width: columnWidths[i], align: "center" });
+      x += columnWidths[i];
+    });
+    y += 30; // Ajuster l'espace après chaque ligne de tableau
+  });
+
+  // Dessiner la bordure du tableau
+  doc.strokeColor("#000").lineWidth(1);
+  doc
+    .rect(
+      50,
+      startY - 10,
+      columnWidths.reduce((a, b) => a + b, 0),
+      (rows.length + 1) * 30 + 20
+    )
+    .stroke();
+}
+
+// Fonction pour envoyer la facture par email
 export function sendInvoiceEmail(customerEmail, invoicePath) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
