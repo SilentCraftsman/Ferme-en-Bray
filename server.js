@@ -196,7 +196,7 @@ app.get("/api/stripe/success", async (req, res) => {
         text: `Le client de la commande : ${customerName}. 
                Le retrait de la commande par le client est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.`,
         html: `
-          <strong>Le nom et prénom qui figure sur la carte bancaire qui a payé de la commande : ${customerName}</strong><br>
+          <strong>Le nom et prénom qui figure sur la carte bancaire qui a payé la commande : ${customerName}</strong><br>
           Le retrait de la commande par le client est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.<br><br>
           <strong>Email du client :</strong> ${customerEmail}<br>
           <strong>Adresse du client :</strong> ${customerAddress}<br><br>
@@ -232,8 +232,6 @@ app.get("/api/stripe/success", async (req, res) => {
     } else {
       console.log("Payment not completed. Email not sent.");
     }
-
-    res.redirect("/success");
   } catch (err) {
     console.error("Error retrieving session or sending email:", err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
