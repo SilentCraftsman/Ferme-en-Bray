@@ -14,10 +14,10 @@ export default function AboutPage() {
         <h1>À propos de notre entreprise :</h1>
         <p>
           Nous sommes une entreprise spécialisée dans la production de produits
-          alimentaires à base de volailles. Depuis [année de création], nous
-          nous engageons à offrir des produits de la plus haute qualité tout en
-          respectant les standards les plus stricts en matière de sécurité
-          alimentaire et de durabilité.
+          alimentaires à base de volailles. Depuis 2023, nous nous engageons à
+          offrir des produits de la plus haute qualité tout en respectant les
+          standards les plus stricts en matière de sécurité alimentaire et de
+          durabilité.
         </p>
         {/* Utilisation du composant Image de Next.js pour une gestion sécurisée des images */}
         <Image

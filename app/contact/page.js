@@ -3,6 +3,9 @@
 
 import { useState } from "react";
 import "../../styles/contact.scss";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -43,7 +46,7 @@ export default function ContactPage() {
     }
 
     try {
-      const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+      const response = await fetch(process.env.NEXT_PUBLIC_FORMSPREE_URL, {
         // Remplacez "YOUR_FORM_ID" par votre vrai ID de formulaire
         method: "POST",
         headers: {
@@ -93,7 +96,7 @@ export default function ContactPage() {
           <strong>Adresse :</strong> 24 Rte de Beauvais, 76220 Ferrières-en-Bray
         </p>
         <p className="contact-info-item">
-          <strong>Téléphone :</strong> +33 1 23 45 67 89
+          <strong>Téléphone :</strong> 06 09 50 57 78
         </p>
         <p className="contact-info-item">
           <strong>Gérant :</strong> Bruno Bouchart
