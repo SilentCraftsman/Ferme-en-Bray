@@ -1,22 +1,25 @@
 // Variables
 $primary-color: #3498db;
 $primary-color-hover: #2980b9;
+$primary-color-active: #1d6fa5;
 $danger-color: #e74c3c;
 $danger-color-hover: #c0392b;
 $background-color-light: #f9f9f9;
 $text-color-dark: #333;
-$text-color-light: #555;
+$text-color-light: #fff;
 $border-color: #ddd;
 $box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 $border-radius: 8px;
 $transition: 0.3s ease;
+$font-family: Arial, sans-serif; // Définir la police commune
+$title-font-size: 1.2rem; // Taille de police pour les titres
 
 // Styles principaux
 .cartContainer {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  font-family: $font-family;
 
   h2 {
     font-size: 2rem;
@@ -97,15 +100,14 @@ $transition: 0.3s ease;
 
     button {
       background-color: $primary-color;
-      color: #fff;
+      color: $text-color-light;
       border: none;
       padding: 5px 10px;
-      border-radius: 5px;
+      border-radius: $border-radius;
       cursor: pointer;
       transition: background-color $transition, transform 0.2s ease;
-      margin-top: 5px;
+      margin: 0 5px;
       font-size: 1.2rem;
-      line-height: 1;
 
       &:hover {
         background-color: $primary-color-hover;
@@ -127,10 +129,10 @@ $transition: 0.3s ease;
 
   .removeProduct {
     background-color: $danger-color;
-    color: #fff;
+    color: $text-color-light;
     border: none;
     padding: 10px 15px;
-    border-radius: 5px;
+    border-radius: $border-radius;
     cursor: pointer;
     transition: background-color $transition, transform 0.2s ease;
     margin-top: 15px;
@@ -152,6 +154,16 @@ $transition: 0.3s ease;
     font-weight: bold;
     text-align: right;
     color: $text-color-dark;
+  }
+
+  // Styles pour les titres soulignés
+  .underlineTitle {
+    font-family: $font-family;
+    font-size: $title-font-size;
+    font-weight: bold;
+    text-decoration: underline;
+    color: $text-color-dark;
+    margin-bottom: 15px;
   }
 }
 
@@ -181,25 +193,24 @@ $transition: 0.3s ease;
 
 // Calendrier
 .datePickerContainer {
-  width: 95%;
+  width: 100%;
+  max-width: 800px; // Augmenter la largeur maximale
   margin: 40px auto;
-  padding: 10px;
+  padding: 20px;
   border: 1px solid $border-color;
   border-radius: $border-radius;
   background-color: #fff;
   box-shadow: $box-shadow;
-  max-width: 600px; // Limiter la largeur sur les grands écrans
-  text-decoration: underline black;
+  text-align: center;
 
   .dateTitle {
-    font-size: 1.2rem;
+    font-size: $title-font-size;
     margin: 0 0 15px;
     color: $text-color-dark;
-    text-align: center; // Centrer le texte pour une meilleure apparence sur petits écrans
   }
 
   .dateSelect {
-    width: 100%;
+    width: calc(100% - 20px); // Ajuster la largeur en fonction du padding
     padding: 10px;
     font-size: 1rem;
     border: 1px solid $border-color;
@@ -222,38 +233,121 @@ $transition: 0.3s ease;
     background-color: #f8d7da;
     color: $danger-color;
     font-size: 0.9rem;
-    text-align: center; // Centrer le texte de l'erreur
+    text-align: center;
+  }
+}
+
+// Informations sur le client
+.customerInfo {
+  width: 100%;
+  max-width: 800px; // Augmenter la largeur maximale
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  background-color: #fff;
+  box-shadow: $box-shadow;
+  text-align: center;
+
+  h3 {
+    font-size: $title-font-size;
+    color: $text-color-dark;
+    text-decoration: underline;
+    margin-bottom: 15px;
+  }
+
+  input {
+    width: calc(100% - 20px); // Ajuster la largeur en fonction du padding
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    font-size: 1rem;
+
+    &:focus {
+      border-color: $primary-color;
+      outline: none;
+    }
+  }
+}
+
+// Bouton de paiement
+.paymentButton {
+  background-color: $primary-color;
+  color: $text-color-light;
+  border: none;
+  padding: 12px 24px;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: background-color $transition, transform 0.2s ease,
+    box-shadow $transition;
+  font-size: 1.1rem;
+  font-weight: bold;
+  box-shadow: $box-shadow;
+  display: inline-block;
+  margin-top: 30px; // Le laisser là
+
+  &:hover {
+    background-color: $primary-color-hover;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    background-color: $primary-color-active;
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
   }
 }
 
 // Styles responsifs pour les tablettes et mobiles
 @media (max-width: 768px) {
-  .datePickerContainer {
+  .datePickerContainer,
+  .customerInfo {
     padding: 15px;
+    max-width: 100%;
   }
 
-  .dateSelect {
-    font-size: 0.9rem; // Réduire légèrement la taille de la police sur les petits écrans
+  .dateSelect,
+  .customerInfo input {
+    font-size: 0.9rem;
+  }
+
+  .paymentButton {
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
-  .datePickerContainer {
+  .datePickerContainer,
+  .customerInfo {
     width: 100%;
     margin: 20px auto;
     padding: 10px;
+    max-width: 100%;
   }
 
   .dateTitle {
-    font-size: 1rem; // Réduire la taille de la police pour les petits écrans
+    font-size: 1rem;
     margin: 0 0 10px;
   }
 
-  .dateSelect {
-    font-size: 0.8rem; // Réduire encore la taille de la police pour les très petits écrans
+  .dateSelect,
+  .customerInfo input {
+    font-size: 0.8rem;
   }
 
   .errorMessage {
-    font-size: 0.8rem; // Réduire la taille de la police de l'erreur pour les petits écrans
+    font-size: 0.8rem;
+  }
+
+  .paymentButton {
+    font-size: 0.8rem;
   }
 }

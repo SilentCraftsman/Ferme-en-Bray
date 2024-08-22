@@ -8,6 +8,12 @@ import styles from "../styles/CartPage.module.scss";
 
 const MAX_QUANTITY = 80;
 
+// Fonction pour valider l'email
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 const CartPage = () => {
   const { cart, updateQuantity, getTotal } = useCart();
   const [error, setError] = useState(null);
@@ -93,13 +99,46 @@ const CartPage = () => {
     return true;
   };
 
+  const validateForm = () => {
+    let isValid = true;
+    let errorMessage = "";
+
+    switch (true) {
+      case !customerName:
+        errorMessage = "Veuillez entrer un nom complet.";
+        isValid = false;
+        break;
+      case !customerAddress:
+        errorMessage = "Veuillez entrer une adresse.";
+        isValid = false;
+        break;
+      case !customerEmail:
+        errorMessage = "Veuillez entrer une adresse email.";
+        isValid = false;
+        break;
+      case !validateEmail(customerEmail):
+        errorMessage = "Veuillez entrer une adresse email valide.";
+        isValid = false;
+        break;
+      case !validateDateTime():
+        isValid = false;
+        break;
+      default:
+        errorMessage = "";
+        break;
+    }
+
+    setError(errorMessage);
+    return isValid;
+  };
+
   const createPayment = async () => {
     if (!stripeLoaded) {
       setError("Stripe.js has not loaded.");
       return;
     }
 
-    if (!validateDateTime()) {
+    if (!validateForm()) {
       return;
     }
 
@@ -213,7 +252,7 @@ const CartPage = () => {
           </ul>
           <h3 className={styles.total}>Total: {getTotal()} €</h3>
           <div className={styles.datePickerContainer}>
-            <h3 className="dateTitle">
+            <h3 className={styles.underlineTitle}>
               Sélectionnez le jour et l'heure de retrait :
             </h3>
             <select
@@ -224,7 +263,7 @@ const CartPage = () => {
               <option value="samedi">Samedi</option>
             </select>
             <select
-              className="dateSelect"
+              className={styles.dateSelect}
               value={pickupTime}
               onChange={(e) => setPickupTime(e.target.value)}
             >
@@ -259,9 +298,18 @@ const CartPage = () => {
               value={customerEmail}
               onChange={(e) => setCustomerEmail(e.target.value)}
             />
+            {error && (
+              <div
+                className={styles.errorMessage}
+                style={{ marginTop: "1rem" }}
+              >
+                {error}
+              </div>
+            )}
           </div>
-          <button onClick={createPayment}>Procéder au paiement</button>
-          {error && <div className={styles.errorMessage}>{error}</div>}
+          <button className={styles.paymentButton} onClick={createPayment}>
+            Procéder au paiement
+          </button>
         </>
       )}
     </div>
