@@ -253,9 +253,10 @@ const CartPage = () => {
           <h3 className={styles.total}>Total: {getTotal()} €</h3>
           <div className={styles.datePickerContainer}>
             <h3 className={styles.underlineTitle}>
-              Sélectionnez le jour et l'heure de retrait :
+              Précisez le jour et l'heure de retrait :
             </h3>
             <select
+              className={styles.dateSelect}
               value={pickupDay}
               onChange={(e) => setPickupDay(e.target.value)}
             >
@@ -279,7 +280,7 @@ const CartPage = () => {
             )}
           </div>
           <div className={styles.customerInfo}>
-            <h3>Informations sur le client</h3>
+            <h3>Renseignements nécessaires pour la commande :</h3>
             <input
               type="text"
               placeholder="Nom complet"

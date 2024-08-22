@@ -8,7 +8,7 @@ $background-color-light: #f9f9f9;
 $text-color-dark: #333;
 $text-color-light: #fff;
 $border-color: #ddd;
-$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+$box-shadow: 0 4px 10px rgba(0, 0, 0, 0.129);
 $border-radius: 8px;
 $transition: 0.3s ease;
 $font-family: Arial, sans-serif; // Définir la police commune
@@ -257,6 +257,7 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
   }
 
   input {
+    margin-top: 8px;
     width: calc(100% - 20px); // Ajuster la largeur en fonction du padding
     padding: 10px;
     margin-bottom: 15px;
@@ -286,7 +287,7 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
   font-weight: bold;
   box-shadow: $box-shadow;
   display: inline-block;
-  margin-top: 30px; // Le laisser là
+  margin-top: 40px; // Le laisser là
 
   &:hover {
     background-color: $primary-color-hover;
@@ -307,20 +308,13 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
 }
 
 // Styles responsifs pour les tablettes et mobiles
-@media (max-width: 768px) {
+@media (max-width: 905px) {
   .datePickerContainer,
   .customerInfo {
-    padding: 15px;
-    max-width: 100%;
-  }
-
-  .dateSelect,
-  .customerInfo input {
-    font-size: 0.9rem;
-  }
-
-  .paymentButton {
-    font-size: 0.9rem;
+    padding: 15px; // Réduit le padding pour les écrans plus petits
+    max-width: 100%; // Assure que le container ne dépasse pas
+    margin: 30px auto; // Centre le container horizontalement
+    box-sizing: border-box; // Inclut padding et bordure dans la largeur totale
   }
 }
 
@@ -328,7 +322,7 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
   .datePickerContainer,
   .customerInfo {
     width: 100%;
-    margin: 20px auto;
+    margin: 40px auto; // Centre le container horizontalement
     padding: 10px;
     max-width: 100%;
   }
@@ -349,5 +343,6 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
 
   .paymentButton {
     font-size: 0.8rem;
+    margin-top: 30px;
   }
 }
