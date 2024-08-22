@@ -5,49 +5,56 @@
       "image": "./images/main-images/image-1.jpg",
       "title": "Roulade de poulet - 800gr - 18.20 € le kg",
       "price": "14.56 €",
-      "ingredients": "Poulet, épices secrètes, ail, oignons, herbes de Provence."
+      "ingredients": "Poulet, épices secrètes, ail, oignons, herbes de Provence.",
+      "description": "Savourez une roulade de poulet tendre et parfumée aux épices secrètes, idéale pour un repas gourmand."
     },
     {
       "id": 2,
       "image": "./images/main-images/image-2.jpg",
       "title": "Roulade de pintade - 600gr - 23.40 € le kilo",
       "price": "14.04 €",
-      "ingredients": "Pintade, sauge, thym, échalotes, beurre."
+      "ingredients": "Pintade, sauge, thym, échalotes, beurre.",
+      "description": "Laissez-vous séduire par la finesse de la pintade, relevée de sauge et de thym pour un goût authentique."
     },
     {
       "id": 3,
       "image": "./images/main-images/image-3.jpg",
       "title": "Boudin blanc de volaille - 130gr - 15.90 € le kg",
       "price": "2.07 €",
-      "ingredients": "Volaille, crème fraîche, œufs, pain, épices."
+      "ingredients": "Volaille, crème fraîche, œufs, pain, épices.",
+      "description": "Dégustez ce boudin blanc délicat, mélange parfait de volaille et de crème pour un plaisir fondant."
     },
     {
       "id": 4,
       "image": "./images/main-images/image-4.jpg",
       "title": "Quenelles de volaille - 125gr - 16.80 € le kg",
       "price": "2.10 €",
-      "ingredients": "Volaille, farine, lait, œufs, beurre."
+      "ingredients": "Volaille, farine, lait, œufs, beurre.",
+      "description": "Découvrez nos quenelles de volaille, légères et savoureuses, parfaites pour un repas réconfortant."
     },
     {
       "id": 5,
       "image": "./images/main-images/image-1.jpg",
       "title": "Croquettes de poulet - 75gr - 19.80 € le kg",
       "price": "1.49 €",
-      "ingredients": "Poulet, chapelure, œufs, épices, huile de tournesol."
+      "ingredients": "Poulet, chapelure, œufs, épices, huile de tournesol.",
+      "description": "Croquantes à l'extérieur et fondantes à l'intérieur, nos croquettes de poulet sont irrésistibles."
     },
     {
       "id": 6,
       "image": "./images/main-images/image-2.jpg",
       "title": "Bouchée de volaille - 150gr - 19.80 € le kg",
       "price": "2.80 €",
-      "ingredients": "Volaille, fromage, herbes fraîches, épices, beurre."
+      "ingredients": "Volaille, fromage, herbes fraîches, épices, beurre.",
+      "description": "Savourez chaque bouchée de volaille au fromage fondant et aux herbes fraîches, un délice à partager."
     },
     {
       "id": 7,
       "image": "./images/main-images/image-2.jpg",
       "title": "Terrine de volaille - 250gr - 17.20 € le kg",
       "price": "4.30 €",
-      "ingredients": "Volaille, porc, cognac, échalotes, épices."
+      "ingredients": "Volaille, porc, cognac, échalotes, épices.",
+      "description": "Une terrine gourmande alliant volaille et porc, parfumée au cognac, parfaite pour vos apéritifs."
     }
   ],
   "outdoorPoultryProducts": [
@@ -57,6 +64,7 @@
       "title": "Poulet - 1.5kg - 9.10 € le kg",
       "price": "13.65 € et 18.20 €",
       "ingredients": "Poulet élevé en plein air, \"cou nu, roux, blanc\", herbes fraîches, ail, sel, poivre.",
+      "description": "Profitez de la tendreté et du goût authentique de notre poulet élevé en plein air, prêt à régaler toute la famille.",
       "variants": [
         {
           "variantId": "chicken-small-1.5kg",
@@ -77,42 +85,48 @@
       "image": "./images/main-images/image-3.jpg",
       "title": "Pintade - 1.7kg - 10.30 € le kg",
       "price": "17.51 €",
-      "ingredients": "Pintade, ail, oignons, herbes de Provence, sel, poivre."
+      "ingredients": "Pintade, ail, oignons, herbes de Provence, sel, poivre.",
+      "description": "La pintade fermière, délicatement parfumée aux herbes, promet un repas plein de saveurs raffinées."
     },
     {
       "id": 10,
       "image": "./images/main-images/image-1.jpg",
       "title": "Canette / Canard Barbarie - 2.2kg - 9.80 € le kg",
       "price": "21.56 €",
-      "ingredients": "Canard, oignons, épices, pommes, vin rouge, thym."
+      "ingredients": "Canard, oignons, épices, pommes, vin rouge, thym.",
+      "description": "Succombez à notre canard Barbarie, tendre et savoureux, sublimé par des épices et du vin rouge."
     },
     {
       "id": 11,
       "image": "./images/main-images/image-2.jpg",
       "title": "Cuisses de poulet - 300gr - 11.00 € le kg",
       "price": "3.30 €",
-      "ingredients": "Poulet, paprika, ail en poudre, sel, poivre, huile d'olive."
+      "ingredients": "Poulet, paprika, ail en poudre, sel, poivre, huile d'olive.",
+      "description": "Des cuisses de poulet marinées, prêtes à griller pour un repas simple et délicieux."
     },
     {
       "id": 12,
       "image": "./images/main-images/image-3.jpg",
       "title": "Filets de poulet - 250gr - 18.00 € le kg",
       "price": "4.50 €",
-      "ingredients": "Poulet, herbes fraîches, ail, citron, sel, poivre."
+      "ingredients": "Poulet, herbes fraîches, ail, citron, sel, poivre.",
+      "description": "Nos filets de poulet aux herbes et citron sont parfaits pour une cuisine rapide et savoureuse."
     },
     {
       "id": 13,
       "image": "./images/main-images/image-1.jpg",
       "title": "Ailerons de poulet - 800gr - 7.30 € le kg",
       "price": "5.84 €",
-      "ingredients": "Poulet, sauce soja, miel, ail, gingembre, sésame."
+      "ingredients": "Poulet, sauce soja, miel, ail, gingembre, sésame.",
+      "description": "Savourez nos ailerons de poulet caramélisés, un délice sucré-salé qui ravira vos papilles."
     },
     {
       "id": 14,
       "image": "./images/main-images/image-1.jpg",
       "title": "Dinde - 10kg - 8.10 € le kg",
       "price": "81.00 €",
-      "ingredients": "Dinde, (blanche entière ou découpée), oignons, céleri, carottes, thym, romarin."
+      "ingredients": "Dinde, (blanche entière ou découpée), oignons, céleri, carottes, thym, romarin.",
+      "description": "Une dinde généreuse, parfaite pour des repas festifs en famille, prête à être farcie ou cuisinée."
     }
   ],
   "holidayProducts": [
@@ -121,35 +135,40 @@
       "image": "./images/main-images/image-1.jpg",
       "title": "Poulet de Noël - 2.8kg - 11.80 € le kg",
       "price": "33.04 €",
-      "ingredients": "Poulet, (finission aliment + lait), lait, maïs, soja, herbes festives."
+      "ingredients": "Poulet, (finission aliment + lait), lait, maïs, soja, herbes festives.",
+      "description": "Pour un repas de Noël réussi, optez pour ce poulet festif, nourri aux herbes et prêt à émerveiller vos invités."
     },
     {
       "id": 16,
       "image": "./images/main-images/image-3.jpg",
       "title": "Poularde - 2.2kg - 11.00 € le kg",
       "price": "24.20 €",
-      "ingredients": "Poularde, \"Cou nu\" (finission aliment + lait), lait, blé, herbes fines, épices douces."
+      "ingredients": "Poularde, \"Cou nu\" (finission aliment + lait), lait, blé, herbes fines, épices douces.",
+      "description": "La poularde est le choix parfait pour un repas raffiné, avec une chair tendre et des saveurs délicates."
     },
     {
       "id": 17,
       "image": "./images/main-images/image-4.jpg",
       "title": "Chapon - 3.5kg - 13.50 € le kg",
       "price": "47.25 €",
-      "ingredients": "Chapon, \"roux\", maïs, légumes racines, herbes aromatiques."
+      "ingredients": "Chapon, \"roux\", maïs, légumes racines, herbes aromatiques.",
+      "description": "Optez pour ce chapon de qualité, nourri aux herbes aromatiques, idéal pour vos fêtes de fin d'année."
     },
     {
       "id": 18,
       "image": "./images/main-images/image-1.jpg",
       "title": "Dinde - 5kg - 12.40 € le kg",
       "price": "62.00 €",
-      "ingredients": "Dinde, \"Bronzée d'Amérique\" ou \"noir\", maïs, épices festives, herbes, beurre."
+      "ingredients": "Dinde, \"Bronzée d'Amérique\" ou \"noir\", maïs, épices festives, herbes, beurre.",
+      "description": "Cette dinde festive, juteuse et pleine de saveurs, est la pièce maîtresse de vos repas de fête."
     },
     {
       "id": 19,
       "image": "./images/main-images/image-2.jpg",
       "title": "Canette de Barbarie - 2.2kg - 9.80 € le kg",
       "price": "21.56 €",
-      "ingredients": "Canette, vin blanc, ail, échalotes, thym."
+      "ingredients": "Canette, vin blanc, ail, échalotes, thym.",
+      "description": "La canette de Barbarie, mijotée au vin blanc, est un régal pour les amateurs de volaille de caractère."
     }
   ]
 }

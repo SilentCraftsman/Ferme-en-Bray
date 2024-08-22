@@ -108,6 +108,21 @@ export function createInvoice(order, path) {
 function drawTable(doc, startY, table) {
   const { header, rows, columnWidths } = table;
   let y = startY;
+  const rowHeight = 30; // Hauteur de chaque ligne de tableau
+  const bottomPadding = 15; // Ajout d'un espace supplémentaire en bas de la dernière ligne du tableau
+
+  // Ajuster la taille de la police en fonction du nombre de lignes
+  const fontSize = rows.length > 10 ? 10 : 12; // Si plus de 10 lignes, réduire la police
+  doc.fontSize(fontSize);
+
+  // Fonction pour dessiner une ligne de tableau
+  const drawRow = (row, y) => {
+    let x = 50;
+    row.forEach((text, i) => {
+      doc.text(text, x, y, { width: columnWidths[i], align: "center" });
+      x += columnWidths[i];
+    });
+  };
 
   // Dessiner l'en-tête du tableau
   doc
@@ -116,10 +131,10 @@ function drawTable(doc, startY, table) {
       50,
       y - 10,
       columnWidths.reduce((a, b) => a + b, 0),
-      30
+      rowHeight
     )
     .fill();
-  doc.fillColor("#000").fontSize(12);
+  doc.fillColor("#000").fontSize(fontSize);
 
   let x = 50;
   header.forEach((text, i) => {
@@ -127,26 +142,65 @@ function drawTable(doc, startY, table) {
     x += columnWidths[i];
   });
 
-  y += 30;
+  y += rowHeight;
 
   // Dessiner les lignes du tableau
-  rows.forEach((row) => {
-    x = 50;
-    row.forEach((text, i) => {
-      doc.text(text, x, y, { width: columnWidths[i], align: "center" });
-      x += columnWidths[i];
-    });
-    y += 30; // Ajuster l'espace après chaque ligne de tableau
+  rows.forEach((row, index) => {
+    // Vérifier si on doit passer à une nouvelle page
+    if (y + rowHeight + bottomPadding > doc.page.height - 100) {
+      // -100 pour garder une marge en bas
+      // Finaliser la bordure du tableau avant de passer à une nouvelle page
+      doc.strokeColor("#000").lineWidth(1);
+      doc
+        .rect(
+          50,
+          startY - 10,
+          columnWidths.reduce((a, b) => a + b, 0),
+          y - startY
+        )
+        .stroke();
+
+      doc.addPage();
+      y = 50; // Réinitialiser la position verticale
+
+      // Redessiner l'en-tête du tableau sur la nouvelle page
+      doc
+        .fillColor("#f2f2f2")
+        .rect(
+          50,
+          y - 10,
+          columnWidths.reduce((a, b) => a + b, 0),
+          rowHeight
+        )
+        .fill();
+      doc.fillColor("#000").fontSize(fontSize);
+
+      x = 50;
+      header.forEach((text, i) => {
+        doc.text(text, x, y, { width: columnWidths[i], align: "center" });
+        x += columnWidths[i];
+      });
+
+      y += rowHeight;
+    }
+
+    drawRow(row, y);
+    y += rowHeight; // Ajuster l'espace après chaque ligne de tableau
+
+    // Ajouter une marge supplémentaire après la dernière ligne du tableau de la page
+    if (index === rows.length - 1) {
+      y += bottomPadding;
+    }
   });
 
-  // Dessiner la bordure du tableau
+  // Dessiner la bordure finale du tableau
   doc.strokeColor("#000").lineWidth(1);
   doc
     .rect(
       50,
       startY - 10,
       columnWidths.reduce((a, b) => a + b, 0),
-      (rows.length + 1) * 30 + 20
+      y - startY
     )
     .stroke();
 }
