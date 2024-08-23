@@ -13,6 +13,7 @@ const Modal = ({ show, onClose, product }) => {
     product.variants ? product.variants[0] : null
   );
   const [error, setError] = useState("");
+  const [isZoomed, setIsZoomed] = useState(false);
   const { addToCart, cart } = useCart();
 
   const handleAddToCart = () => {
@@ -81,12 +82,17 @@ const Modal = ({ show, onClose, product }) => {
           ×
         </button>
         <h2>{sanitizedTitle}</h2>
-        <img
-          src={sanitizedImage}
-          alt={sanitizedTitle}
-          className="modal-image"
-        />
-        <p className="description-title">Description :</p>
+        <div
+          className={`modal-image-wrapper ${isZoomed ? "zoomed" : ""}`}
+          onClick={() => setIsZoomed(!isZoomed)}
+        >
+          <img
+            src={sanitizedImage}
+            alt={sanitizedTitle}
+            className="modal-image"
+          />
+        </div>
+        <p className="description-title">Ingrédients :</p>
         <p>{sanitizedIngredients}</p>
 
         {product.variants && (

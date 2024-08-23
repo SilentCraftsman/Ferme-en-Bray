@@ -1,4 +1,4 @@
-// styles/Modal.scss
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 
 .modal-overlay {
   position: fixed;
@@ -6,7 +6,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,71 +15,94 @@
 
 .modal-content {
   background: #fff;
-  padding: 15px;
-  border-radius: 8px;
+  padding: 20px;
+  border-radius: 16px;
   width: 90%;
-  max-width: 500px;
-  max-height: 80vh; /* Limite la hauteur de la modale */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 600px; /* Augmenté la largeur maximale de la modale */
+  max-height: 90vh;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1001;
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Assure que les boutons restent en bas */
+  justify-content: space-between;
+  animation: fadeIn 0.3s ease-in-out;
+  font-family: "Roboto", sans-serif;
 
   .modal-close-button {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
+    top: 15px;
+    right: 15px;
+    background: #ff5c5c;
     border: none;
-    font-size: 1.5rem;
-    color: #333;
-    cursor: pointer;
-  }
-
-  .modal-image {
-    max-width: 100%;
-    max-height: 120px; /* Réduit la hauteur pour les petits écrans */
-    height: auto;
-    border-radius: 8px;
-    margin: 10px 0;
-    object-fit: cover;
-  }
-
-  .description-title {
-    margin: 10px 0;
-    color: #130202;
-    text-decoration: underline;
-    font-size: 1rem;
-  }
-
-  .rating-summary {
-    margin: 10px 0;
-    font-size: 1rem;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
 
-    .rating-stars {
-      font-size: 1.2rem; /* Ajuste la taille des étoiles */
-      margin-right: 5px;
+    &:hover {
+      background: #ff3a3a;
     }
+  }
+
+  h2 {
+    margin-top: 50px;
+  }
+
+  .modal-image-wrapper {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    cursor: zoom-in;
+    margin: 15px 0;
+    width: 100%; /* Assurez-vous que la wrapper prend toute la largeur disponible */
+    height: auto;
+
+    .modal-image {
+      width: 80%;
+      height: 300px; /* Hauteur fixe pour l'image */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: transform 0.3s ease;
+      object-fit: scale-down;
+    }
+
+    &.zoomed .modal-image {
+      cursor: zoom-out;
+      transform: scale(2); /* Ajustez le facteur de zoom ici */
+    }
+  }
+
+  .description-title {
+    margin: 10px 0 0 0;
+    color: #333;
+    text-decoration: underline;
+    font-size: 1.2rem;
+    font-weight: 500;
   }
 
   label {
     display: block;
-    margin: 5px 0;
-    font-size: 0.9rem;
+    margin: 10px 0;
+    font-size: 1rem;
     color: #333;
 
     input {
-      margin-left: 5px;
-      padding: 5px;
-      font-size: 0.9rem;
-      width: 60px;
+      margin-left: 10px;
+      padding: 8px;
+      font-size: 1rem;
+      width: 80px;
       text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 4px;
     }
   }
 
@@ -88,100 +111,112 @@
     display: flex;
     justify-content: center;
     flex-direction: row;
-    gap: 10px; /* Espace entre les boutons */
+    gap: 15px;
+    margin-top: 15px;
 
     button {
-      padding: 5px 10px;
+      padding: 10px 20px;
       border: none;
-      border-radius: 4px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: background 0.3s, transform 0.2s;
 
       &:first-child {
-        background-color: #28a745;
+        background: #28a745;
         color: #fff;
+
+        &:hover {
+          background: #218838;
+          transform: scale(1.05);
+        }
       }
 
       &:last-child {
-        background-color: #dc3545;
+        background: #dc3545;
         color: #fff;
+
+        &:hover {
+          background: #c82333;
+          transform: scale(1.05);
+        }
       }
     }
   }
 
-  // Style pour le message d'erreur
   .error-message {
     color: red;
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-top: 10px;
   }
 }
 
 @media (max-width: 1200px) {
   .modal-content {
-    padding: 10px;
-    max-width: 450px;
+    padding: 15px;
+    max-width: 500px; /* Ajusté pour maintenir la proportion */
     margin: 20px;
   }
 
   .modal-image {
-    max-height: 100px;
+    height: 250px; /* Augmenté la hauteur maximale */
   }
 }
 
 @media (max-width: 768px) {
   .modal-content {
-    padding: 10px;
-    width: calc(100% - 20px);
+    padding: 15px;
+    width: calc(100% - 30px);
     margin: 20px;
   }
 
   .modal-image {
-    max-height: 80px;
+    height: 200px; /* Ajusté pour s'adapter aux tailles plus petites */
   }
 
   .modal-buttons {
     flex-direction: column;
-    gap: 8px;
-  }
-
-  .rating-summary {
-    font-size: 0.9rem;
+    gap: 10px;
   }
 }
 
 @media (max-width: 480px) {
   .modal-content {
-    padding: 10px;
-    width: calc(100% - 20px);
+    padding: 15px;
+    width: calc(100% - 30px);
     margin: 10px;
     box-sizing: border-box;
   }
 
   .modal-image {
-    max-height: 80px;
-  }
-
-  .rating-summary {
-    font-size: 0.7rem;
+    height: 150px; /* Ajusté pour les petits écrans */
   }
 
   .modal-buttons {
     margin-top: 15px;
-    display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 5px;
-    width: 100%;
+    gap: 8px;
   }
 
   .modal-buttons button {
-    padding: 5px;
-    font-size: 0.8rem;
+    padding: 8px;
+    font-size: 0.9rem;
     box-sizing: border-box;
-    margin: 0;
     height: 2.5rem;
-    width: 40%;
+    width: 100%;
     text-align: center;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
