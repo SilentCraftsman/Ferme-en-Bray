@@ -1,4 +1,4 @@
-// styles/header.scss
+// styles/Header.scss
 
 // Variables (définies ici pour personnaliser facilement les couleurs, tailles et espacements)
 $header-bg-color: #333;
@@ -22,7 +22,6 @@ $cart-icon-font-size: 12px;
   justify-content: center;
   position: relative;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  animation: fadeInFromLeft 2s ease-out;
 
   .header-title {
     font-size: 2.5rem;
@@ -31,9 +30,10 @@ $cart-icon-font-size: 12px;
     margin-bottom: 1rem;
     text-align: center;
     word-wrap: break-word;
-    opacity: 0;
-    transform: translateX(-10px);
-    animation: slideInFromLeft 2s ease-out forwards;
+  }
+
+  nav {
+    width: 100%;
   }
 
   .nav-list {
@@ -41,10 +41,9 @@ $cart-icon-font-size: 12px;
     padding: 0;
     margin: 0;
     display: flex;
+    justify-content: center;
     gap: $nav-list-gap;
-    opacity: 0;
-    transform: translateX(-10px);
-    animation: slideInFromLeft 2s ease-out 1s forwards;
+    flex-wrap: wrap; // Permet aux éléments de passer à la ligne si nécessaire
 
     li {
       display: inline-block;
@@ -92,61 +91,26 @@ $cart-icon-font-size: 12px;
   }
 }
 
-// Animations
-@keyframes fadeInFromLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInFromLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 // Responsive Design
-@media (max-width: 1024px) {
-  // Tablettes en orientation paysage
-  .header-title {
-    font-size: 2rem;
-  }
-
-  .nav-list {
-    gap: 12px;
-  }
-}
-
 @media (max-width: 768px) {
-  // Tablettes en orientation portrait
   .header-title {
     font-size: 1.8rem;
     margin-bottom: 0.75rem;
   }
 
   .nav-list {
+    display: grid; // Utilisation du grid pour la mise en page en colonnes
     gap: 10px;
-    flex-direction: column; // Changer la direction pour mieux s'adapter
-    align-items: center; // Centrer les éléments
+    grid-template-columns: repeat(2, 1fr); // Deux colonnes
+    justify-items: center; // Centrer les éléments dans les colonnes
   }
 
-  .cart-icon-container {
-    margin-top: 1rem; // Ajouter un espace en haut
+  .nav-item {
+    grid-column: span 2; // Faire en sorte que le Panier occupe toute la largeur
   }
 }
 
 @media (max-width: 480px) {
-  // Portables
   .header-title {
     font-size: 1rem;
     margin-bottom: 0.5rem;
@@ -154,10 +118,9 @@ $cart-icon-font-size: 12px;
 
   .nav-list {
     gap: 5px;
-    flex-direction: column; // Garder la direction verticale
-  }
-
-  .cart-icon-container {
-    margin-top: 0.5rem; // Réduire l'espace en haut
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); // Toujours deux colonnes pour les écrans les plus petits
   }
 }

@@ -39,10 +39,7 @@ export default function Header() {
           </li>
           <li className="nav-item">
             <Link href="/cart" className="cart-link" passHref>
-              <div
-                className="cart-icon-container"
-                style={{ marginTop: "2.5px" }}
-              >
+              <div className="cart-icon-container">
                 <FaShoppingCart />
                 {itemCount > 0 && (
                   <span className="cart-item-count">{itemCount}</span>
