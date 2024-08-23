@@ -41,7 +41,7 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
     transition: background-color $transition;
 
     &:hover {
-      background-color: $background-color-light;
+      transform: scale(1.05);
     }
 
     img {
@@ -318,7 +318,17 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 430px) {
+  .cartContainer {
+    .quantityButtons {
+      margin-top: 40px;
+    }
+    .priceQuantity {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
   .datePickerContainer,
   .customerInfo {
     width: 100%;
