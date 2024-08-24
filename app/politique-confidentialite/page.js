@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/politique-confidentialite.scss"; // Assure-toi d'importer le bon fichier de style
+import "../../styles/politique-confidentialite.scss";
 
 const PolitiqueConfidentialite = () => (
   <div className="politique-confidentialite-container">

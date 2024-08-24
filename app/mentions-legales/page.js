@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/mentions-legales.scss"; // Assure-toi d'importer le bon fichier de style
+import "../../styles/mentions-legales.scss";
 
 const MentionsLegales = () => (
   <div className="mentions-legales-container">

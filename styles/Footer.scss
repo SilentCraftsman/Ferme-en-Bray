@@ -18,6 +18,10 @@ $footer-link-hover-color: #ddd;
   position: relative; // Utilisation de 'relative' au lieu de 'fixed'
   width: 100%;
 
+  p {
+    margin: 5px;
+  }
+
   .footer-content {
     display: flex;
     flex-direction: column;
@@ -26,6 +30,7 @@ $footer-link-hover-color: #ddd;
 
   .footer-links {
     margin-top: 10px;
+    margin-bottom: 10px;
     a {
       color: $footer-link-color;
       margin: 0 10px;

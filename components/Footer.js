@@ -6,12 +6,6 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-content">
-        <p>
-          La volaille en bray - &copy; 2024
-          <br />
-          Tous droits réservés.
-        </p>
-
         <div className="footer-links">
           <a href="/mentions-legales" rel="noopener noreferrer">
             Mentions légales
@@ -26,7 +20,8 @@ const Footer = () => {
             Contact
           </a>
         </div>
-
+        <p>La volaille en bray - &copy; 2024</p>
+        <p>Tous droits réservés.</p>
         <div className="social-media">
           <a
             href="https://www.facebook.com/groups/355255679901634/"
