@@ -6,6 +6,8 @@ $footer-text-color: white;
 $social-media-link-color: white;
 $social-media-link-hover-color: #ddd;
 $social-media-link-margin: 10px;
+$footer-link-color: #fff;
+$footer-link-hover-color: #ddd;
 
 // Style principal du footer
 .footer {
@@ -16,7 +18,26 @@ $social-media-link-margin: 10px;
   position: relative; // Utilisation de 'relative' au lieu de 'fixed'
   width: 100%;
 
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-links {
+    margin-top: 10px;
+    a {
+      color: $footer-link-color;
+      margin: 0 10px;
+      text-decoration: none;
+      &:hover {
+        color: $footer-link-hover-color;
+      }
+    }
+  }
+
   .social-media {
+    margin-top: 10px;
     a {
       color: $social-media-link-color;
       margin: 0 $social-media-link-margin;
@@ -33,11 +54,17 @@ $social-media-link-margin: 10px;
 @media (max-width: 768px) {
   .footer {
     padding: 15px 0;
-  }
 
-  .social-media {
-    a {
-      margin: 0 8px; // Réduit l'espace entre les liens pour les écrans plus petits
+    .footer-links {
+      a {
+        margin: 0 8px; // Réduit l'espace entre les liens pour les écrans plus petits
+      }
+    }
+
+    .social-media {
+      a {
+        margin: 0 8px; // Réduit l'espace entre les liens pour les écrans plus petits
+      }
     }
   }
 }
@@ -45,11 +72,17 @@ $social-media-link-margin: 10px;
 @media (max-width: 480px) {
   .footer {
     padding: 20px 0;
-  }
 
-  .social-media {
-    a {
-      margin: 0 5px; // Réduit encore plus l'espace entre les liens pour les très petits écrans
+    .footer-links {
+      a {
+        margin: 0 5px; // Réduit encore plus l'espace entre les liens pour les très petits écrans
+      }
+    }
+
+    .social-media {
+      a {
+        margin: 0 5px; // Réduit encore plus l'espace entre les liens pour les très petits écrans
+      }
     }
   }
 }
