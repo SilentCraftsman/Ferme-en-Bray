@@ -1,4 +1,4 @@
-// C:\Users\giogi\Desktop\mon-site-de-volailles\app\cgv\page.js
+// app\cgv\page.js
 
 import "../../styles/cgv.scss";
 
@@ -20,7 +20,7 @@ const Cgv = () => {
         <h2>1. Objet</h2>
         <p>
           Les présentes CGV visent à définir les modalités de vente entre la
-          société "La volaille en bray" et le client.
+          société "La volaille en Bray" et le client.
         </p>
       </section>
 
@@ -36,7 +36,7 @@ const Cgv = () => {
         <h2>3. Prix</h2>
         <p>
           Les prix sont indiqués en euros, toutes taxes comprises. "La volaille
-          en bray" se réserve le droit de modifier les prix à tout moment.
+          en Bray" se réserve le droit de modifier les prix à tout moment.
         </p>
       </section>
 
