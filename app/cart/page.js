@@ -5,6 +5,11 @@
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
+export const metadata = {
+  title: "Panier - Entreprise de Volailles",
+  description: "Découvrez nos produits à base de volailles.",
+};
+
 // Importation dynamique pour éviter les charges inutiles lors du rendu initial
 const CartPage = dynamic(() => import("../../components/CartPage"), {
   loading: () => <p>Chargement...</p>, // Composant de chargement pour améliorer l'expérience utilisateur
