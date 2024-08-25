@@ -16,6 +16,9 @@ const Footer = () => {
           <a href="/cgu" rel="noopener noreferrer">
             Conditions générales d'utilisation (CGU)
           </a>
+          <a href="/cgv" rel="noopener noreferrer">
+            Conditions générales de vente (CGV)
+          </a>
           <a href="/contact" rel="noopener noreferrer">
             Contact
           </a>

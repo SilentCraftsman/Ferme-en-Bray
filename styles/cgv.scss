@@ -1,0 +1,78 @@
+.cgv-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #0070f3; // Couleur principale, semblable à CGU
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #0070f3; // Utilise la même couleur pour les sous-titres
+    border-bottom: 2px solid #0070f3;
+    padding-bottom: 5px;
+  }
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-align: justify;
+    color: #555;
+
+    strong {
+      font-weight: bold;
+      color: #000;
+    }
+  }
+
+  // Styles spécifiques pour les informations de contact
+  section:last-of-type {
+    margin-top: 30px;
+
+    p {
+      font-size: 1.1rem;
+      color: #333;
+      line-height: 1.8;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 15px;
+
+    h1 {
+      font-size: 1.75rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+}
