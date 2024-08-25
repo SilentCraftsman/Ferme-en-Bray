@@ -2,11 +2,6 @@
 import "../../styles/about.scss";
 import Image from "next/image";
 
-export const metadata = {
-  title: "À propos - Entreprise de Volailles",
-  description: "En savoir plus sur l'Entreprise de Volailles.",
-};
-
 export default function AboutPage() {
   return (
     <div className="about-container">
