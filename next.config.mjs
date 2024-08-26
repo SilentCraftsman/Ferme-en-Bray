@@ -8,8 +8,7 @@ const nextConfig = {
     EMAIL_USER: process.env.EMAIL_USER,
     EMAIL_PASS: process.env.EMAIL_PASS,
   },
-  output: "export", // Pour l'exportation statique
-  // Assure-toi que le paramètre output est correctement configuré
+  output: "export",
 };
 
 export default nextConfig;
