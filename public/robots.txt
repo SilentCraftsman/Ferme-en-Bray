@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://lavolailleenbray.com/sitemap.xml
