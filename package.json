@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "node server.js",
     "lint": "next lint",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "export": "next export"
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.3",
