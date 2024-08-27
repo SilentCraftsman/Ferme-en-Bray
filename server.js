@@ -1,6 +1,4 @@
 import express from "express";
-import axios from "axios";
-import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import Stripe from "stripe";
@@ -9,10 +7,14 @@ import bodyParser from "body-parser";
 import { MongoClient, ObjectId } from "mongodb";
 import path from "path";
 import fs from "fs";
+import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
 
 dotenv.config();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Initialisation des clients externes
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2022-11-15",
+});
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const app = express();
@@ -20,7 +22,10 @@ const port = process.env.PORT || 3001;
 
 // Connexion à MongoDB
 const mongoUri = process.env.MONGODB_URI;
-const client = new MongoClient(mongoUri);
+const client = new MongoClient(mongoUri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 let ordersCollection;
 
 (async () => {
@@ -142,7 +147,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       payment_intent_data: {
         application_fee_amount: applicationFeeAmount,
         transfer_data: {
-          destination: `${process.env.PRODUCER_ACCOUNT_ID}`,
+          destination: process.env.PRODUCER_ACCOUNT_ID,
         },
       },
       customer_email: customerEmail,
@@ -165,6 +170,10 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
 // Route pour vérifier le statut de paiement et envoyer l'email si le paiement est réussi
 app.get("/api/stripe/success", async (req, res) => {
   const { session_id } = req.query;
+
+  if (!session_id) {
+    return res.status(400).send("Bad Request: session_id is required");
+  }
 
   try {
     const session = await stripe.checkout.sessions.retrieve(session_id);
@@ -261,6 +270,7 @@ app.get("/api/stripe/success", async (req, res) => {
       }, 1000); // Temporisation de 1 seconde pour s'assurer que le fichier est écrit
     } else {
       console.log("Payment not completed. Email not sent.");
+      res.status(400).send("Payment not completed.");
     }
   } catch (err) {
     console.error("Error retrieving session or sending email:", err);
