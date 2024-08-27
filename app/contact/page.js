@@ -17,6 +17,11 @@ export default function ContactPage() {
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
 
+  useEffect(() => {
+    // Affiche la valeur de la variable d'environnement dans la console du navigateur
+    console.log("Formspree URL:", process.env.NEXT_PUBLIC_FORMSPREE_URL);
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     // Validation simple côté client
