@@ -33,20 +33,16 @@ export default function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation basique des données
-    if (
-      !formData.prenom ||
-      !formData.nom ||
-      !formData.email ||
-      !formData.message
-    ) {
+    const url = process.env.NEXT_PUBLIC_FORMSPREE_URL;
+
+    if (!url) {
       setMessageType("error");
-      setMessage("Tous les champs sont requis.");
+      setMessage("L'URL du formulaire n'est pas définie.");
       return;
     }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_FORMSPREE_URL}`, {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
