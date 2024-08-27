@@ -17,28 +17,17 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Déclaration de apiBaseUrl
-const apiBaseUrl =
-  process.env.NODE_ENV === "production"
-    ? "https://site-de-volaille-0f64d822f48c.herokuapp.com"
-    : "http://localhost:3001";
-
+// Connexion à MongoDB
 const mongoUri = process.env.MONGODB_URI;
 const client = new MongoClient(mongoUri);
 let ordersCollection;
 
-// Connexion à MongoDB
 (async () => {
   try {
     await client.connect();
     console.log("Connected to MongoDB");
     const db = client.db("shop");
     ordersCollection = db.collection("orders");
-
-    // Démarrage du serveur après la connexion à MongoDB
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-    });
   } catch (error) {
     console.error("Error connecting to MongoDB", error);
   }
@@ -46,7 +35,7 @@ let ordersCollection;
 
 app.use(
   cors({
-    origin: "https://www.lavolailleenbray.com",
+    origin: process.env.CORS_ORIGIN || "*", // Assurez-vous de configurer correctement la politique CORS en production
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -54,113 +43,110 @@ app.use(
 app.use(bodyParser.json());
 
 // Route pour créer une session de paiement
-app.post(
-  `${apiBaseUrl}/api/stripe/create-checkout-session`,
-  async (req, res) => {
-    const {
+app.post("/api/stripe/create-checkout-session", async (req, res) => {
+  const {
+    items,
+    pickupDay,
+    pickupTime,
+    customerName,
+    customerEmail,
+    customerAddress,
+  } = req.body;
+
+  if (
+    !Array.isArray(items) ||
+    items.length === 0 ||
+    !customerName ||
+    !customerEmail
+  ) {
+    console.error("Invalid request data:", req.body);
+    return res.status(400).send("Bad Request: Invalid request data");
+  }
+
+  try {
+    const lineItems = items.map((item) => {
+      const selectedVariant = item.selectedVariant;
+      let updatedTitle = item.title;
+
+      if (selectedVariant) {
+        updatedTitle = updatedTitle.replace(
+          /(\d+(\.\d+)?kg)/,
+          selectedVariant.weight
+        );
+      }
+
+      const unitAmount = Math.round(
+        parseFloat(
+          selectedVariant
+            ? selectedVariant.price
+            : item.price.replace("€", "").replace(",", ".")
+        ) * 100
+      );
+
+      return {
+        price_data: {
+          currency: "eur",
+          product_data: {
+            name: updatedTitle,
+            images: [item.image],
+          },
+          unit_amount: unitAmount,
+        },
+        quantity: item.quantity,
+      };
+    });
+
+    const totalAmount = lineItems.reduce(
+      (sum, item) => sum + item.price_data.unit_amount * item.quantity,
+      0
+    );
+    const applicationFeeAmount = Math.round(totalAmount * 0.05);
+
+    // Stockage des détails de la commande dans MongoDB
+    const order = {
       items,
       pickupDay,
       pickupTime,
       customerName,
       customerEmail,
       customerAddress,
-    } = req.body;
+      createdAt: new Date(),
+    };
+    const result = await ordersCollection.insertOne(order);
+    const orderId = result.insertedId;
 
-    if (
-      !Array.isArray(items) ||
-      items.length === 0 ||
-      !customerName ||
-      !customerEmail
-    ) {
-      console.error("Invalid request data:", req.body);
-      return res.status(400).send("Bad Request: Invalid request data");
-    }
-
-    try {
-      const lineItems = items.map((item) => {
-        const selectedVariant = item.selectedVariant;
-        let updatedTitle = item.title;
-
-        if (selectedVariant) {
-          updatedTitle = updatedTitle.replace(
-            /(\d+(\.\d+)?kg)/,
-            selectedVariant.weight
-          );
-        }
-
-        const unitAmount = Math.round(
-          parseFloat(
-            selectedVariant
-              ? selectedVariant.price
-              : item.price.replace("€", "").replace(",", ".")
-          ) * 100
-        );
-
-        return {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: updatedTitle,
-              images: [item.image],
-            },
-            unit_amount: unitAmount,
-          },
-          quantity: item.quantity,
-        };
-      });
-
-      const totalAmount = lineItems.reduce(
-        (sum, item) => sum + item.price_data.unit_amount * item.quantity,
-        0
-      );
-      const applicationFeeAmount = Math.round(totalAmount * 0.05);
-
-      // Stockage des détails de la commande dans MongoDB
-      const order = {
-        items,
+    // Création de la session Stripe
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: lineItems,
+      mode: "payment",
+      success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.BASE_URL}/cancel`,
+      payment_intent_data: {
+        application_fee_amount: applicationFeeAmount,
+        transfer_data: {
+          destination: process.env.PRODUCER_ACCOUNT_ID,
+        },
+      },
+      customer_email: customerEmail,
+      metadata: {
+        order_id: orderId.toString(),
         pickupDay,
         pickupTime,
-        customerName,
-        customerEmail,
-        customerAddress,
-        createdAt: new Date(),
-      };
-      const result = await ordersCollection.insertOne(order);
-      const orderId = result.insertedId;
+      },
+      billing_address_collection: "required",
+      customer_creation: "always",
+    });
 
-      // Création de la session Stripe
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        line_items: lineItems,
-        mode: "payment",
-        success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.BASE_URL}/cancel`,
-        payment_intent_data: {
-          application_fee_amount: applicationFeeAmount,
-          transfer_data: {
-            destination: process.env.PRODUCER_ACCOUNT_ID,
-          },
-        },
-        customer_email: customerEmail,
-        metadata: {
-          order_id: orderId.toString(),
-          pickupDay,
-          pickupTime,
-        },
-        billing_address_collection: "required",
-        customer_creation: "always",
-      });
-
-      res.json({ id: session.id });
-    } catch (err) {
-      console.error("Error creating checkout session:", err);
-      res.status(500).send(`Internal Server Error: ${err.message}`);
-    }
+    res.json({ id: session.id });
+  } catch (err) {
+    console.error("Error creating checkout session:", err);
+    res.status(500).send(`Internal Server Error: ${err.message}`);
   }
-);
+});
 
 // Route pour vérifier le statut de paiement et envoyer l'email si le paiement est réussi
-app.get(`${apiBaseUrl}/api/stripe/success`, async (req, res) => {
+app.get("/api/stripe/success", async (req, res) => {
   const { session_id } = req.query;
 
   try {
@@ -245,15 +231,17 @@ app.get(`${apiBaseUrl}/api/stripe/success`, async (req, res) => {
       createInvoice(order, invoicePath);
 
       // Attendez que le fichier soit complètement écrit
-      fs.promises
-        .access(invoicePath, fs.constants.F_OK)
-        .then(() => sendInvoiceEmail(customerEmail, invoicePath))
-        .catch(() => {
+      setTimeout(() => {
+        // Envoyez la facture par email
+        if (fs.existsSync(invoicePath)) {
+          sendInvoiceEmail(customerEmail, invoicePath);
+        } else {
           console.error("Invoice file was not created.");
           res
             .status(500)
             .send("Internal Server Error: Invoice file not created.");
-        });
+        }
+      }, 1000); // Temporisation de 1 seconde pour s'assurer que le fichier est écrit
     } else {
       console.log("Payment not completed. Email not sent.");
     }
@@ -263,23 +251,6 @@ app.get(`${apiBaseUrl}/api/stripe/success`, async (req, res) => {
   }
 });
 
-// Exemple d'appel API pour le développement local uniquement
-if (process.env.NODE_ENV !== "production") {
-  fetch(`${apiBaseUrl}/api/stripe/create-checkout-session`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      items: [{ title: "Test Product", price: "10.00€", quantity: 1 }],
-      pickupDay: "2024-08-30",
-      pickupTime: "14:00",
-      customerName: "John Doe",
-      customerEmail: "john.doe@example.com",
-      customerAddress: "123 Test Street",
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
