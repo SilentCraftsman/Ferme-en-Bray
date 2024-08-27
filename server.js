@@ -296,6 +296,10 @@ const port = process.env.PORT || 3001;
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
   const { items, customerEmail } = req.body;
 
