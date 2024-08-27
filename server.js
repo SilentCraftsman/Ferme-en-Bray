@@ -6,6 +6,8 @@ import Stripe from "stripe";
 import sgMail from "@sendgrid/mail";
 import bodyParser from "body-parser";
 import { MongoClient, ObjectId } from "mongodb";
+import path from "path";
+import fs from "fs";
 
 dotenv.config();
 
@@ -33,7 +35,7 @@ let ordersCollection;
 
 app.use(
   cors({
-    origin: "https://www.lavolailleenbray.com",
+    origin: "https://www.lavolailleenbray.com", // Assurez-vous que ce domaine est correct et qu'il correspond à votre frontend
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -107,7 +109,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       pickupTime,
       customerName,
       customerEmail,
-      customerAddress, // Stockage de l'adresse
+      customerAddress,
       createdAt: new Date(),
     };
     const result = await ordersCollection.insertOne(order);
@@ -219,7 +221,11 @@ app.get("/api/stripe/success", async (req, res) => {
       await sgMail.send(msg);
       console.log("Confirmation email sent successfully.");
 
-      const invoicePath = `C:/Users/giogi/Desktop/factures/facture-${session.metadata.order_id}.pdf`;
+      // Chemin relatif pour enregistrer la facture
+      const invoicePath = path.join(
+        __dirname,
+        `factures/facture-${session.metadata.order_id}.pdf`
+      );
 
       // Créez la facture
       createInvoice(order, invoicePath);
@@ -227,7 +233,14 @@ app.get("/api/stripe/success", async (req, res) => {
       // Attendez que le fichier soit complètement écrit
       setTimeout(() => {
         // Envoyez la facture par email
-        sendInvoiceEmail(customerEmail, invoicePath);
+        if (fs.existsSync(invoicePath)) {
+          sendInvoiceEmail(customerEmail, invoicePath);
+        } else {
+          console.error("Invoice file was not created.");
+          res
+            .status(500)
+            .send("Internal Server Error: Invoice file not created.");
+        }
       }, 1000); // Temporisation de 1 seconde pour s'assurer que le fichier est écrit
     } else {
       console.log("Payment not completed. Email not sent.");
