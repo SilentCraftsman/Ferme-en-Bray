@@ -1,4 +1,5 @@
 import express from "express";
+import axios from "axios";
 import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -55,7 +56,7 @@ app.use(
 app.use(bodyParser.json());
 
 // Route pour créer une session de paiement
-app.post("/api/stripe/create-checkout-session", async (req, res) => {
+/*app.post("/api/stripe/create-checkout-session", async (req, res) => {
   const {
     items,
     pickupDay,
@@ -155,7 +156,39 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     console.error("Error creating checkout session:", err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
-});
+});*/
+
+// Ajout du Bearer token avec axios
+axios.post(
+  "https://api.stripe.com/v1/checkout/sessions",
+  {
+    payment_method_types: ["card"],
+    line_items: lineItems,
+    mode: "payment",
+    success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.BASE_URL}/cancel`,
+    payment_intent_data: {
+      application_fee_amount: applicationFeeAmount,
+      transfer_data: {
+        destination: process.env.PRODUCER_ACCOUNT_ID,
+      },
+    },
+    customer_email: customerEmail,
+    metadata: {
+      order_id: orderId.toString(),
+      pickupDay,
+      pickupTime,
+    },
+    billing_address_collection: "required",
+    customer_creation: "always",
+  },
+  {
+    headers: {
+      Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
+      "Content-Type": "application/json",
+    },
+  }
+);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
