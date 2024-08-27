@@ -17,17 +17,28 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Connexion à MongoDB
+// Déclaration de apiBaseUrl
+const apiBaseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://site-de-volaille-0f64d822f48c.herokuapp.com"
+    : "http://localhost:3001";
+
 const mongoUri = process.env.MONGODB_URI;
 const client = new MongoClient(mongoUri);
 let ordersCollection;
 
+// Connexion à MongoDB
 (async () => {
   try {
     await client.connect();
     console.log("Connected to MongoDB");
     const db = client.db("shop");
     ordersCollection = db.collection("orders");
+
+    // Démarrage du serveur après la connexion à MongoDB
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
   } catch (error) {
     console.error("Error connecting to MongoDB", error);
   }
@@ -35,14 +46,12 @@ let ordersCollection;
 
 app.use(
   cors({
-    origin: "https://www.lavolailleenbray.com", // Assurez-toi que ce domaine est correct et qu'il correspond à votre frontend
+    origin: "https://www.lavolailleenbray.com",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(bodyParser.json());
-
-const apiBaseUrl = "https://site-de-volaille-0f64d822f48c.herokuapp.com";
 
 // Route pour créer une session de paiement
 app.post(
@@ -151,7 +160,7 @@ app.post(
 );
 
 // Route pour vérifier le statut de paiement et envoyer l'email si le paiement est réussi
-app.get("/api/stripe/success", async (req, res) => {
+app.get(`${apiBaseUrl}/api/stripe/success`, async (req, res) => {
   const { session_id } = req.query;
 
   try {
@@ -236,17 +245,15 @@ app.get("/api/stripe/success", async (req, res) => {
       createInvoice(order, invoicePath);
 
       // Attendez que le fichier soit complètement écrit
-      setTimeout(() => {
-        // Envoyez la facture par email
-        if (fs.existsSync(invoicePath)) {
-          sendInvoiceEmail(customerEmail, invoicePath);
-        } else {
+      fs.promises
+        .access(invoicePath, fs.constants.F_OK)
+        .then(() => sendInvoiceEmail(customerEmail, invoicePath))
+        .catch(() => {
           console.error("Invoice file was not created.");
           res
             .status(500)
             .send("Internal Server Error: Invoice file not created.");
-        }
-      }, 1000); // Temporisation de 1 seconde pour s'assurer que le fichier est écrit
+        });
     } else {
       console.log("Payment not completed. Email not sent.");
     }
@@ -256,6 +263,23 @@ app.get("/api/stripe/success", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+// Exemple d'appel API pour le développement local uniquement
+if (process.env.NODE_ENV !== "production") {
+  fetch(`${apiBaseUrl}/api/stripe/create-checkout-session`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      items: [{ title: "Test Product", price: "10.00€", quantity: 1 }],
+      pickupDay: "2024-08-30",
+      pickupTime: "14:00",
+      customerName: "John Doe",
+      customerEmail: "john.doe@example.com",
+      customerAddress: "123 Test Street",
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error("Error:", error));
+}
