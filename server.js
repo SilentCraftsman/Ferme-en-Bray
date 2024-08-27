@@ -33,7 +33,7 @@ let ordersCollection;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://www.lavolailleenbray.com",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
