@@ -33,13 +33,25 @@ let ordersCollection;
   }
 })();
 
+const allowedOrigins = [
+  "https://ferme-en-bray.vercel.app",
+  "https://www.lavolailleenbray.com",
+];
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "*",
+    origin: (origin, callback) => {
+      if (allowedOrigins.includes(origin) || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 app.use(bodyParser.json());
 
 // Route pour créer une session de paiement
