@@ -55,6 +55,10 @@ app.use(
 
 app.use(bodyParser.json());
 
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 // Route pour créer une session de paiement
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
   const {
@@ -156,10 +160,6 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     console.error("Error creating checkout session:", err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello World");
 });
 
 // Route pour vérifier le statut de paiement et envoyer l'email si le paiement est réussi
