@@ -46,7 +46,7 @@ export default function ContactPage() {
     }
 
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_FORMSPREE_URL, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_FORMSPREE_URL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
