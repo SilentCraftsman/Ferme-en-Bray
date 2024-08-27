@@ -145,6 +145,11 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
   }
 });
 
+// Route pour la racine
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 // Route pour vérifier le statut de paiement et envoyer l'email si le paiement est réussi
 app.get("/api/stripe/success", async (req, res) => {
   const { session_id } = req.query;
