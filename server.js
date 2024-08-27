@@ -35,7 +35,7 @@ let ordersCollection;
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "*", // Assurez-vous de configurer correctement la politique CORS en production
+    origin: process.env.CORS_ORIGIN || "*",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })

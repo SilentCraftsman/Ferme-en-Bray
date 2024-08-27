@@ -144,20 +144,20 @@ const CartPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/stripe/create-checkout-session",
+        "https://site-de-volaille-0f64d822f48c.herokuapp.com/api/stripe/create-checkout-session",
         {
           items: cart.map((item) => ({
-            title: getUpdatedTitle(item), // Titre mis à jour pour Stripe
+            title: getUpdatedTitle(item),
             image: item.image,
-            price: getUnitPrice(item), // Prix unitaire pour Stripe
+            price: getUnitPrice(item),
             quantity: item.quantity,
-            selectedVariant: item.selectedVariant, // Assurez-vous d'envoyer les détails de la variante
+            selectedVariant: item.selectedVariant,
           })),
           pickupDay,
           pickupTime,
           customerName,
           customerEmail,
-          customerAddress, // Ajout de l'adresse
+          customerAddress,
         },
         {
           headers: {
