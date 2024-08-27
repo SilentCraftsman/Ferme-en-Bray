@@ -138,7 +138,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       payment_intent_data: {
         application_fee_amount: applicationFeeAmount,
         transfer_data: {
-          destination: process.env.PRODUCER_ACCOUNT_ID,
+          destination: `${process.env.PRODUCER_ACCOUNT_ID}`,
         },
       },
       customer_email: customerEmail,
