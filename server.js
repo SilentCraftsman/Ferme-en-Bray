@@ -35,115 +35,120 @@ let ordersCollection;
 
 app.use(
   cors({
-    origin: "https://www.lavolailleenbray.com", // Assurez-vous que ce domaine est correct et qu'il correspond à votre frontend
+    origin: "https://www.lavolailleenbray.com", // Assurez-toi que ce domaine est correct et qu'il correspond à votre frontend
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(bodyParser.json());
 
+const apiBaseUrl = "https://site-de-volaille-0f64d822f48c.herokuapp.com";
+
 // Route pour créer une session de paiement
-app.post("/api/stripe/create-checkout-session", async (req, res) => {
-  const {
-    items,
-    pickupDay,
-    pickupTime,
-    customerName,
-    customerEmail,
-    customerAddress,
-  } = req.body;
-
-  if (
-    !Array.isArray(items) ||
-    items.length === 0 ||
-    !customerName ||
-    !customerEmail
-  ) {
-    console.error("Invalid request data:", req.body);
-    return res.status(400).send("Bad Request: Invalid request data");
-  }
-
-  try {
-    const lineItems = items.map((item) => {
-      const selectedVariant = item.selectedVariant;
-      let updatedTitle = item.title;
-
-      if (selectedVariant) {
-        updatedTitle = updatedTitle.replace(
-          /(\d+(\.\d+)?kg)/,
-          selectedVariant.weight
-        );
-      }
-
-      const unitAmount = Math.round(
-        parseFloat(
-          selectedVariant
-            ? selectedVariant.price
-            : item.price.replace("€", "").replace(",", ".")
-        ) * 100
-      );
-
-      return {
-        price_data: {
-          currency: "eur",
-          product_data: {
-            name: updatedTitle,
-            images: [item.image],
-          },
-          unit_amount: unitAmount,
-        },
-        quantity: item.quantity,
-      };
-    });
-
-    const totalAmount = lineItems.reduce(
-      (sum, item) => sum + item.price_data.unit_amount * item.quantity,
-      0
-    );
-    const applicationFeeAmount = Math.round(totalAmount * 0.05);
-
-    // Stockage des détails de la commande dans MongoDB
-    const order = {
+app.post(
+  `${apiBaseUrl}/api/stripe/create-checkout-session`,
+  async (req, res) => {
+    const {
       items,
       pickupDay,
       pickupTime,
       customerName,
       customerEmail,
       customerAddress,
-      createdAt: new Date(),
-    };
-    const result = await ordersCollection.insertOne(order);
-    const orderId = result.insertedId;
+    } = req.body;
 
-    // Création de la session Stripe
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: lineItems,
-      mode: "payment",
-      success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.BASE_URL}/cancel`,
-      payment_intent_data: {
-        application_fee_amount: applicationFeeAmount,
-        transfer_data: {
-          destination: process.env.PRODUCER_ACCOUNT_ID,
-        },
-      },
-      customer_email: customerEmail,
-      metadata: {
-        order_id: orderId.toString(),
+    if (
+      !Array.isArray(items) ||
+      items.length === 0 ||
+      !customerName ||
+      !customerEmail
+    ) {
+      console.error("Invalid request data:", req.body);
+      return res.status(400).send("Bad Request: Invalid request data");
+    }
+
+    try {
+      const lineItems = items.map((item) => {
+        const selectedVariant = item.selectedVariant;
+        let updatedTitle = item.title;
+
+        if (selectedVariant) {
+          updatedTitle = updatedTitle.replace(
+            /(\d+(\.\d+)?kg)/,
+            selectedVariant.weight
+          );
+        }
+
+        const unitAmount = Math.round(
+          parseFloat(
+            selectedVariant
+              ? selectedVariant.price
+              : item.price.replace("€", "").replace(",", ".")
+          ) * 100
+        );
+
+        return {
+          price_data: {
+            currency: "eur",
+            product_data: {
+              name: updatedTitle,
+              images: [item.image],
+            },
+            unit_amount: unitAmount,
+          },
+          quantity: item.quantity,
+        };
+      });
+
+      const totalAmount = lineItems.reduce(
+        (sum, item) => sum + item.price_data.unit_amount * item.quantity,
+        0
+      );
+      const applicationFeeAmount = Math.round(totalAmount * 0.05);
+
+      // Stockage des détails de la commande dans MongoDB
+      const order = {
+        items,
         pickupDay,
         pickupTime,
-      },
-      billing_address_collection: "required",
-      customer_creation: "always",
-    });
+        customerName,
+        customerEmail,
+        customerAddress,
+        createdAt: new Date(),
+      };
+      const result = await ordersCollection.insertOne(order);
+      const orderId = result.insertedId;
 
-    res.json({ id: session.id });
-  } catch (err) {
-    console.error("Error creating checkout session:", err);
-    res.status(500).send(`Internal Server Error: ${err.message}`);
+      // Création de la session Stripe
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: lineItems,
+        mode: "payment",
+        success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.BASE_URL}/cancel`,
+        payment_intent_data: {
+          application_fee_amount: applicationFeeAmount,
+          transfer_data: {
+            destination: process.env.PRODUCER_ACCOUNT_ID,
+          },
+        },
+        customer_email: customerEmail,
+        metadata: {
+          order_id: orderId.toString(),
+          pickupDay,
+          pickupTime,
+        },
+        billing_address_collection: "required",
+        customer_creation: "always",
+      });
+
+      res.json({ id: session.id });
+    } catch (err) {
+      console.error("Error creating checkout session:", err);
+      res.status(500).send(`Internal Server Error: ${err.message}`);
+    }
   }
-});
+);
 
 // Route pour vérifier le statut de paiement et envoyer l'email si le paiement est réussi
 app.get("/api/stripe/success", async (req, res) => {
