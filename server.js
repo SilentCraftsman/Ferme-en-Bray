@@ -294,6 +294,25 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 const app = express();
 const port = process.env.PORT || 3001;
 
+const allowedOrigins = [
+  "https://ferme-en-bray.vercel.app",
+  "https://www.lavolailleenbray.com",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (allowedOrigins.includes(origin) || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
