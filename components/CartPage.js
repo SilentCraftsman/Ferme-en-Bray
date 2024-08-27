@@ -170,12 +170,9 @@ const CartPage = () => {
 
       const { id } = response.data;
       const stripe = window.Stripe(
-        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+        `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`
       );
-      console.log(
-        "Stripe API Key:",
-        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-      );
+      // `${process.env.PUBLISHABLE_KEY}`
 
       if (!stripe) {
         throw new Error("Stripe.js has not loaded.");
