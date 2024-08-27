@@ -1,4 +1,4 @@
-/*import express from "express";
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import Stripe from "stripe";
@@ -275,82 +275,6 @@ app.get("/api/stripe/success", async (req, res) => {
   } catch (err) {
     console.error("Error retrieving session or sending email:", err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
-  }
-});
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-*/
-import express from "express";
-import Stripe from "stripe";
-import dotenv from "dotenv";
-
-dotenv.config();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2022-11-15",
-});
-
-const app = express();
-const port = process.env.PORT || 3001;
-
-const allowedOrigins = [
-  "https://ferme-en-bray.vercel.app",
-  "https://www.lavolailleenbray.com",
-];
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (allowedOrigins.includes(origin) || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
-app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
-app.post("/api/stripe/create-checkout-session", async (req, res) => {
-  const { items, customerEmail } = req.body;
-
-  if (!Array.isArray(items) || items.length === 0 || !customerEmail) {
-    return res.status(400).send("Bad Request: Invalid request data");
-  }
-
-  try {
-    const lineItems = items.map((item) => ({
-      price_data: {
-        currency: "eur",
-        product_data: { name: item.name },
-        unit_amount: item.price * 100, // Convert to cents
-      },
-      quantity: item.quantity,
-    }));
-
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: lineItems,
-      mode: "payment",
-      success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.BASE_URL}/cancel`,
-      customer_email: customerEmail,
-    });
-
-    res.json({ id: session.id });
-  } catch (error) {
-    console.error("Error creating checkout session:", error);
-    res
-      .status(error.statusCode || 500)
-      .send(`Internal Server Error: ${error.message}`);
   }
 });
 
