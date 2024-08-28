@@ -12,9 +12,7 @@ import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
 
 dotenv.config();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2022-11-15",
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const dev = process.env.NODE_ENV !== "production";
@@ -65,6 +63,7 @@ app.get("/api/stripe/test", async (req, res) => {
   }
 });
 
+// Endpoint de création de session Stripe
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
   console.log("Received POST request to /api/stripe/create-checkout-session");
   console.log("Request body:", req.body);
@@ -141,6 +140,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
   }
 });
 
+// Endpoint pour gérer la réussite du paiement
 app.get("/api/stripe/success", async (req, res) => {
   const { session_id } = req.query;
 
@@ -246,6 +246,12 @@ app.get("/api/stripe/success", async (req, res) => {
   }
 });
 
+// Route pour tester le serveur
+app.get("/api/test-endpoint", (req, res) => {
+  res.json({ message: "Test endpoint working!" });
+});
+
+// Gestion des requêtes Next.js
 app.all("*", (req, res) => handle(req, res));
 
 app.listen(port, () => {
