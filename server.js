@@ -25,10 +25,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 const mongoUri = process.env.MONGODB_URI;
-const client = new MongoClient(mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const client = new MongoClient(mongoUri);
 let ordersCollection;
 
 (async () => {
