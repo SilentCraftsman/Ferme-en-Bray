@@ -1,6 +1,5 @@
 // app/about/page.js
 import "../../styles/about.scss";
-import Image from "next/image";
 
 export default function AboutPage() {
   return (
@@ -14,8 +13,8 @@ export default function AboutPage() {
           standards les plus stricts en matière de sécurité alimentaire et de
           durabilité.
         </p>
-        {/* Utilisation du composant Image de Next.js pour une gestion sécurisée des images */}
-        <Image
+        {/* Utilisation de la balise <img> */}
+        <img
           src="/images/about-images/farm-image.jpg"
           alt="Image illustrant notre entreprise"
           className="about-image"
