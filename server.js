@@ -12,9 +12,7 @@ import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
 
 dotenv.config();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2022-11-15",
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const dev = process.env.NODE_ENV !== "production";
@@ -25,7 +23,10 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 const mongoUri = process.env.MONGODB_URI;
-const client = new MongoClient(mongoUri);
+const client = new MongoClient(mongoUri, {
+  // Les options obsolètes ont été enlevées
+});
+
 let ordersCollection;
 
 (async () => {
@@ -48,7 +49,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-// Endpoint de test pour Stripe
+// Test de connexion Stripe
 app.get("/api/stripe/test", async (req, res) => {
   try {
     const testCustomer = await stripe.customers.create({
@@ -250,7 +251,7 @@ app.get("/api/test-endpoint", (req, res) => {
   res.json({ message: "Test endpoint working!" });
 });
 
-// Gestion des requêtes Next.js après les routes API
+// Gestion des requêtes Next.js
 app.all("*", (req, res) => handle(req, res));
 
 app.listen(port, () => {
