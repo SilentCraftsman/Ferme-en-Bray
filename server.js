@@ -54,6 +54,9 @@ app.options("*", cors(corsOptions)); // Ajout des options pour les requÃªtes prÃ
 app.use(bodyParser.json());
 
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
+  console.log("Received POST request to /api/stripe/create-checkout-session");
+  console.log("Request body:", req.body);
+
   const {
     items,
     pickupDay,
