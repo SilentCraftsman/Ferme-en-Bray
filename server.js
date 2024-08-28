@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import { MongoClient, ObjectId } from "mongodb";
 import path from "path";
 import fs from "fs";
-import next from "next"; // Importation de Next.js pour gérer les routes
+import next from "next";
 import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
 
 dotenv.config();
@@ -42,22 +42,17 @@ let ordersCollection;
   }
 })();
 
-// Configuration CORS
 const corsOptions = {
-  origin: "https://ferme-en-bray.vercel.app", // Remplace par le domaine du frontend
+  origin: "https://ferme-en-bray.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-// Appliquer CORS
 app.use(cors(corsOptions));
-
-// Ajout de la route OPTIONS pour gérer les requêtes prévol
-app.options("*", cors(corsOptions));
+app.options("*", cors(corsOptions)); // Ajout des options pour les requêtes prévol
 
 app.use(bodyParser.json());
 
-// Route pour créer une session de paiement
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
   const {
     items,
@@ -117,7 +112,6 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     );
     const applicationFeeAmount = Math.round(totalAmount * 0.05);
 
-    // Stockage des détails de la commande dans MongoDB
     const order = {
       items,
       pickupDay,
@@ -130,7 +124,6 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     const result = await ordersCollection.insertOne(order);
     const orderId = result.insertedId;
 
-    // Création de la session Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
@@ -172,7 +165,6 @@ app.get("/api/stripe/success", async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
     if (session.payment_status === "paid") {
-      // Récupération des détails de la commande depuis MongoDB
       const order = await ordersCollection.findOne({
         _id: new ObjectId(session.metadata.order_id),
       });
@@ -182,7 +174,6 @@ app.get("/api/stripe/success", async (req, res) => {
         return res.status(404).send("Order not found");
       }
 
-      // Récupérer les informations du client depuis la session Stripe
       const customerName = session.customer_details.name || order.customerName;
       const customerEmail =
         session.customer_details.email || order.customerEmail;
@@ -209,7 +200,6 @@ app.get("/api/stripe/success", async (req, res) => {
           <td><strong>${(session.amount_total / 100).toFixed(2)} €</strong></td>
         </tr>`;
 
-      // Construction du message avec les informations récupérées depuis la session Stripe
       const msg = {
         to: process.env.PRODUCER_EMAIL,
         from: process.env.EMAIL_USER,
@@ -240,18 +230,14 @@ app.get("/api/stripe/success", async (req, res) => {
       await sgMail.send(msg);
       console.log("Confirmation email sent successfully.");
 
-      // Chemin relatif pour enregistrer la facture
       const invoicePath = path.join(
         __dirname,
         `factures/facture-${session.metadata.order_id}.pdf`
       );
 
-      // Créez la facture
       createInvoice(order, invoicePath);
 
-      // Attendez que le fichier soit complètement écrit
       setTimeout(() => {
-        // Envoyez la facture par email
         if (fs.existsSync(invoicePath)) {
           sendInvoiceEmail(customerEmail, invoicePath);
         } else {
@@ -260,23 +246,19 @@ app.get("/api/stripe/success", async (req, res) => {
             .status(500)
             .send("Internal Server Error: Invoice file not created.");
         }
-      }, 1000); // Temporisation de 1 seconde pour s'assurer que le fichier est écrit
+      }, 1000);
     } else {
       console.log("Payment not completed. Email not sent.");
-      res.status(400).send("Payment not completed.");
+      res.status(400).send("Payment not completed");
     }
   } catch (err) {
-    console.error("Error retrieving session or sending email:", err);
+    console.error("Error verifying payment:", err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
 });
 
-app.all("*", (req, res) => {
-  return handle(req, res);
-});
+app.all("*", (req, res) => handle(req, res));
 
-nextApp.prepare().then(() => {
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
