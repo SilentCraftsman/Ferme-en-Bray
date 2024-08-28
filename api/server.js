@@ -8,7 +8,7 @@ import { MongoClient, ObjectId } from "mongodb";
 import path from "path";
 import fs from "fs";
 import next from "next";
-import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
+import { createInvoice, sendInvoiceEmail } from "../invoiceGenerator.js";
 
 dotenv.config();
 
