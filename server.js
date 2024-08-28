@@ -49,22 +49,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-// Test de connexion Stripe
-app.get("/api/stripe/test", async (req, res) => {
-  try {
-    const testCustomer = await stripe.customers.create({
-      description: "Test Customer",
-    });
-    console.log("Stripe test customer created:", testCustomer);
-    res.json({ message: "Stripe test successful", customer: testCustomer });
-  } catch (err) {
-    console.error("Error with Stripe test:", err.message);
-    res.status(500).send(`Internal Server Error: ${err.message}`);
-  }
-});
-
 // Endpoint de création de session Stripe
-app.post("/api/stripe/create-checkout-session", async (req, res) => {
+/*app.post("/api/stripe/create-checkout-session", async (req, res) => {
   console.log("Received POST request to /api/stripe/create-checkout-session");
   console.log("Request body:", req.body);
 
@@ -148,7 +134,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     console.error("Error creating checkout session:", err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
-});
+});*/
 
 // Endpoint pour gérer la réussite du paiement
 app.get("/api/stripe/success", async (req, res) => {
