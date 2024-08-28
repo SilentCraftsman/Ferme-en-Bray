@@ -143,6 +143,7 @@ const CartPage = () => {
     }
 
     try {
+      console.log("Creating payment session...");
       const response = await axios.post(
         "https://ferme-en-bray.vercel.app/api/stripe/create-checkout-session",
         {
@@ -170,9 +171,8 @@ const CartPage = () => {
 
       const { id } = response.data;
       const stripe = window.Stripe(
-        `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
       );
-      // `${process.env.PUBLISHABLE_KEY}`
 
       if (!stripe) {
         throw new Error("Stripe.js has not loaded.");
@@ -184,8 +184,12 @@ const CartPage = () => {
         setError(error.message);
       }
     } catch (err) {
+      // Log detailed error information
+      console.error(
+        "Error in createPayment:",
+        err.response ? err.response.data : err.message
+      );
       setError("Erreur lors de la création de la commande.");
-      console.error("Error in createPayment:", err);
     }
   };
 
