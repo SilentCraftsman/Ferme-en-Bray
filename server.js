@@ -20,10 +20,10 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // Configuration de Next.js
 const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
-const handle = app.getRequestHandler(); // Gestionnaire des requêtes Next.js
+const nextApp = next({ dev });
+const handle = nextApp.getRequestHandler(); // Gestionnaire des requêtes Next.js
 
-const server = express();
+const app = express(); // Initialisation de l'application Express
 const port = process.env.PORT || 3001;
 
 // Connexion à MongoDB
@@ -51,7 +51,7 @@ const allowedOrigins = [
   "https://www.lavolailleenbray.com",
 ];
 
-server.use(
+app.use(
   cors({
     origin: (origin, callback) => {
       if (allowedOrigins.includes(origin) || !origin) {
@@ -65,10 +65,10 @@ server.use(
   })
 );
 
-server.use(bodyParser.json());
+app.use(bodyParser.json());
 
 // Route pour créer une session de paiement
-server.post("/api/stripe/create-checkout-session", async (req, res) => {
+app.post("/api/stripe/create-checkout-session", async (req, res) => {
   const {
     items,
     pickupDay,
@@ -171,7 +171,7 @@ server.post("/api/stripe/create-checkout-session", async (req, res) => {
 });
 
 // Route pour vérifier le statut de paiement et envoyer l'email si le paiement est réussi
-server.get("/api/stripe/success", async (req, res) => {
+app.get("/api/stripe/success", async (req, res) => {
   const { session_id } = req.query;
 
   if (!session_id) {
@@ -295,4 +295,9 @@ app.use((err, req, res, next) => {
 // Démarrer le serveur
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
+});
+
+// Configuration des routes Next.js
+app.all("*", (req, res) => {
+  return handle(req, res);
 });
