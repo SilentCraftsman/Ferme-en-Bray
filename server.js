@@ -42,23 +42,15 @@ let ordersCollection;
   }
 })();
 
-const allowedOrigins = process.env.CORS_ORIGIN.split(",");
+//const allowedOrigins = process.env.CORS_ORIGIN.split(",");
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (allowedOrigins.includes(origin) || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: "*", // Permet toutes les origines, à utiliser uniquement pour le débogage
   })
 );
 
-app.options("*", cors());
+//app.options("*", cors());
 
 app.use(bodyParser.json());
 
