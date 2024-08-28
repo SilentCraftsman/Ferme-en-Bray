@@ -44,7 +44,7 @@ let ordersCollection;
 
 // Configuration CORS
 const corsOptions = {
-  origin: "https://www.lavolailleenbray.com", // Remplace par le domaine du frontend
+  origin: "https://ferme-en-bray.vercel.app", // Remplace par le domaine du frontend
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
