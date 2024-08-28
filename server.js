@@ -42,19 +42,18 @@ let ordersCollection;
   }
 })();
 
-//const allowedOrigins = process.env.CORS_ORIGIN.split(",");
+// Configuration CORS
+const corsOptions = {
+  origin: "https://www.lavolailleenbray.com", // Remplace par le domaine du frontend
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-app.use(
-  cors({
-    origin: "*", // À utiliser uniquement pour le débogage
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// Appliquer CORS
+app.use(cors(corsOptions));
 
-app.options("*", cors()); // Permet les requêtes OPTIONS prévol
-
-//app.options("*", cors());
+// Ajout de la route OPTIONS pour gérer les requêtes prévol
+app.options("*", cors(corsOptions));
 
 app.use(bodyParser.json());
 
