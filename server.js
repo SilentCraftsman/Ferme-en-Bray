@@ -38,20 +38,32 @@ let ordersCollection;
     const db = client.db("shop");
     ordersCollection = db.collection("orders");
   } catch (error) {
-    console.error("Error connecting to MongoDB", error);
+    console.error("Error connecting to MongoDB:", error.message);
   }
 })();
 
 const corsOptions = {
-  origin: "https://ferme-en-bray.vercel.app",
+  origin: "*", // Ajustez cette valeur selon votre besoin
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // Ajout des options pour les requêtes prévol
-
 app.use(bodyParser.json());
+
+// Test de connexion Stripe
+app.get("/api/stripe/test", async (req, res) => {
+  try {
+    const testCustomer = await stripe.customers.create({
+      description: "Test Customer",
+    });
+    console.log("Stripe test customer created:", testCustomer);
+    res.json({ message: "Stripe test successful", customer: testCustomer });
+  } catch (err) {
+    console.error("Error with Stripe test:", err.message);
+    res.status(500).send(`Internal Server Error: ${err.message}`);
+  }
+});
 
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
   console.log("Received POST request to /api/stripe/create-checkout-session");
@@ -109,23 +121,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       };
     });
 
-    const totalAmount = lineItems.reduce(
-      (sum, item) => sum + item.price_data.unit_amount * item.quantity,
-      0
-    );
-    const applicationFeeAmount = Math.round(totalAmount * 0.05);
-
-    const order = {
-      items,
-      pickupDay,
-      pickupTime,
-      customerName,
-      customerEmail,
-      customerAddress,
-      createdAt: new Date(),
-    };
-    const result = await ordersCollection.insertOne(order);
-    const orderId = result.insertedId;
+    console.log("Line items:", lineItems);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -133,30 +129,18 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       mode: "payment",
       success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.BASE_URL}/cancel`,
-      payment_intent_data: {
-        application_fee_amount: applicationFeeAmount,
-        transfer_data: {
-          destination: process.env.PRODUCER_ACCOUNT_ID,
-        },
-      },
       customer_email: customerEmail,
-      metadata: {
-        order_id: orderId.toString(),
-        pickupDay,
-        pickupTime,
-      },
-      billing_address_collection: "required",
-      customer_creation: "always",
     });
+
+    console.log("Stripe Checkout session created:", session);
 
     res.json({ id: session.id });
   } catch (err) {
-    console.error("Error creating checkout session:", err);
+    console.error("Error creating checkout session:", err.message);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
 });
 
-// Route pour vérifier le statut de paiement et envoyer l'email si le paiement est réussi
 app.get("/api/stripe/success", async (req, res) => {
   const { session_id } = req.query;
 
@@ -166,6 +150,8 @@ app.get("/api/stripe/success", async (req, res) => {
 
   try {
     const session = await stripe.checkout.sessions.retrieve(session_id);
+
+    console.log("Retrieved Stripe session:", session);
 
     if (session.payment_status === "paid") {
       const order = await ordersCollection.findOne({
@@ -252,10 +238,10 @@ app.get("/api/stripe/success", async (req, res) => {
       }, 1000);
     } else {
       console.log("Payment not completed. Email not sent.");
-      res.status(400).send("Payment not completed");
+      res.status(400).send("Payment not completed.");
     }
   } catch (err) {
-    console.error("Error verifying payment:", err);
+    console.error("Error retrieving session or sending email:", err.message);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
 });
