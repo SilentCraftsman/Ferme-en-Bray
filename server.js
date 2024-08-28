@@ -46,9 +46,13 @@ let ordersCollection;
 
 app.use(
   cors({
-    origin: "*", // Permet toutes les origines, à utiliser uniquement pour le débogage
+    origin: "*", // À utiliser uniquement pour le débogage
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.options("*", cors()); // Permet les requêtes OPTIONS prévol
 
 //app.options("*", cors());
 
