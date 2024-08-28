@@ -145,7 +145,7 @@ const CartPage = () => {
     try {
       console.log("Creating payment session...");
       const response = await axios.post(
-        "https://ferme-en-bray.vercel.app/api/stripe/create-checkout-session",
+        "https://ferme-en-bray.vercel.app/pages/api/stripe/create-checkout-session.js",
         {
           items: cart.map((item) => ({
             title: getUpdatedTitle(item),
