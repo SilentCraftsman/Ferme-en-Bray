@@ -42,10 +42,7 @@ let ordersCollection;
   }
 })();
 
-const allowedOrigins = [
-  "https://ferme-en-bray.vercel.app",
-  "https://www.lavolailleenbray.com",
-];
+const allowedOrigins = process.env.CORS_ORIGIN.split(",");
 
 app.use(
   cors({
@@ -61,7 +58,7 @@ app.use(
   })
 );
 
-app.options("*", cors()); // Gestion des pré-requêtes OPTIONS
+app.options("*", cors());
 
 app.use(bodyParser.json());
 
