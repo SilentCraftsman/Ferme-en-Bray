@@ -154,9 +154,16 @@ app.get("/api/stripe/success", async (req, res) => {
         _id: new ObjectId(session.metadata.order_id),
       });
 
-      if (!order) {
-        console.error("Order not found");
-        return res.status(404).send("Order not found");
+      if (!order.emailSent) {
+        await sgMail.send(msg);
+        console.log("Confirmation email sent successfully.");
+        // Mettez à jour la base de données pour indiquer que l'email a été envoyé
+        await ordersCollection.updateOne(
+          { _id: new ObjectId(session.metadata.order_id) },
+          { $set: { emailSent: true } }
+        );
+      } else {
+        console.log("Email already sent for this order.");
       }
 
       const customerName = session.customer_details.name || order.customerName;
