@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import { MongoClient, ObjectId } from "mongodb";
 import path from "path";
 import fs from "fs";
+import next from "next"; // Importation de Next.js pour gérer les routes
 import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
 
 dotenv.config();
@@ -17,7 +18,12 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const app = express();
+// Configuration de Next.js
+const dev = process.env.NODE_ENV !== "production";
+const app = next({ dev });
+const handle = app.getRequestHandler(); // Gestionnaire des requêtes Next.js
+
+const server = express();
 const port = process.env.PORT || 3001;
 
 // Connexion à MongoDB
@@ -39,12 +45,13 @@ let ordersCollection;
   }
 })();
 
+// Configuration CORS
 const allowedOrigins = [
   "https://ferme-en-bray.vercel.app",
   "https://www.lavolailleenbray.com",
 ];
 
-app.use(
+server.use(
   cors({
     origin: (origin, callback) => {
       if (allowedOrigins.includes(origin) || !origin) {
@@ -58,14 +65,10 @@ app.use(
   })
 );
 
-app.use(bodyParser.json());
-
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+server.use(bodyParser.json());
 
 // Route pour créer une session de paiement
-app.post("/api/stripe/create-checkout-session", async (req, res) => {
+server.post("/api/stripe/create-checkout-session", async (req, res) => {
   const {
     items,
     pickupDay,
@@ -168,7 +171,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
 });
 
 // Route pour vérifier le statut de paiement et envoyer l'email si le paiement est réussi
-app.get("/api/stripe/success", async (req, res) => {
+server.get("/api/stripe/success", async (req, res) => {
   const { session_id } = req.query;
 
   if (!session_id) {
@@ -278,6 +281,18 @@ app.get("/api/stripe/success", async (req, res) => {
   }
 });
 
+// Gestion des erreurs 404 pour les routes non trouvées
+app.use((req, res, next) => {
+  res.status(404).send("Sorry, can't find that!");
+});
+
+// Gestion des erreurs globales
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
+// Démarrer le serveur
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
