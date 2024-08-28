@@ -30,14 +30,6 @@
       "dest": "/index.html"
     }
   ],
-  "env": {
-    "STRIPE_SECRET_KEY": "@stripe_secret_key",
-    "SENDGRID_API_KEY": "@sendgrid_api_key",
-    "MONGODB_URI": "@mongodb_uri",
-    "BASE_URL": "https://www.lavolailleenbray.com",
-    "PRODUCER_EMAIL": "@producer_email",
-    "EMAIL_USER": "@email_user"
-  },
   "static": {
     "directory": "public"
   }
