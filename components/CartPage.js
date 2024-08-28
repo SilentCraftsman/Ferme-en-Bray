@@ -144,7 +144,7 @@ const CartPage = () => {
 
     try {
       const response = await axios.post(
-        "https://site-de-volaille-0f64d822f48c.herokuapp.com/api/stripe/create-checkout-session",
+        "https://ferme-en-bray.vercel.app/api/stripe/create-checkout-session",
         {
           items: cart.map((item) => ({
             title: getUpdatedTitle(item),
