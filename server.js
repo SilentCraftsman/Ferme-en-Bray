@@ -12,25 +12,22 @@ import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
 
 dotenv.config();
 
-// Initialisation des clients externes
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2022-11-15",
 });
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// Configuration de Next.js
 const dev = process.env.NODE_ENV !== "production";
 const nextApp = next({ dev });
-const handle = nextApp.getRequestHandler(); // Gestionnaire des requêtes Next.js
+const handle = nextApp.getRequestHandler();
 
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Connexion à MongoDB
 const mongoUri = process.env.MONGODB_URI;
 const client = new MongoClient(mongoUri, {
-  useNewUrlParser: true, // Deprecated but still used
-  useUnifiedTopology: true, // Deprecated but still used
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 let ordersCollection;
 
@@ -45,7 +42,6 @@ let ordersCollection;
   }
 })();
 
-// Configuration CORS
 const allowedOrigins = [
   "https://ferme-en-bray.vercel.app",
   "https://www.lavolailleenbray.com",
@@ -64,6 +60,8 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.options("*", cors()); // Gestion des pré-requêtes OPTIONS
 
 app.use(bodyParser.json());
 
@@ -281,12 +279,10 @@ app.get("/api/stripe/success", async (req, res) => {
   }
 });
 
-// Middleware pour Next.js
 app.all("*", (req, res) => {
-  return handle(req, res); // Passe toutes les autres requêtes à Next.js
+  return handle(req, res);
 });
 
-// Démarrage du serveur
 nextApp.prepare().then(() => {
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
