@@ -77,6 +77,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     customerAddress,
   } = req.body;
 
+  // Validation des données de la requête
   if (
     !Array.isArray(items) ||
     items.length === 0 ||
@@ -88,6 +89,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
   }
 
   try {
+    // Création des lignes de produit pour Stripe Checkout
     const lineItems = items.map((item) => {
       const selectedVariant = item.selectedVariant;
       let updatedTitle = item.title;
@@ -122,6 +124,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
 
     console.log("Line items:", lineItems);
 
+    // Création de la session Stripe Checkout
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
@@ -129,13 +132,20 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.BASE_URL}/cancel`,
       customer_email: customerEmail,
+      metadata: {
+        order_id: req.body.orderId || "unknown",
+        pickupDay,
+        pickupTime,
+      },
     });
 
     console.log("Stripe Checkout session created:", session);
 
+    // Réponse avec l'ID de la session
     res.json({ id: session.id });
   } catch (err) {
-    console.error("Error creating checkout session:", err.message);
+    // Gestion des erreurs
+    console.error("Error creating checkout session:", err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
 });
