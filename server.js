@@ -23,14 +23,14 @@ const dev = process.env.NODE_ENV !== "production";
 const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler(); // Gestionnaire des requêtes Next.js
 
-const app = express(); // Initialisation de l'application Express
+const app = express();
 const port = process.env.PORT || 3001;
 
 // Connexion à MongoDB
 const mongoUri = process.env.MONGODB_URI;
 const client = new MongoClient(mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useNewUrlParser: true, // Deprecated but still used
+  useUnifiedTopology: true, // Deprecated but still used
 });
 let ordersCollection;
 
@@ -281,23 +281,14 @@ app.get("/api/stripe/success", async (req, res) => {
   }
 });
 
-// Gestion des erreurs 404 pour les routes non trouvées
-app.use((req, res, next) => {
-  res.status(404).send("Sorry, can't find that!");
-});
-
-// Gestion des erreurs globales
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
-
-// Démarrer le serveur
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-
-// Configuration des routes Next.js
+// Middleware pour Next.js
 app.all("*", (req, res) => {
-  return handle(req, res);
+  return handle(req, res); // Passe toutes les autres requêtes à Next.js
+});
+
+// Démarrage du serveur
+nextApp.prepare().then(() => {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
 });
