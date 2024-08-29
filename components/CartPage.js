@@ -25,18 +25,22 @@ const CartPage = () => {
   const [customerEmail, setCustomerEmail] = useState("");
 
   useEffect(() => {
-    if (window.Stripe) {
-      setStripeLoaded(true);
-    } else {
-      console.error("Stripe.js has not loaded.");
-    }
+    const loadStripe = async () => {
+      if (window.Stripe) {
+        setStripeLoaded(true);
+      } else {
+        console.error("Stripe.js has not loaded.");
+      }
+    };
+
+    loadStripe();
   }, []);
 
   const handleQuantityChange = (id, newQuantity) => {
     if (newQuantity > MAX_QUANTITY) {
       setError(`La quantité maximale pour cet article est ${MAX_QUANTITY}.`);
       newQuantity = MAX_QUANTITY;
-    } else if (newQuantity <= 0) {
+    } else if (newQuantity < 0) {
       newQuantity = 0; // Cela supprimera l'article si la quantité est 0
     } else {
       setError("");
@@ -102,29 +106,20 @@ const CartPage = () => {
     let isValid = true;
     let errorMessage = "";
 
-    switch (true) {
-      case !customerName:
-        errorMessage = "Veuillez entrer un nom complet.";
-        isValid = false;
-        break;
-      case !customerAddress:
-        errorMessage = "Veuillez entrer une adresse.";
-        isValid = false;
-        break;
-      case !customerEmail:
-        errorMessage = "Veuillez entrer une adresse email.";
-        isValid = false;
-        break;
-      case !validateEmail(customerEmail):
-        errorMessage = "Veuillez entrer une adresse email valide.";
-        isValid = false;
-        break;
-      case !validateDateTime():
-        isValid = false;
-        break;
-      default:
-        errorMessage = "";
-        break;
+    if (!customerName) {
+      errorMessage = "Veuillez entrer un nom complet.";
+      isValid = false;
+    } else if (!customerAddress) {
+      errorMessage = "Veuillez entrer une adresse.";
+      isValid = false;
+    } else if (!customerEmail) {
+      errorMessage = "Veuillez entrer une adresse email.";
+      isValid = false;
+    } else if (!validateEmail(customerEmail)) {
+      errorMessage = "Veuillez entrer une adresse email valide.";
+      isValid = false;
+    } else if (!validateDateTime()) {
+      isValid = false;
     }
 
     setError(errorMessage);
@@ -142,10 +137,8 @@ const CartPage = () => {
     }
 
     try {
-      console.log("Creating payment session...");
-
       const response = await fetch(
-        "https://ferme-en-bray.vercel.app/api/stripe/create-checkout-session",
+        "/api/stripe/create-checkout-session", // Assurez-vous que le chemin est correct et que vous avez configuré le proxy si nécessaire
         {
           method: "POST",
           headers: {
@@ -168,13 +161,11 @@ const CartPage = () => {
         }
       );
 
-      /*if (!response.ok) {
+      if (!response.ok) {
         throw new Error(`Erreur HTTP! Status: ${response.status}`);
-      }*/
+      }
 
       const data = await response.json();
-
-      console.log("Checkout session created:", data);
 
       const { id } = data;
       const stripe = window.Stripe(
@@ -191,7 +182,6 @@ const CartPage = () => {
         setError(error.message);
       }
     } catch (err) {
-      // Log detailed error information
       console.error("Error in createPayment:", err.message);
       setError("Erreur lors de la création de la commande.");
     }
