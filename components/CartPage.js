@@ -168,9 +168,9 @@ const CartPage = () => {
         }
       );
 
-      if (!response.ok) {
+      /*if (!response.ok) {
         throw new Error(`Erreur HTTP! Status: ${response.status}`);
-      }
+      }*/
 
       const data = await response.json();
 
