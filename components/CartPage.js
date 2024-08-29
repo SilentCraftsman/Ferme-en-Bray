@@ -27,7 +27,7 @@ const CartPage = () => {
   useEffect(() => {
     if (window.Stripe) {
       setStripeLoaded(true);
-      console.log("Stripe.js is working!");
+      console.log("Stripe.js is working !");
     } else {
       console.error("Stripe.js has not loaded.");
     }
@@ -157,23 +157,6 @@ const CartPage = () => {
     }
   }
 
-  async function createPayment(items) {
-    if (validateForm()) {
-      const sessionData = await createCheckoutSession(items);
-      if (sessionData && window.Stripe) {
-        const stripe = window.Stripe(
-          process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-        );
-        const { error } = await stripe.redirectToCheckout({
-          sessionId: sessionData.id,
-        });
-        if (error) {
-          console.error("Error redirecting to Stripe Checkout:", error);
-        }
-      }
-    }
-  }
-
   return (
     <div className={styles.cartContainer}>
       {cart.length === 0 ? (
@@ -240,7 +223,9 @@ const CartPage = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                createPayment(cart);
+                if (validateForm()) {
+                  createCheckoutSession(cart);
+                }
               }}
             >
               <label>
