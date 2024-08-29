@@ -37,8 +37,7 @@ const CartPage = () => {
     if (newQuantity > MAX_QUANTITY) {
       setError(`La quantité maximale pour cet article est ${MAX_QUANTITY}.`);
       newQuantity = MAX_QUANTITY;
-    } else if (newQuantity < 0) {
-      setError("La quantité ne peut pas être négative.");
+    } else if (newQuantity <= 0) {
       newQuantity = 0; // Cela supprimera l'article si la quantité est 0
     } else {
       setError("");
@@ -204,103 +203,129 @@ const CartPage = () => {
   };
 
   return (
-    <div className={styles.cartPage}>
+    <div className={styles.cartContainer}>
       {cart.length === 0 ? (
         <div className={styles.emptyCartMessage}>
           <FaShoppingCart size={50} />
           <p>Votre panier est vide.</p>
         </div>
       ) : (
-        <div>
-          <h1>Panier</h1>
-          {cart.map((item) => (
-            <div key={item.uniqueId} className={styles.cartItem}>
-              <img
-                src={item.image}
-                alt={item.title}
-                className={styles.productImage}
-              />
-              <h2>{getUpdatedTitle(item)}</h2>
-              <p>
-                Quantité:
-                <input
-                  type="number"
-                  min="0"
-                  max={MAX_QUANTITY}
-                  value={item.quantity}
-                  onChange={(e) =>
-                    handleQuantityChange(
-                      item.uniqueId,
-                      parseInt(e.target.value)
-                    )
-                  }
+        <>
+          <h2>Mon Panier</h2>
+          <ul>
+            {cart.map((item) => (
+              <li key={item.uniqueId}>
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className={styles.productImage}
                 />
-              </p>
-              <p>Prix unitaire: {getUnitPrice(item)}€</p>
-              <p>Total: {calculateTotalPrice(item)}€</p>
-              <button onClick={() => handleQuantityChange(item.uniqueId, 0)}>
-                Supprimer
-              </button>
-            </div>
-          ))}
-          <div className={styles.cartTotal}>
-            <h3>Total: {getTotal()}€</h3>
+                <div className={styles.productDetails}>
+                  <h3>{getUpdatedTitle(item)}</h3>
+                  <p>{item.description || "Description non disponible"}</p>
+                  <div className={styles.priceQuantity}>
+                    {item.selectedVariant && (
+                      <span>
+                        {item.selectedVariant.type} -{" "}
+                        {item.selectedVariant.weight}
+                      </span>
+                    )}
+                    <div className={styles.priceInfo}>
+                      <span>Prix unitaire: {getUnitPrice(item)} €</span>
+                      <span>
+                        Total pour cet article: {calculateTotalPrice(item)} €
+                      </span>
+                    </div>
+                  </div>
+                  <div className={styles.quantityButtons}>
+                    <button
+                      onClick={() =>
+                        handleQuantityChange(item.uniqueId, item.quantity - 1)
+                      }
+                    >
+                      -
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      onClick={() =>
+                        handleQuantityChange(item.uniqueId, item.quantity + 1)
+                      }
+                    >
+                      +
+                    </button>
+                  </div>
+                  <button
+                    className={styles.removeProduct}
+                    onClick={() => handleQuantityChange(item.uniqueId, 0)}
+                  >
+                    Supprimer tout le produit
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <h3 className={styles.total}>Total: {getTotal()} €</h3>
+          <div className={styles.datePickerContainer}>
+            <h3 className={styles.underlineTitle}>
+              Précisez le jour et l'heure de retrait :
+            </h3>
+            <select
+              className={styles.dateSelect}
+              value={pickupDay}
+              onChange={(e) => setPickupDay(e.target.value)}
+            >
+              <option value="vendredi">Vendredi</option>
+              <option value="samedi">Samedi</option>
+            </select>
+            <select
+              className={styles.dateSelect}
+              value={pickupTime}
+              onChange={(e) => setPickupTime(e.target.value)}
+            >
+              <option value="17:30">17:30</option>
+              <option value="18:00">18:00</option>
+              <option value="18:30">18:30</option>
+              <option value="19:00">19:00</option>
+              <option value="19:30">19:30</option>
+              <option value="20:00">20:00</option>
+            </select>
+            {dateError && (
+              <div className={styles.errorMessage}>{dateError}</div>
+            )}
           </div>
-          <div className={styles.cartForm}>
-            <h3>Informations de Livraison</h3>
-            <label>
-              Nom complet:
-              <input
-                type="text"
-                value={customerName}
-                onChange={(e) => setCustomerName(e.target.value)}
-              />
-            </label>
-            <label>
-              Adresse:
-              <input
-                type="text"
-                value={customerAddress}
-                onChange={(e) => setCustomerAddress(e.target.value)}
-              />
-            </label>
-            <label>
-              Email:
-              <input
-                type="email"
-                value={customerEmail}
-                onChange={(e) => setCustomerEmail(e.target.value)}
-              />
-            </label>
-            <label>
-              Jour de retrait:
-              <select
-                value={pickupDay}
-                onChange={(e) => setPickupDay(e.target.value)}
+          <div className={styles.customerInfo}>
+            <h3>Renseignements nécessaires pour la commande :</h3>
+            <input
+              type="text"
+              placeholder="Nom complet"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Adresse"
+              value={customerAddress}
+              onChange={(e) => setCustomerAddress(e.target.value)}
+            />
+            <input
+              type="email"
+              placeholder="Adresse email"
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+            />
+            {error && (
+              <div
+                className={styles.errorMessage}
+                style={{ marginTop: "1rem" }}
               >
-                <option value="vendredi">Vendredi</option>
-                <option value="samedi">Samedi</option>
-              </select>
-            </label>
-            <label>
-              Heure de retrait:
-              <select
-                value={pickupTime}
-                onChange={(e) => setPickupTime(e.target.value)}
-              >
-                <option value="17:30">17:30</option>
-                <option value="18:00">18:00</option>
-                <option value="18:30">18:30</option>
-                <option value="19:00">19:00</option>
-                <option value="19:30">19:30</option>
-                <option value="20:00">20:00</option>
-              </select>
-            </label>
-            {dateError && <div className={styles.error}>{dateError}</div>}
-            {error && <div className={styles.error}>{error}</div>}
-            <button onClick={createPayment}>Procéder au paiement</button>
+                {error}
+              </div>
+            )}
           </div>
-        </div>
+          <button className={styles.paymentButton} onClick={createPayment}>
+            Procéder au paiement
+          </button>
+        </>
       )}
     </div>
   );
