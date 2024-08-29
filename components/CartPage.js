@@ -144,26 +144,29 @@ const CartPage = () => {
     try {
       console.log("Creating payment session...");
 
-      const response = await fetch("/api/stripe/create-checkout-session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          items: cart.map((item) => ({
-            title: getUpdatedTitle(item),
-            image: item.image,
-            price: getUnitPrice(item),
-            quantity: item.quantity,
-            selectedVariant: item.selectedVariant,
-          })),
-          pickupDay,
-          pickupTime,
-          customerName,
-          customerEmail,
-          customerAddress,
-        }),
-      });
+      const response = await fetch(
+        "https://ferme-en-bray.vercel.app/api/stripe/create-checkout-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            items: cart.map((item) => ({
+              title: getUpdatedTitle(item),
+              image: item.image,
+              price: getUnitPrice(item),
+              quantity: item.quantity,
+              selectedVariant: item.selectedVariant,
+            })),
+            pickupDay,
+            pickupTime,
+            customerName,
+            customerEmail,
+            customerAddress,
+          }),
+        }
+      );
 
       /*if (!response.ok) {
         throw new Error(`Erreur HTTP! Status: ${response.status}`);
