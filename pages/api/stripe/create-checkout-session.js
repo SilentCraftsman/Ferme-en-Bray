@@ -2,7 +2,9 @@
 import Stripe from "stripe";
 
 // Initialisation de Stripe avec la clé secrète
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2022-11-15", // Assurez-vous d'utiliser la version correcte de l'API Stripe
+});
 
 export default async function handler(req, res) {
   if (req.method === "POST") {

@@ -27,7 +27,7 @@ const CartPage = () => {
   useEffect(() => {
     if (window.Stripe) {
       setStripeLoaded(true);
-      console.log("Stripe.js is working !");
+      console.log("Stripe.js is working!");
     } else {
       console.error("Stripe.js has not loaded.");
     }
@@ -132,36 +132,47 @@ const CartPage = () => {
     return isValid;
   };
 
-  const createPayment = async (items) => {
+  async function createCheckoutSession(items) {
     try {
-      // Assurez-vous que items est un objet simple
-      console.log("Items to be sent:", items);
-
       const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ items }), // Envoyez seulement des données simples
+        body: JSON.stringify({ items }),
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const errorText = await response.text();
+        throw new Error(
+          `HTTP error! Status: ${response.status}, Text: ${errorText}`
+        );
       }
 
       const data = await response.json();
-      const { id } = data;
-
-      const stripe = await stripePromise;
-      const { error } = await stripe.redirectToCheckout({ sessionId: id });
-
-      if (error) {
-        console.error("Error redirecting to checkout:", error.message);
-      }
-    } catch (err) {
-      console.error("Error in createPayment:", err);
+      console.log("Checkout session ID:", data.id);
+      return data;
+    } catch (error) {
+      console.error("Error in createCheckoutSession:", error);
     }
-  };
+  }
+
+  async function createPayment(items) {
+    if (validateForm()) {
+      const sessionData = await createCheckoutSession(items);
+      if (sessionData && window.Stripe) {
+        const stripe = window.Stripe(
+          process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+        );
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: sessionData.id,
+        });
+        if (error) {
+          console.error("Error redirecting to Stripe Checkout:", error);
+        }
+      }
+    }
+  }
 
   return (
     <div className={styles.cartContainer}>
@@ -229,9 +240,7 @@ const CartPage = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (validateForm()) {
-                  createPayment(cart);
-                }
+                createPayment(cart);
               }}
             >
               <label>
