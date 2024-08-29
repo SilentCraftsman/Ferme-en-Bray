@@ -8,7 +8,6 @@ export async function POST(request) {
   try {
     const { items } = await request.json();
 
-    // Vérifiez que les items sont bien fournis
     if (!items || items.length === 0) {
       return NextResponse.json({ error: "No items provided" }, { status: 400 });
     }
@@ -27,13 +26,14 @@ export async function POST(request) {
         quantity: item.quantity,
       })),
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL}/cancel`,
+      success_url: `${process.env.BASE_URL}/success`,
+      cancel_url: `${process.env.BASE_URL}/cancel`,
     });
 
     return NextResponse.json({ id: session.id });
   } catch (error) {
-    console.error("Error creating checkout session:", error);
+    console.error("Error creating checkout session:", error.message);
+    console.error("Error stack:", error.stack);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
