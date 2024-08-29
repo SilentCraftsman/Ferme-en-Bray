@@ -21,7 +21,7 @@
     "helmet": "^7.1.0",
     "mini-css-extract-plugin": "^2.9.1",
     "mongoose": "^8.5.3",
-    "next": "^14.2.6",
+    "next": "^14.2.7",
     "pdfkit": "^0.15.0",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
