@@ -134,12 +134,15 @@ const CartPage = () => {
 
   const createPayment = async (items) => {
     try {
+      // Assurez-vous que items est un objet simple
+      console.log("Items to be sent:", items);
+
       const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ items }),
+        body: JSON.stringify({ items }), // Envoyez seulement des données simples
       });
 
       if (!response.ok) {
@@ -212,77 +215,79 @@ const CartPage = () => {
                       +
                     </button>
                   </div>
-                  <button
-                    className={styles.removeProduct}
-                    onClick={() => handleQuantityChange(item.uniqueId, 0)}
-                  >
-                    Supprimer tout le produit
-                  </button>
                 </div>
               </li>
             ))}
           </ul>
-          <h3 className={styles.total}>Total: {getTotal()} €</h3>
-          <div className={styles.datePickerContainer}>
-            <h3 className={styles.underlineTitle}>
-              Précisez le jour et l'heure de retrait :
-            </h3>
-            <select
-              className={styles.dateSelect}
-              value={pickupDay}
-              onChange={(e) => setPickupDay(e.target.value)}
-            >
-              <option value="vendredi">Vendredi</option>
-              <option value="samedi">Samedi</option>
-            </select>
-            <select
-              className={styles.dateSelect}
-              value={pickupTime}
-              onChange={(e) => setPickupTime(e.target.value)}
-            >
-              <option value="17:30">17:30</option>
-              <option value="18:00">18:00</option>
-              <option value="18:30">18:30</option>
-              <option value="19:00">19:00</option>
-              <option value="19:30">19:30</option>
-              <option value="20:00">20:00</option>
-            </select>
-            {dateError && (
-              <div className={styles.errorMessage}>{dateError}</div>
-            )}
+
+          <div className={styles.summary}>
+            <h3>Total: {getTotal()} €</h3>
           </div>
-          <div className={styles.customerInfo}>
-            <h3>Renseignements nécessaires pour la commande :</h3>
-            <input
-              type="text"
-              placeholder="Nom complet"
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Adresse"
-              value={customerAddress}
-              onChange={(e) => setCustomerAddress(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Adresse email"
-              value={customerEmail}
-              onChange={(e) => setCustomerEmail(e.target.value)}
-            />
-            {error && (
-              <div
-                className={styles.errorMessage}
-                style={{ marginTop: "1rem" }}
-              >
-                {error}
-              </div>
-            )}
+
+          <div className={styles.formContainer}>
+            <h3>Informations de livraison</h3>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (validateForm()) {
+                  createPayment(cart);
+                }
+              }}
+            >
+              <label>
+                Nom complet:
+                <input
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                />
+              </label>
+              <label>
+                Adresse:
+                <input
+                  type="text"
+                  value={customerAddress}
+                  onChange={(e) => setCustomerAddress(e.target.value)}
+                />
+              </label>
+              <label>
+                Email:
+                <input
+                  type="email"
+                  value={customerEmail}
+                  onChange={(e) => setCustomerEmail(e.target.value)}
+                />
+              </label>
+              <label>
+                Jour de retrait:
+                <select
+                  value={pickupDay}
+                  onChange={(e) => setPickupDay(e.target.value)}
+                >
+                  <option value="vendredi">Vendredi</option>
+                  <option value="samedi">Samedi</option>
+                </select>
+              </label>
+              <label>
+                Heure de retrait:
+                <select
+                  value={pickupTime}
+                  onChange={(e) => setPickupTime(e.target.value)}
+                >
+                  <option value="17:30">17:30</option>
+                  <option value="18:00">18:00</option>
+                  <option value="18:30">18:30</option>
+                  <option value="19:00">19:00</option>
+                  <option value="19:30">19:30</option>
+                  <option value="20:00">20:00</option>
+                </select>
+              </label>
+              {error && <p className={styles.error}>{error}</p>}
+              <button type="submit" disabled={!stripeLoaded}>
+                Payer
+              </button>
+            </form>
           </div>
-          <button className={styles.paymentButton} onClick={createPayment}>
-            Procéder au paiement
-          </button>
         </>
       )}
     </div>
