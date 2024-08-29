@@ -4,9 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useCart } from "./cart/CartContext";
 import { FaShoppingCart } from "react-icons/fa";
 import styles from "../styles/CartPage.module.scss";
-import { loadStripe } from "@stripe/stripe-js";
-
-const stripePromise = loadStripe(process.env.STRIPE_SECRET_KEY);
 
 const MAX_QUANTITY = 80;
 
