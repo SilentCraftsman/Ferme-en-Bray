@@ -50,7 +50,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // Endpoint de création de session Stripe
-/*app.post("/api/stripe/create-checkout-session", async (req, res) => {
+app.post("/api/stripe/create-checkout-session", async (req, res) => {
   console.log("Received POST request to /api/stripe/create-checkout-session");
   console.log("Request body:", req.body);
 
@@ -134,7 +134,7 @@ app.use(bodyParser.json());
     console.error("Error creating checkout session:", err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
-});*/
+});
 
 // Endpoint pour gérer la réussite du paiement
 app.get("/api/stripe/success", async (req, res) => {

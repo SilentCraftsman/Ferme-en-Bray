@@ -11,7 +11,7 @@ const SuccessPage = () => {
     const checkPaymentStatusAndSendEmail = async (sessionId) => {
       try {
         const response = await fetch(
-          `http://localhost:3001/api/stripe/success?session_id=${sessionId}`
+          `https://ferme-en-bray.vercel.app/api/stripe/success?session_id=${sessionId}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "./cart/CartContext";
 import { FaShoppingCart } from "react-icons/fa";
-import axios from "axios";
 import styles from "../styles/CartPage.module.scss";
 
 const MAX_QUANTITY = 80;
@@ -144,32 +143,40 @@ const CartPage = () => {
 
     try {
       console.log("Creating payment session...");
-      const response = await axios.post(
+
+      const response = await fetch(
         "https://ferme-en-bray.vercel.app/api/stripe/create-checkout-session",
         {
-          items: cart.map((item) => ({
-            title: getUpdatedTitle(item),
-            image: item.image,
-            price: getUnitPrice(item),
-            quantity: item.quantity,
-            selectedVariant: item.selectedVariant,
-          })),
-          pickupDay,
-          pickupTime,
-          customerName,
-          customerEmail,
-          customerAddress,
-        },
-        {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            items: cart.map((item) => ({
+              title: getUpdatedTitle(item),
+              image: item.image,
+              price: getUnitPrice(item),
+              quantity: item.quantity,
+              selectedVariant: item.selectedVariant,
+            })),
+            pickupDay,
+            pickupTime,
+            customerName,
+            customerEmail,
+            customerAddress,
+          }),
         }
       );
 
-      console.log("Checkout session created:", response.data);
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP! Status: ${response.status}`);
+      }
 
-      const { id } = response.data;
+      const data = await response.json();
+
+      console.log("Checkout session created:", data);
+
+      const { id } = data;
       const stripe = window.Stripe(
         process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
       );
@@ -185,10 +192,7 @@ const CartPage = () => {
       }
     } catch (err) {
       // Log detailed error information
-      console.error(
-        "Error in createPayment:",
-        err.response ? err.response.data : err.message
-      );
+      console.error("Error in createPayment:", err.message);
       setError("Erreur lors de la création de la commande.");
     }
   };
