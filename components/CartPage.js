@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import { useCart } from "./cart/CartContext";
 import { FaShoppingCart } from "react-icons/fa";
 import styles from "../styles/CartPage.module.scss";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(process.env.STRIPE_SECRET_KEY);
 
 const MAX_QUANTITY = 80;
 
@@ -132,73 +135,31 @@ const CartPage = () => {
     return isValid;
   };
 
-  const createPayment = async () => {
-    if (!stripeLoaded) {
-      setError("Stripe.js has not loaded.");
-      return;
-    }
-
-    if (!validateForm()) {
-      return;
-    }
-
+  const createPayment = async (items) => {
     try {
-      console.log("Creating payment session...");
-
-      const response = await fetch(
-        "https://ferme-en-bray.vercel.app/api/stripe/create-checkout-session",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            items: cart.map((item) => ({
-              title: getUpdatedTitle(item),
-              image: item.image,
-              price: getUnitPrice(item),
-              quantity: item.quantity,
-              selectedVariant: item.selectedVariant,
-            })),
-            pickupDay,
-            pickupTime,
-            customerName,
-            customerEmail,
-            customerAddress,
-          }),
-        }
-      );
-
-      if (response.status === 405) {
-        throw new Error(
-          "Erreur HTTP 405: Méthode non autorisée. Vérifiez l'endpoint et les méthodes acceptées."
-        );
-      }
+      const response = await fetch("/api/stripe/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ items }),
+      });
 
       if (!response.ok) {
-        throw new Error(`Erreur HTTP! Status: ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("Checkout session created:", data);
-
       const { id } = data;
-      const stripe = window.Stripe(
-        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-      );
 
-      if (!stripe) {
-        throw new Error("Stripe.js has not loaded.");
-      }
-
+      const stripe = await stripePromise;
       const { error } = await stripe.redirectToCheckout({ sessionId: id });
 
       if (error) {
-        setError(error.message);
+        console.error("Error redirecting to checkout:", error.message);
       }
     } catch (err) {
       console.error("Error in createPayment:", err);
-      setError(`Erreur lors de la création du paiement: ${err.message}`);
     }
   };
 
