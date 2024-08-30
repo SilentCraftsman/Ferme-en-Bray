@@ -1,17 +1,11 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { useCart } from "./cart/CartContext";
 import { FaShoppingCart } from "react-icons/fa";
+import axios from "axios";
 import styles from "../styles/CartPage.module.scss";
 
 const MAX_QUANTITY = 80;
-
-// Fonction pour valider l'email
-const validateEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
 
 const CartPage = () => {
   const { cart, updateQuantity, getTotal } = useCart();
@@ -21,13 +15,12 @@ const CartPage = () => {
   const [pickupTime, setPickupTime] = useState("17:30");
   const [dateError, setDateError] = useState("");
   const [customerName, setCustomerName] = useState("");
-  const [customerAddress, setCustomerAddress] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
 
   useEffect(() => {
     if (window.Stripe) {
       setStripeLoaded(true);
-      console.log("Stripe.js is working !");
     } else {
       console.error("Stripe.js has not loaded.");
     }
@@ -47,6 +40,7 @@ const CartPage = () => {
 
   const getUpdatedTitle = (item) => {
     if (item.selectedVariant) {
+      // Met à jour le titre du produit en fonction de la variante sélectionnée
       return item.title.replace(/(\d+(\.\d+)?kg)/, item.selectedVariant.weight);
     }
     return item.title;
@@ -56,11 +50,13 @@ const CartPage = () => {
     let unitPrice = 0;
 
     if (item.selectedVariant) {
+      // Produit avec variantes
       const pricePerUnit = parseFloat(
         item.selectedVariant.price.replace("€", "").replace(",", ".")
       );
       unitPrice = pricePerUnit;
     } else {
+      // Produit sans variantes
       unitPrice = parseFloat(item.price.replace("€", "").replace(",", "."));
     }
 
@@ -71,10 +67,12 @@ const CartPage = () => {
     let unitPrice = 0;
 
     if (item.selectedVariant) {
+      // Produit avec variantes
       unitPrice = parseFloat(
         item.selectedVariant.price.replace("€", "").replace(",", ".")
       );
     } else {
+      // Produit sans variantes
       unitPrice = parseFloat(item.price.replace("€", "").replace(",", "."));
     }
 
@@ -84,78 +82,67 @@ const CartPage = () => {
   const validateDateTime = () => {
     const validDays = ["vendredi", "samedi"];
     const validHours = ["17:30", "18:00", "18:30", "19:00", "19:30", "20:00"];
-
     if (!validDays.includes(pickupDay)) {
       setDateError("La date doit être un vendredi ou un samedi.");
       return false;
     }
-
     if (!validHours.includes(pickupTime)) {
       setDateError("L'heure doit être entre 17h30 et 20h00.");
       return false;
     }
-
     setDateError("");
     return true;
   };
 
-  const validateForm = () => {
-    let isValid = true;
-    let errorMessage = "";
-
-    switch (true) {
-      case !customerName:
-        errorMessage = "Veuillez entrer un nom complet.";
-        isValid = false;
-        break;
-      case !customerAddress:
-        errorMessage = "Veuillez entrer une adresse.";
-        isValid = false;
-        break;
-      case !customerEmail:
-        errorMessage = "Veuillez entrer une adresse email.";
-        isValid = false;
-        break;
-      case !validateEmail(customerEmail):
-        errorMessage = "Veuillez entrer une adresse email valide.";
-        isValid = false;
-        break;
-      case !validateDateTime():
-        isValid = false;
-        break;
-      default:
-        errorMessage = "";
-        break;
+  const createPayment = async () => {
+    if (!stripeLoaded) {
+      setError("Stripe.js has not loaded.");
+      return;
     }
-
-    setError(errorMessage);
-    return isValid;
-  };
-
-  async function createCheckoutSession(items) {
+    if (!validateDateTime()) {
+      return;
+    }
     try {
-      const response = await fetch("/api/stripe/create-checkout-session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post(
+        "http://localhost:3001/api/stripe/create-checkout-session",
+        {
+          items: cart.map((item) => ({
+            title: getUpdatedTitle(item), // Titre mis à jour pour Stripe
+            image: item.image,
+            price: getUnitPrice(item), // Prix unitaire pour Stripe
+            quantity: item.quantity,
+            selectedVariant: item.selectedVariant, // Assurez-vous d'envoyer les détails de la variante
+          })),
+          pickupDay,
+          pickupTime,
+          customerEmail, // Incluez les informations du client ici
+          customerName,
+          customerAddress, // Incluez l'adresse du client ici
+          totalPrice: getTotal(), // Inclure le coût total
         },
-        body: JSON.stringify({ items }),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(
-          `HTTP error! Status: ${response.status}, Text: ${errorText}`
-        );
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Checkout session created:", response.data);
+      const { id } = response.data;
+      const stripe = window.Stripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+      );
+      if (!stripe) {
+        throw new Error("Stripe.js has not loaded.");
       }
-
-      const data = await response.json();
-      console.log("Checkout session ID:", data.id);
-      return data;
-    } catch (error) {
-      console.error("Error in createCheckoutSession:", error);
+      const { error } = await stripe.redirectToCheckout({ sessionId: id });
+      if (error) {
+        setError(error.message);
+      }
+    } catch (err) {
+      setError("Erreur lors de la création de la commande.");
+      console.error("Error in createPayment:", err);
     }
-  }
+  };
 
   return (
     <div className={styles.cartContainer}>
@@ -176,7 +163,8 @@ const CartPage = () => {
                   className={styles.productImage}
                 />
                 <div className={styles.productDetails}>
-                  <h3>{getUpdatedTitle(item)}</h3>
+                  <h3>{getUpdatedTitle(item)}</h3>{" "}
+                  {/* Affiche le titre mis à jour */}
                   <p>{item.description || "Description non disponible"}</p>
                   <div className={styles.priceQuantity}>
                     {item.selectedVariant && (
@@ -209,79 +197,69 @@ const CartPage = () => {
                       +
                     </button>
                   </div>
+                  <button
+                    className={styles.removeProduct}
+                    onClick={() => handleQuantityChange(item.uniqueId, 0)}
+                  >
+                    Supprimer tout le produit
+                  </button>
                 </div>
               </li>
             ))}
           </ul>
-
-          <div className={styles.summary}>
-            <h3>Total: {getTotal()} €</h3>
-          </div>
-
-          <div className={styles.formContainer}>
-            <h3>Informations de livraison</h3>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (validateForm()) {
-                  createCheckoutSession(cart);
-                }
-              }}
+          <h3 className={styles.total}>Total: {getTotal()} €</h3>
+          <div className={styles.datePickerContainer}>
+            <h3 className="dateTitle">
+              Sélectionnez le jour et l'heure de retrait :
+            </h3>
+            <select
+              value={pickupDay}
+              onChange={(e) => setPickupDay(e.target.value)}
             >
-              <label>
-                Nom complet:
-                <input
-                  type="text"
-                  value={customerName}
-                  onChange={(e) => setCustomerName(e.target.value)}
-                />
-              </label>
-              <label>
-                Adresse:
-                <input
-                  type="text"
-                  value={customerAddress}
-                  onChange={(e) => setCustomerAddress(e.target.value)}
-                />
-              </label>
-              <label>
-                Email:
-                <input
-                  type="email"
-                  value={customerEmail}
-                  onChange={(e) => setCustomerEmail(e.target.value)}
-                />
-              </label>
-              <label>
-                Jour de retrait:
-                <select
-                  value={pickupDay}
-                  onChange={(e) => setPickupDay(e.target.value)}
-                >
-                  <option value="vendredi">Vendredi</option>
-                  <option value="samedi">Samedi</option>
-                </select>
-              </label>
-              <label>
-                Heure de retrait:
-                <select
-                  value={pickupTime}
-                  onChange={(e) => setPickupTime(e.target.value)}
-                >
-                  <option value="17:30">17:30</option>
-                  <option value="18:00">18:00</option>
-                  <option value="18:30">18:30</option>
-                  <option value="19:00">19:00</option>
-                  <option value="19:30">19:30</option>
-                  <option value="20:00">20:00</option>
-                </select>
-              </label>
-              {error && <p className={styles.error}>{error}</p>}
-              <button type="submit" disabled={!stripeLoaded}>
-                Payer
-              </button>
-            </form>
+              <option value="vendredi">Vendredi</option>
+              <option value="samedi">Samedi</option>
+            </select>
+            <select
+              className="dateSelect"
+              value={pickupTime}
+              onChange={(e) => setPickupTime(e.target.value)}
+            >
+              <option value="17:30">17:30</option>
+              <option value="18:00">18:00</option>
+              <option value="18:30">18:30</option>
+              <option value="19:00">19:00</option>
+              <option value="19:30">19:30</option>
+              <option value="20:00">20:00</option>
+            </select>
+            {dateError && (
+              <div className={styles.errorMessage}>{dateError}</div>
+            )}
           </div>
+          <div className={styles.customerInfo}>
+            <h3>Informations du client</h3>
+            <input
+              type="text"
+              placeholder="Nom complet"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Adresse"
+              value={customerAddress}
+              onChange={(e) => setCustomerAddress(e.target.value)}
+            />
+          </div>
+          <div>
+            <button onClick={createPayment}>Payer avec Stripe</button>
+          </div>
+          {error && <div className={styles.errorMessage}>{error}</div>}
         </>
       )}
     </div>
