@@ -6,8 +6,6 @@ import Stripe from "stripe";
 import sgMail from "@sendgrid/mail";
 import bodyParser from "body-parser";
 import { MongoClient, ObjectId } from "mongodb";
-import fs from "fs";
-import path from "path";
 
 dotenv.config();
 
@@ -34,7 +32,7 @@ let ordersCollection;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://ferme-en-bray.vercel.app",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
