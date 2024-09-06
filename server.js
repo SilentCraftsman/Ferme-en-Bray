@@ -40,7 +40,12 @@ if (!fs.existsSync(invoiceDirectory)) {
 // Configurer CORS
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://lavolailleenbray.com",
+      "https://www.lavolailleenbray.com",
+    ], // Remplace par le domaine de ton site en ligne
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
