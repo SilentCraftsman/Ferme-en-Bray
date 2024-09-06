@@ -1,11 +1,12 @@
 import express from "express";
-import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import Stripe from "stripe";
-import sgMail from "@sendgrid/mail";
 import bodyParser from "body-parser";
+import sgMail from "@sendgrid/mail";
 import { MongoClient, ObjectId } from "mongodb";
+import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
+import fs from "fs";
 
 dotenv.config();
 
@@ -30,15 +31,16 @@ let ordersCollection;
   }
 })();
 
-// Variable pour les origines CORS
-const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? ["https://ferme-en-bray.vercel.app"]
-    : ["http://localhost:3000"];
+// Assurez-vous que le répertoire des factures existe
+const invoiceDirectory = "C:/Users/giogi/Desktop/factures";
+if (!fs.existsSync(invoiceDirectory)) {
+  fs.mkdirSync(invoiceDirectory, { recursive: true });
+}
 
+// Configurer CORS
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: ["http://localhost:3000", "http://localhost:3001"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -158,8 +160,25 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
 app.get("/api/stripe/success", async (req, res) => {
   const { session_id } = req.query;
 
+  // Vérifiez si session_id est défini
+  if (!session_id) {
+    console.error("Missing session_id in query parameters");
+    return res.status(400).send("Bad Request: Missing session_id");
+  }
+
+  console.log("Session ID received:", session_id); // Ajoutez cette ligne pour vérifier que session_id est reçu correctement
+
   try {
+    // Récupération de la session Stripe
     const session = await stripe.checkout.sessions.retrieve(session_id);
+
+    // Vérifiez si la session est valide
+    if (!session) {
+      console.error("Session not found");
+      return res.status(404).send("Session not found");
+    }
+
+    console.log("Session retrieved:", session); // Ajoutez cette ligne pour voir les détails de la session
 
     if (session.payment_status === "paid") {
       // Récupération des détails de la commande depuis MongoDB
@@ -250,6 +269,16 @@ app.get("/api/stripe/success", async (req, res) => {
     console.error("Error retrieving session or sending email:", err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
+});
+
+// Route pour annuler la commande
+app.get("/cancel", (req, res) => {
+  res.send("Your payment was canceled. Please try again.");
+});
+
+// Route pour la page de succès
+app.get("/success", (req, res) => {
+  res.send("Votre paiement a été réussi !");
 });
 
 app.listen(port, () => {

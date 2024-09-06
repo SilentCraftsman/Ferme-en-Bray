@@ -13,7 +13,16 @@ const CancelPage = () => {
 
       if (session_id) {
         try {
-          const response = await fetch(`/api/stripe/session/${session_id}`);
+          const response = await fetch(
+            `${
+              process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001"
+            }/api/stripe/cancel`
+          );
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
           const data = await response.json();
           setMessage(
             "Votre paiement a été annulé. Nous sommes désolés pour le désagrément."
@@ -37,7 +46,7 @@ const CancelPage = () => {
     }, 10000);
 
     return () => clearTimeout(timer);
-  }, [router.query]);
+  }, [router.query.session_id]);
 
   if (loading) return <p>Loading...</p>;
 
