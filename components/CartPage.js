@@ -104,7 +104,7 @@ const CartPage = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/stripe/create-checkout-session", // Utilisation de l'URL relative
+        "https://ferme-en-bray.onrender.com/api/stripe/create-checkout-session", // Utilisation de l'URL relative
         {
           items: cart.map((item) => ({
             title: getUpdatedTitle(item), // Titre mis à jour pour Stripe
