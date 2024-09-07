@@ -42,13 +42,18 @@ if (!fs.existsSync(invoiceDirectory)) {
 app.use(
   cors({
     origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
       "https://lavolailleenbray.com",
       "https://www.lavolailleenbray.com",
-    ],
+      "https://ferme-en-bray.onrender.com",
+    ], // Remplace par le domaine de ton site en ligne
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.use(bodyParser.json());
 
 /*app.use(
   cors({
@@ -63,7 +68,7 @@ app.use(
   })
 );*/
 
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 
 // Route pour créer une session de paiement
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
