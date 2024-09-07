@@ -42,6 +42,17 @@ if (!fs.existsSync(invoiceDirectory)) {
 app.use(
   cors({
     origin: [
+      "https://lavolailleenbray.com",
+      "https://www.lavolailleenbray.com",
+    ],
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+/*app.use(
+  cors({
+    origin: [
       "http://localhost:3000",
       "http://localhost:3001",
       "https://lavolailleenbray.com",
@@ -50,7 +61,7 @@ app.use(
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
-);
+);*/
 
 app.use(bodyParser.json());
 
