@@ -7,6 +7,7 @@ import sgMail from "@sendgrid/mail";
 import { MongoClient, ObjectId } from "mongodb";
 import { createInvoice, sendInvoiceEmail } from "./invoiceGenerator.js";
 import fs from "fs";
+import path from "path";
 
 dotenv.config();
 
@@ -31,8 +32,8 @@ let ordersCollection;
   }
 })();
 
-// Assurez-vous que le répertoire des factures existe
-const invoiceDirectory = "C:/Users/giogi/Desktop/factures";
+// Assurez-vous que le répertoire des factures existe (chemin relatif)
+const invoiceDirectory = path.join(process.cwd(), "factures");
 if (!fs.existsSync(invoiceDirectory)) {
   fs.mkdirSync(invoiceDirectory, { recursive: true });
 }
@@ -165,28 +166,20 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
 app.get("/api/stripe/success", async (req, res) => {
   const { session_id } = req.query;
 
-  // Vérifiez si session_id est défini
   if (!session_id) {
     console.error("Missing session_id in query parameters");
     return res.status(400).send("Bad Request: Missing session_id");
   }
 
-  console.log("Session ID received:", session_id); // Ajoutez cette ligne pour vérifier que session_id est reçu correctement
-
   try {
-    // Récupération de la session Stripe
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
-    // Vérifiez si la session est valide
     if (!session) {
       console.error("Session not found");
       return res.status(404).send("Session not found");
     }
 
-    console.log("Session retrieved:", session); // Ajoutez cette ligne pour voir les détails de la session
-
     if (session.payment_status === "paid") {
-      // Récupération des détails de la commande depuis MongoDB
       const order = await ordersCollection.findOne({
         _id: new ObjectId(session.metadata.order_id),
       });
@@ -196,7 +189,6 @@ app.get("/api/stripe/success", async (req, res) => {
         return res.status(404).send("Order not found");
       }
 
-      // Récupérer les informations du client depuis la session Stripe
       const customerName = session.customer_details.name || order.customerName;
       const customerEmail =
         session.customer_details.email || order.customerEmail;
@@ -223,13 +215,10 @@ app.get("/api/stripe/success", async (req, res) => {
           <td><strong>${(session.amount_total / 100).toFixed(2)} €</strong></td>
         </tr>`;
 
-      // Construction du message avec les informations récupérées depuis la session Stripe
       const msg = {
         to: process.env.PRODUCER_EMAIL,
         from: process.env.EMAIL_USER,
         subject: "Confirmation de votre commande",
-        text: `Le client de la commande : ${customerName}. 
-               Le retrait de la commande par le client est prévu pour ${session.metadata.pickupDay} à ${session.metadata.pickupTime}.`,
         html: `
           <strong>Le client de la commande : ${customerName}</strong><br>
           <strong>Le nom et prénom qui figure sur la carte bancaire qui a payé de la commande : ${customerName}</strong><br>
@@ -255,21 +244,21 @@ app.get("/api/stripe/success", async (req, res) => {
       await sgMail.send(msg);
       console.log("Confirmation email sent successfully.");
 
-      const invoicePath = `C:/Users/giogi/Desktop/factures/facture-${session.metadata.order_id}.pdf`;
+      const invoicePath = path.join(
+        invoiceDirectory,
+        `facture-${session.metadata.order_id}.pdf`
+      );
 
-      // Créez la facture
       createInvoice(order, invoicePath);
 
-      // Attendez que le fichier soit complètement écrit
       setTimeout(() => {
-        // Envoyez la facture par email
         sendInvoiceEmail(customerEmail, invoicePath);
-      }, 1000); // Temporisation de 1 seconde pour s'assurer que le fichier est écrit
+      }, 1000);
     } else {
       console.log("Payment not completed. Email not sent.");
     }
 
-    res.redirect("/success");
+    res.redirect(`${process.env.BASE_URL}/success`);
   } catch (err) {
     console.error("Error retrieving session or sending email:", err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
