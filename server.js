@@ -59,115 +59,112 @@ app.options("*", cors());
 app.use(bodyParser.json());
 
 // Route pour créer une session de paiement
-app.post(
-  "https://ferme-en-bray.onrender.com/api/stripe/create-checkout-session",
-  async (req, res) => {
-    const {
+app.post("/api/stripe/create-checkout-session", async (req, res) => {
+  const {
+    items,
+    pickupDay,
+    pickupTime,
+    customerName,
+    customerEmail,
+    customerAddress,
+  } = req.body;
+
+  if (
+    !Array.isArray(items) ||
+    items.length === 0 ||
+    !customerName ||
+    !customerEmail
+  ) {
+    console.error("Invalid request data:", req.body);
+    return res.status(400).send("Bad Request: Invalid request data");
+  }
+
+  try {
+    const lineItems = items.map((item) => {
+      const selectedVariant = item.selectedVariant;
+      let updatedTitle = item.title;
+
+      if (selectedVariant) {
+        updatedTitle = updatedTitle.replace(
+          /(\d+(\.\d+)?kg)/,
+          selectedVariant.weight
+        );
+      }
+
+      const unitAmount = Math.round(
+        parseFloat(
+          selectedVariant
+            ? selectedVariant.price
+            : item.price.replace("€", "").replace(",", ".")
+        ) * 100
+      );
+
+      return {
+        price_data: {
+          currency: "eur",
+          product_data: {
+            name: updatedTitle,
+            images: [item.image],
+          },
+          unit_amount: unitAmount,
+        },
+        quantity: item.quantity,
+      };
+    });
+
+    const totalAmount = lineItems.reduce(
+      (sum, item) => sum + item.price_data.unit_amount * item.quantity,
+      0
+    );
+
+    // Ma commission sur chaque commande
+    const applicationFeeAmount = Math.round(totalAmount * 0.05);
+
+    // Stockage des détails de la commande dans MongoDB
+    const order = {
       items,
       pickupDay,
       pickupTime,
       customerName,
       customerEmail,
       customerAddress,
-    } = req.body;
+      createdAt: new Date(),
+    };
 
-    if (
-      !Array.isArray(items) ||
-      items.length === 0 ||
-      !customerName ||
-      !customerEmail
-    ) {
-      console.error("Invalid request data:", req.body);
-      return res.status(400).send("Bad Request: Invalid request data");
-    }
+    const result = await ordersCollection.insertOne(order);
+    const orderId = result.insertedId;
 
-    try {
-      const lineItems = items.map((item) => {
-        const selectedVariant = item.selectedVariant;
-        let updatedTitle = item.title;
-
-        if (selectedVariant) {
-          updatedTitle = updatedTitle.replace(
-            /(\d+(\.\d+)?kg)/,
-            selectedVariant.weight
-          );
-        }
-
-        const unitAmount = Math.round(
-          parseFloat(
-            selectedVariant
-              ? selectedVariant.price
-              : item.price.replace("€", "").replace(",", ".")
-          ) * 100
-        );
-
-        return {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: updatedTitle,
-              images: [item.image],
-            },
-            unit_amount: unitAmount,
-          },
-          quantity: item.quantity,
-        };
-      });
-
-      const totalAmount = lineItems.reduce(
-        (sum, item) => sum + item.price_data.unit_amount * item.quantity,
-        0
-      );
-
-      // Ma commission sur chaque commande
-      const applicationFeeAmount = Math.round(totalAmount * 0.05);
-
-      // Stockage des détails de la commande dans MongoDB
-      const order = {
-        items,
+    // Création de la session Stripe
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: lineItems,
+      mode: "payment",
+      success_url: `${
+        process.env.BASE_URL || "http://localhost:3000"
+      }/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.BASE_URL || "http://localhost:3000"}/cancel`,
+      payment_intent_data: {
+        application_fee_amount: applicationFeeAmount,
+        transfer_data: {
+          destination: process.env.PRODUCER_ACCOUNT_ID,
+        },
+      },
+      customer_email: customerEmail,
+      metadata: {
+        order_id: orderId.toString(),
         pickupDay,
         pickupTime,
-        customerName,
-        customerEmail,
-        customerAddress,
-        createdAt: new Date(),
-      };
+      },
+      billing_address_collection: "required",
+      customer_creation: "always",
+    });
 
-      const result = await ordersCollection.insertOne(order);
-      const orderId = result.insertedId;
-
-      // Création de la session Stripe
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        line_items: lineItems,
-        mode: "payment",
-        success_url: `${
-          process.env.BASE_URL || "http://localhost:3000"
-        }/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.BASE_URL || "http://localhost:3000"}/cancel`,
-        payment_intent_data: {
-          application_fee_amount: applicationFeeAmount,
-          transfer_data: {
-            destination: process.env.PRODUCER_ACCOUNT_ID,
-          },
-        },
-        customer_email: customerEmail,
-        metadata: {
-          order_id: orderId.toString(),
-          pickupDay,
-          pickupTime,
-        },
-        billing_address_collection: "required",
-        customer_creation: "always",
-      });
-
-      res.json({ id: session.id });
-    } catch (err) {
-      console.error("Error creating checkout session:", err);
-      res.status(500).send(`Internal Server Error: ${err.message}`);
-    }
+    res.json({ id: session.id });
+  } catch (err) {
+    console.error("Error creating checkout session:", err);
+    res.status(500).send(`Internal Server Error: ${err.message}`);
   }
-);
+});
 
 // Route pour vérifier le statut de paiement et envoyer l'email si le paiement est réussi
 app.get("/api/stripe/success", async (req, res) => {
@@ -270,6 +267,10 @@ app.get("/api/stripe/success", async (req, res) => {
     console.error("Error retrieving session or sending email:", err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
+});
+
+app.get("/test", (req, res) => {
+  res.send("CORS is working!");
 });
 
 // Route pour annuler la commande
