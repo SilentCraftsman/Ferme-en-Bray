@@ -53,6 +53,9 @@ app.use(
   })
 );
 
+// Assure que les requêtes OPTIONS sont bien traitées
+app.options("*", cors());
+
 app.use(bodyParser.json());
 
 // Route pour créer une session de paiement
