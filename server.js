@@ -38,7 +38,7 @@ if (!fs.existsSync(invoiceDirectory)) {
   fs.mkdirSync(invoiceDirectory, { recursive: true });
 }
 
-// Configurer CORS actif
+// Configurer CORS actif avec la prise en charge des requêtes de pré-vérification (préflight)
 app.use(
   cors({
     origin: [
@@ -48,31 +48,12 @@ app.use(
       "https://www.lavolailleenbray.com",
       "https://ferme-en-bray.onrender.com",
     ],
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-// Activer les requêtes OPTIONS pour toutes les routes (pré-vérification CORS)
-app.options("*", cors());
 
 app.use(bodyParser.json());
-
-// Middleware CORS commenté pour référence
-/*
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://lavolailleenbray.com",
-      "https://www.lavolailleenbray.com",
-    ], // Remplace par le domaine de ton site en ligne
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-*/
 
 // Route pour créer une session de paiement
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
