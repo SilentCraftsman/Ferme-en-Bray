@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: my-api
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    plan: free
+    regions:
+      - frankfurt # Région "Frankfurt (EU Central)"
+    instances: 1
+    autoDeploy: true
+    routes:
+      - src: /api/*
+        dest: /api/
