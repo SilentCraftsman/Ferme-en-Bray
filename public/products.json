@@ -18,7 +18,7 @@
     },
     {
       "id": 3,
-      "image": "./images/main-images/image-3.jpg",
+      "image": "./images/main-images/Boudin_blanc_de_volaille.webp",
       "title": "Boudin blanc de volaille - 130gr - 15.90 € le kg",
       "price": "2.07 €",
       "ingredients": "Volaille, crème fraîche, œufs, pain, épices.",
@@ -26,7 +26,7 @@
     },
     {
       "id": 4,
-      "image": "./images/main-images/image-4.jpg",
+      "image": "./images/main-images/Quenelle_de_volaille.webp",
       "title": "Quenelles de volaille - 125gr - 16.80 € le kg",
       "price": "2.10 €",
       "ingredients": "Volaille, farine, lait, œufs, beurre.",
@@ -34,7 +34,7 @@
     },
     {
       "id": 5,
-      "image": "./images/main-images/image-1.jpg",
+      "image": "./images/main-images/Croquette_de_poulet.webp",
       "title": "Croquettes de poulet - 75gr - 19.80 € le kg",
       "price": "1.49 €",
       "ingredients": "Poulet, chapelure, œufs, épices, huile de tournesol.",
@@ -42,7 +42,7 @@
     },
     {
       "id": 6,
-      "image": "./images/main-images/image-2.jpg",
+      "image": "./images/main-images/Bouchée_de_volaille.webp",
       "title": "Bouchée de volaille - 150gr - 19.80 € le kg",
       "price": "2.80 €",
       "ingredients": "Volaille, fromage, herbes fraîches, épices, beurre.",
@@ -50,7 +50,7 @@
     },
     {
       "id": 7,
-      "image": "./images/main-images/image-2.jpg",
+      "image": "./images/main-images/Terrine_de_volaille.webp",
       "title": "Terrine de volaille - 250gr - 17.20 € le kg",
       "price": "4.30 €",
       "ingredients": "Volaille, porc, cognac, échalotes, épices.",
@@ -60,7 +60,7 @@
   "outdoorPoultryProducts": [
     {
       "id": "chicken",
-      "image": "./images/main-images/image-2.jpg",
+      "image": "./images/main-images/Poulet.webp",
       "title": "Poulet - 1.5kg - 9.10 € le kg",
       "price": "13.65 € et 18.20 €",
       "ingredients": "Poulet élevé en plein air, \"cou nu, roux, blanc\", herbes fraîches, ail, sel, poivre.",
@@ -90,7 +90,7 @@
     },
     {
       "id": 11,
-      "image": "./images/main-images/image-2.jpg",
+      "image": "./images/main-images/Cuisse_de_poulet.webp",
       "title": "Cuisses de poulet - 300gr - 11.00 € le kg",
       "price": "3.30 €",
       "ingredients": "Poulet, paprika, ail en poudre, sel, poivre, huile d'olive.",
@@ -98,7 +98,7 @@
     },
     {
       "id": 12,
-      "image": "./images/main-images/image-3.jpg",
+      "image": "./images/main-images/Filet_de_poulet.webp",
       "title": "Filets de poulet - 250gr - 18.00 € le kg",
       "price": "4.50 €",
       "ingredients": "Poulet, herbes fraîches, ail, citron, sel, poivre.",
@@ -106,7 +106,7 @@
     },
     {
       "id": 13,
-      "image": "./images/main-images/image-1.jpg",
+      "image": "./images/main-images/Ailerons_de_poulet.webp",
       "title": "Ailerons de poulet - 800gr - 7.30 € le kg",
       "price": "5.84 €",
       "ingredients": "Poulet, sauce soja, miel, ail, gingembre, sésame.",
