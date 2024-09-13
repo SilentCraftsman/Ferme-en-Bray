@@ -1,6 +1,4 @@
-// styles/footer.module.scss
-
-// Variables (définies ici pour personnaliser facilement les couleurs et les espacements)
+// Variables pour personnaliser les couleurs et les espacements
 $footer-background: #333;
 $footer-text-color: white;
 $social-media-link-color: white;
@@ -14,26 +12,30 @@ $footer-link-hover-color: #ddd;
   background-color: $footer-background;
   color: $footer-text-color;
   text-align: center;
-  padding: 10px 0;
-  position: relative; // Utilisation de 'relative' au lieu de 'fixed'
+  padding: 20px 0; // Padding augmenté pour une meilleure espacement
   width: 100%;
 
   p {
     margin: 5px;
+    font-size: 1rem;
   }
 
   .footer-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px; // Ajout d'espacement entre les éléments pour une meilleure lisibilité
   }
 
   .footer-links {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px 0;
     a {
       color: $footer-link-color;
-      margin: 0 9.5px;
+      margin: 5px 15px;
+      font-size: 0.95rem; // Ajustement de la taille de la police
       text-decoration: none;
       &:hover {
         color: $footer-link-hover-color;
@@ -42,11 +44,13 @@ $footer-link-hover-color: #ddd;
   }
 
   .social-media {
+    display: flex;
+    justify-content: center;
     margin-top: 10px;
     a {
       color: $social-media-link-color;
       margin: 0 $social-media-link-margin;
-      text-decoration: none;
+      transition: color 0.3s ease;
 
       &:hover {
         color: $social-media-link-hover-color;
@@ -55,38 +59,53 @@ $footer-link-hover-color: #ddd;
   }
 }
 
-// Responsive Design pour les tablettes et les mobiles
+// Responsive Design pour les tablettes
 @media (max-width: 768px) {
   .footer {
     padding: 15px 0;
 
+    p {
+      font-size: 0.9rem; // Taille réduite du texte pour les petits écrans
+    }
+
     .footer-links {
       a {
-        margin: 0 8px; // Réduit l'espace entre les liens pour les écrans plus petits
+        margin: 5px 10px; // Réduction de l'espacement pour s'adapter aux écrans plus petits
+        font-size: 0.9rem; // Taille réduite des liens
       }
     }
 
     .social-media {
       a {
-        margin: 0 8px; // Réduit l'espace entre les liens pour les écrans plus petits
+        margin: 0 8px; // Espacement réduit pour les petits écrans
       }
     }
   }
 }
 
+// Responsive Design pour les mobiles (moins de 480px)
 @media (max-width: 480px) {
   .footer {
-    padding: 20px 0;
+    padding: 10px 0;
+
+    p {
+      font-size: 0.85rem; // Taille encore plus réduite pour les très petits écrans
+    }
 
     .footer-links {
       a {
-        margin: 0 5px; // Réduit encore plus l'espace entre les liens pour les très petits écrans
+        margin: 5px 8px;
+        font-size: 0.85rem; // Taille des liens adaptée aux petits écrans
       }
     }
 
     .social-media {
       a {
-        margin: 0 5px; // Réduit encore plus l'espace entre les liens pour les très petits écrans
+        margin: 0 6px; // Espacement réduit pour les liens des réseaux sociaux
+        svg {
+          width: 24px; // Réduction de la taille des icônes pour s'adapter aux petits écrans
+          height: 24px;
+        }
       }
     }
   }
