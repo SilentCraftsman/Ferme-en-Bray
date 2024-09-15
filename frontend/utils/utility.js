@@ -4,7 +4,7 @@ export const clearCart = () => {
     // Effacer le panier du localStorage
     localStorage.removeItem("cart");
 
-    console.log("Panier effacé avec succès");
+    logger.info("Panier effacé avec succès");
   } catch (error) {
     console.error("Erreur lors de l'effacement du panier", error);
   }

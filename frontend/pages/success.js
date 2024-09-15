@@ -8,12 +8,12 @@ const SuccessPage = () => {
   const { session_id } = router.query;
 
   useEffect(() => {
-    console.log("useEffect triggered with session_id:", session_id); // Ajouté pour vérifier le déclenchement de useEffect
+    logger.info("useEffect triggered with session_id:", session_id); // Ajouté pour vérifier le déclenchement de useEffect
 
     if (session_id) {
       checkPaymentStatusAndSendEmail(session_id);
     } else {
-      console.log("Session ID is not available yet.");
+      logger.info("Session ID is not available yet.");
     }
 
     clearCart();
@@ -26,13 +26,13 @@ const SuccessPage = () => {
   }, [session_id, router]);
 
   const checkPaymentStatusAndSendEmail = async (sessionId) => {
-    console.log("Function is called with sessionId:", sessionId); // Ajouté pour vérifier si la fonction est appelée
+    logger.info("Function is called with sessionId:", sessionId); // Ajouté pour vérifier si la fonction est appelée
 
     try {
       const url = `${
         process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001"
       }/api/stripe/success?session_id=${sessionId}`;
-      console.log("API URL:", url); // Ajouté pour vérifier l'URL construite
+      logger.info("API URL:", url); // Ajouté pour vérifier l'URL construite
 
       const response = await fetch(url, {
         method: "GET",
@@ -47,7 +47,7 @@ const SuccessPage = () => {
       }
 
       const data = await response.text();
-      console.log("Payment status checked:", data);
+      logger.info("Payment status checked:", data);
     } catch (error) {
       console.error("Erreur lors de la vérification du paiement:", error);
     }
