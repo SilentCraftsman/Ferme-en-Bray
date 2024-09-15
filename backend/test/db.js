@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const connectDB = async () => {
   try {
@@ -6,9 +6,9 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("MongoDB connected");
+    console.info('MongoDB connected');
   } catch (err) {
-    console.error("MongoDB connection error:", err);
+    console.error('MongoDB connection error:', err);
     process.exit(1);
   }
 };

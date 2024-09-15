@@ -1,12 +1,7 @@
-import PDFDocument from "pdfkit";
-import fs from "fs";
-import sgMail from "@sendgrid/mail";
-
-// Assurez-vous que le répertoire des factures existe
-const directory = "C:/Users/giogi/Desktop/factures";
-if (!fs.existsSync(directory)) {
-  fs.mkdirSync(directory, { recursive: true });
-}
+import PDFDocument from 'pdfkit';
+import fs from 'fs';
+import sgMail from '@sendgrid/mail';
+import logger from '../config/logger.js';
 
 // Fonction pour créer une facture
 export function createInvoice(order, path) {
@@ -20,19 +15,19 @@ export function createInvoice(order, path) {
   const pageWidth = doc.page.width - 2 * margin;
 
   // En-tête de l'entreprise
-  doc.fontSize(16).text("La volaille en Bray", { align: "left" });
+  doc.fontSize(16).text('La volaille en Bray', { align: 'left' });
 
   doc.moveDown(1.2); // Ajoute de l'espace après l'en-tête
 
   doc
     .fontSize(12)
-    .text("24 Rte de Beauvais, 76220 Ferrières-en-Bray", { align: "left" });
+    .text('24 Rte de Beauvais, 76220 Ferrières-en-Bray', { align: 'left' });
   doc.moveDown(0.2);
-  doc.text(`Numéro de TVA : ${process.env.PRODUCER_TAX_ID}`, { align: "left" });
+  doc.text(`Numéro de TVA : ${process.env.PRODUCER_TAX_ID}`, { align: 'left' });
 
   doc.moveDown(2); // Espacement avant le titre de la facture
 
-  doc.fontSize(20).text("Facture", { align: "left" });
+  doc.fontSize(20).text('Facture', { align: 'left' });
 
   doc.moveDown(1.4); // Espacement après le titre de la facture
 
@@ -59,12 +54,12 @@ export function createInvoice(order, path) {
 
   // En-tête du tableau avec une bordure
   const table = {
-    header: ["Produit", "Quantité", "Prix Unitaire", "Total"],
+    header: ['Produit', 'Quantité', 'Prix Unitaire', 'Total'],
     rows: order.items.map((item) => [
       item.title,
       item.quantity,
-      parseFloat(item.price).toFixed(2) + " €",
-      (item.quantity * parseFloat(item.price)).toFixed(2) + " €",
+      parseFloat(item.price).toFixed(2) + ' €',
+      (item.quantity * parseFloat(item.price)).toFixed(2) + ' €',
     ]),
     columnWidths: [pageWidth * 0.45, 80, 90, 90],
   };
@@ -89,14 +84,14 @@ export function createInvoice(order, path) {
   const totalValueX = pageWidth + margin - 90; // Ajuster pour être en ligne avec "Total TTC :"
   const totalY = doc.y;
 
-  doc.fontSize(12).text("Total TTC :", totalLabelX, totalY);
+  doc.fontSize(12).text('Total TTC :', totalLabelX, totalY);
   doc.text(`${totalAmount.toFixed(2)} €`, totalValueX, totalY);
 
   doc.moveDown(6.5); // Espacement après le total
 
   // Ajout d'un pied de page avec un mot de remerciement et les informations de contact, étiré sur toute la largeur
-  doc.fontSize(15).text("Merci pour votre achat !", margin, doc.y, {
-    align: "center",
+  doc.fontSize(15).text('Merci pour votre achat !', margin, doc.y, {
+    align: 'center',
     width: pageWidth,
   });
 
@@ -119,14 +114,14 @@ function drawTable(doc, startY, table) {
   const drawRow = (row, y) => {
     let x = 50;
     row.forEach((text, i) => {
-      doc.text(text, x, y, { width: columnWidths[i], align: "center" });
+      doc.text(text, x, y, { width: columnWidths[i], align: 'center' });
       x += columnWidths[i];
     });
   };
 
   // Dessiner l'en-tête du tableau
   doc
-    .fillColor("#f2f2f2")
+    .fillColor('#f2f2f2')
     .rect(
       50,
       y - 10,
@@ -134,11 +129,11 @@ function drawTable(doc, startY, table) {
       rowHeight
     )
     .fill();
-  doc.fillColor("#000").fontSize(fontSize);
+  doc.fillColor('#000').fontSize(fontSize);
 
   let x = 50;
   header.forEach((text, i) => {
-    doc.text(text, x, y, { width: columnWidths[i], align: "center" });
+    doc.text(text, x, y, { width: columnWidths[i], align: 'center' });
     x += columnWidths[i];
   });
 
@@ -150,7 +145,7 @@ function drawTable(doc, startY, table) {
     if (y + rowHeight + bottomPadding > doc.page.height - 100) {
       // -100 pour garder une marge en bas
       // Finaliser la bordure du tableau avant de passer à une nouvelle page
-      doc.strokeColor("#000").lineWidth(1);
+      doc.strokeColor('#000').lineWidth(1);
       doc
         .rect(
           50,
@@ -165,7 +160,7 @@ function drawTable(doc, startY, table) {
 
       // Redessiner l'en-tête du tableau sur la nouvelle page
       doc
-        .fillColor("#f2f2f2")
+        .fillColor('#f2f2f2')
         .rect(
           50,
           y - 10,
@@ -173,11 +168,11 @@ function drawTable(doc, startY, table) {
           rowHeight
         )
         .fill();
-      doc.fillColor("#000").fontSize(fontSize);
+      doc.fillColor('#000').fontSize(fontSize);
 
       x = 50;
       header.forEach((text, i) => {
-        doc.text(text, x, y, { width: columnWidths[i], align: "center" });
+        doc.text(text, x, y, { width: columnWidths[i], align: 'center' });
         x += columnWidths[i];
       });
 
@@ -194,7 +189,7 @@ function drawTable(doc, startY, table) {
   });
 
   // Dessiner la bordure finale du tableau
-  doc.strokeColor("#000").lineWidth(1);
+  doc.strokeColor('#000').lineWidth(1);
   doc
     .rect(
       50,
@@ -212,14 +207,14 @@ export function sendInvoiceEmail(customerEmail, invoicePath) {
   const msg = {
     to: customerEmail,
     from: process.env.EMAIL_USER,
-    subject: "Votre facture pour la commande",
-    text: "Merci pour votre commande. Veuillez trouver votre facture en pièce jointe.",
+    subject: 'Votre facture pour la commande',
+    text: 'Merci pour votre commande. Veuillez trouver votre facture en pièce jointe.',
     attachments: [
       {
-        content: fs.readFileSync(invoicePath).toString("base64"),
-        filename: "facture.pdf",
-        type: "application/pdf",
-        disposition: "attachment",
+        content: fs.readFileSync(invoicePath).toString('base64'),
+        filename: 'facture.pdf',
+        type: 'application/pdf',
+        disposition: 'attachment',
       },
     ],
   };
@@ -227,9 +222,9 @@ export function sendInvoiceEmail(customerEmail, invoicePath) {
   sgMail
     .send(msg)
     .then(() => {
-      console.log("Invoice sent successfully");
+      logger.info('Invoice sent successfully');
     })
     .catch((error) => {
-      console.error("Error sending invoice:", error);
+      console.error('Error sending invoice:', error);
     });
 }

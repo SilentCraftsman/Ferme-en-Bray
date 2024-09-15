@@ -126,7 +126,7 @@ const CartPage = () => {
           },
         }
       );
-      console.log("Checkout session created:", response.data);
+      logger.info("Checkout session created:", response.data);
       const { id } = response.data;
       const stripe = window.Stripe(
         process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY

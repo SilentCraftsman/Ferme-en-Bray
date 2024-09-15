@@ -1,5 +1,5 @@
-import { MongoClient } from "mongodb";
-import dotenv from "dotenv";
+import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
 
 // Charger les variables d'environnement depuis le fichier .env
 dotenv.config();
@@ -17,21 +17,21 @@ async function connectToDatabase() {
   try {
     // Connexion au cluster
     await client.connect();
-    console.log("Connecté avec succès à MongoDB");
+    console.log('Connecté avec succès à MongoDB');
 
     // Accéder à une base de données
-    const database = client.db("shop"); // Nom de la base de données
-    console.log("Base de données connectée : shop");
+    const database = client.db('shop'); // Nom de la base de données
+    console.log('Base de données connectée : shop');
 
     // Accéder à une collection
-    const ordersCollection = database.collection("orders"); // Nom de la collection
-    console.log("Collection connectée : orders");
+    const ordersCollection = database.collection('orders'); // Nom de la collection
+    console.log('Collection connectée : orders');
 
     // Exemple d'interaction avec la base de données
-    await ordersCollection.insertOne({ name: "Test Order", quantity: 1 });
-    console.log("Document inséré avec succès");
+    await ordersCollection.insertOne({ name: 'Test Order', quantity: 1 });
+    console.log('Document inséré avec succès');
   } catch (error) {
-    console.error("Erreur de connexion à MongoDB", error);
+    console.error('Erreur de connexion à MongoDB', error);
   } finally {
     // Assurer la fermeture de la connexion
     await client.close();
