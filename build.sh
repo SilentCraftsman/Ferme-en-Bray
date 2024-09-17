@@ -57,7 +57,7 @@ if ! cd "$SCRIPT_DIR/backend"; then
     exit 1
 fi
 log_info "Installing backend dependencies..."
-if ! npm install; then
+if ! npm install --include=dev; then
     log_error "Failed to install backend dependencies"
     exit 1
 fi
