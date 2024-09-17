@@ -7,7 +7,7 @@ import { getInvoicePath } from '../utils/invoiceHelper.js';
 import logger from '../config/logger.js';
 import {
   EMAIL_USER,
-  FRONTEND_BASE_URL,
+  API_BASE_URL,
   PRODUCER_ACCOUNT_ID,
   PRODUCER_EMAIL,
   SENDGRID_API_KEY,
@@ -95,8 +95,8 @@ export const createCheckoutSession = async (req, res) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${FRONTEND_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${FRONTEND_BASE_URL}/cancel`,
+      success_url: `${API_BASE_URL}/api/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${API_BASE_URL}/api/cancel`,
       payment_intent_data: {
         application_fee_amount: applicationFeeAmount,
         transfer_data: {
@@ -212,7 +212,7 @@ export const handlePaymentSuccess = async (req, res) => {
       logger.info('Payment not completed. Email not sent.');
     }
 
-    res.redirect(`${FRONTEND_BASE_URL}/success`);
+    res.redirect(`${API_BASE_URL}/api/success`);
   } catch (err) {
     console.error('Error retrieving session or sending email:', err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
