@@ -4,6 +4,11 @@ import apiRoutes from './routes/apiRoutes.js';
 import { corsMiddleware } from './config/corsConfig.js';
 import logger from './config/logger.js';
 import { NODE_ENV, PORT } from './config/config.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -30,7 +35,7 @@ if (NODE_ENV === 'production') {
   app.use(express.static('public'));
 
   app.get('*', (req, res) => {
-    res.sendFile('public/index.html');
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
 }
 
