@@ -27,14 +27,10 @@ app.use((req, res, next) => {
 
 if (NODE_ENV === 'production') {
   logger.info('Serving static files for frontend');
-  app.use(
-    express.static('C:\\Users\\charl\\Projets\\Ferme-en-Bray\\frontend\\out')
-  );
+  app.use(express.static('public'));
 
   app.get('*', (req, res) => {
-    res.sendFile(
-      'C:\\Users\\charl\\Projets\\Ferme-en-Bray\\frontend\\out\\index.html'
-    );
+    res.sendFile('public/index.html');
   });
 }
 
