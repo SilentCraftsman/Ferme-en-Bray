@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
+    "start": "eslint ./src && node src/app.js",
+    "dev": "eslint ./src && nodemon src/app.js",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "prettier:fix": "prettier --write ./src"

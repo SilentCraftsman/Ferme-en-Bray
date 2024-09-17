@@ -1,0 +1,364 @@
+// Variables
+$primary-color: #3498db;
+$primary-color-hover: #2980b9;
+$primary-color-active: #1d6fa5;
+$danger-color: #e74c3c;
+$danger-color-hover: #c0392b;
+$background-color-light: #f9f9f9;
+$text-color-dark: #333;
+$text-color-light: #fff;
+$border-color: #ddd;
+$box-shadow: 0 4px 10px rgba(0, 0, 0, 0.129);
+$border-radius: 8px;
+$transition: 0.3s ease;
+$font-family: Arial, sans-serif; // Définir la police commune
+$title-font-size: 1.2rem; // Taille de police pour les titres
+
+// Styles principaux
+.cartContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: $font-family;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: $text-color-dark;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $border-color;
+    padding: 15px 0;
+    transition: background-color $transition;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    img {
+      max-width: 120px;
+      height: auto;
+      margin-right: 20px;
+      border-radius: $border-radius;
+      box-shadow: $box-shadow;
+    }
+  }
+
+  .productDetails {
+    flex: 1;
+
+    h3 {
+      font-size: 1.3rem;
+      margin: 0;
+      color: $text-color-dark;
+    }
+
+    p {
+      margin: 5px 0;
+      font-size: 0.9rem;
+      color: $text-color-light;
+    }
+  }
+
+  .priceQuantity {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+
+    .priceInfo {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+
+      span {
+        font-size: 1rem;
+        color: $text-color-dark;
+        margin-bottom: 5px;
+
+        &:last-child {
+          font-weight: bold;
+          margin-top: 8px;
+          padding-right: 12px;
+        }
+      }
+    }
+  }
+
+  .quantityButtons {
+    display: flex;
+    align-items: center;
+
+    button {
+      background-color: $primary-color;
+      color: $text-color-light;
+      border: none;
+      padding: 5px 10px;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition:
+        background-color $transition,
+        transform 0.2s ease;
+      margin: 0 5px;
+      font-size: 1.2rem;
+
+      &:hover {
+        background-color: $primary-color-hover;
+        transform: scale(1.1);
+      }
+
+      &:active {
+        transform: scale(0.9);
+      }
+    }
+
+    span {
+      margin: 0 10px;
+      font-size: 1.2rem;
+      color: $text-color-dark;
+      font-weight: bold;
+    }
+  }
+
+  .removeProduct {
+    background-color: $danger-color;
+    color: $text-color-light;
+    border: none;
+    padding: 10px 15px;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition:
+      background-color $transition,
+      transform 0.2s ease;
+    margin-top: 15px;
+    font-size: 0.9rem;
+
+    &:hover {
+      background-color: $danger-color-hover;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  .total {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: right;
+    color: $text-color-dark;
+  }
+
+  // Styles pour les titres soulignés
+  .underlineTitle {
+    font-family: $font-family;
+    font-size: $title-font-size;
+    font-weight: bold;
+    text-decoration: underline;
+    color: $text-color-dark;
+    margin-bottom: 15px;
+  }
+}
+
+// Message lorsque le panier est vide
+.emptyCartMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  margin: 20px;
+  padding: 20px;
+  border: 2px dashed $border-color;
+  border-radius: 10px;
+  background-color: $background-color-light;
+
+  p {
+    font-size: 1.2rem;
+    color: $text-color-dark;
+    margin: 10px 0;
+  }
+
+  svg {
+    color: $primary-color;
+  }
+}
+
+// Calendrier
+.datePickerContainer {
+  width: 100%;
+  max-width: 800px; // Augmenter la largeur maximale
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  background-color: #fff;
+  box-shadow: $box-shadow;
+  text-align: center;
+
+  .dateTitle {
+    font-size: $title-font-size;
+    margin: 0 0 15px;
+    color: $text-color-dark;
+  }
+
+  .dateSelect {
+    width: calc(100% - 20px); // Ajuster la largeur en fonction du padding
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    transition: border-color $transition;
+    margin-top: 10px;
+
+    &:focus {
+      border-color: $primary-color;
+      outline: none;
+    }
+  }
+
+  .errorMessage {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid $danger-color;
+    border-radius: $border-radius;
+    background-color: #f8d7da;
+    color: $danger-color;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+}
+
+// Informations sur le client
+.customerInfo {
+  width: 100%;
+  max-width: 800px; // Augmenter la largeur maximale
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  background-color: #fff;
+  box-shadow: $box-shadow;
+  text-align: center;
+
+  h3 {
+    font-size: $title-font-size;
+    color: $text-color-dark;
+    text-decoration: underline;
+    margin-bottom: 15px;
+  }
+
+  input {
+    margin-top: 8px;
+    width: calc(100% - 20px); // Ajuster la largeur en fonction du padding
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    font-size: 1rem;
+
+    &:focus {
+      border-color: $primary-color;
+      outline: none;
+    }
+  }
+}
+
+// Bouton de paiement
+.paymentButton {
+  background-color: $primary-color;
+  color: $text-color-light;
+  border: none;
+  padding: 12px 24px;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition:
+    background-color $transition,
+    transform 0.2s ease,
+    box-shadow $transition;
+  font-size: 1.1rem;
+  font-weight: bold;
+  box-shadow: $box-shadow;
+  display: inline-block;
+  margin-top: 40px; // Le laisser là
+
+  &:hover {
+    background-color: $primary-color-hover;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    background-color: $primary-color-active;
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
+  }
+}
+
+// Styles responsifs pour les tablettes et mobiles
+@media (max-width: 905px) {
+  .datePickerContainer,
+  .customerInfo {
+    padding: 15px; // Réduit le padding pour les écrans plus petits
+    max-width: 100%; // Assure que le container ne dépasse pas
+    margin: 30px auto; // Centre le container horizontalement
+    box-sizing: border-box; // Inclut padding et bordure dans la largeur totale
+  }
+}
+
+@media (max-width: 430px) {
+  .cartContainer {
+    .quantityButtons {
+      margin-top: 40px;
+    }
+    .priceQuantity {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .datePickerContainer,
+  .customerInfo {
+    width: 100%;
+    margin: 40px auto; // Centre le container horizontalement
+    padding: 10px;
+    max-width: 100%;
+  }
+
+  .dateTitle {
+    font-size: 1rem;
+    margin: 0 0 10px;
+  }
+
+  .dateSelect,
+  .customerInfo input {
+    font-size: 0.8rem;
+  }
+
+  .errorMessage {
+    font-size: 0.8rem;
+  }
+
+  .paymentButton {
+    font-size: 0.8rem;
+    margin-top: 30px;
+  }
+}

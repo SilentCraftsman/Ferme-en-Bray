@@ -1,10 +1,11 @@
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
 import logger from '../config/logger.js';
+import { MONGODB_URI } from '../config/config.js';
 
 dotenv.config();
 
-const mongoUri = process.env.MONGODB_URI;
+const mongoUri = MONGODB_URI;
 const client = new MongoClient(mongoUri);
 export let ordersCollection;
 

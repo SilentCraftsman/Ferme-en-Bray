@@ -1,13 +1,8 @@
 import cors from 'cors';
+import { CORS_ORIGINS } from './config.js';
 
 const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'https://lavolailleenbray.com',
-    'https://www.lavolailleenbray.com',
-    'https://ferme-en-bray.onrender.com',
-  ],
+  origin: CORS_ORIGINS,
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
