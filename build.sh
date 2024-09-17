@@ -18,7 +18,7 @@ if ! cd "$SCRIPT_DIR/frontend"; then
     exit 1
 fi
 log_info "Installing frontend dependencies..."
-if ! npm install; then
+if ! npm install --include=dev; then
     log_error "Failed to install frontend dependencies"
     exit 1
 fi
