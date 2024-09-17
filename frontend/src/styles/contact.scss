@@ -1,0 +1,197 @@
+// styles/contact.scss
+
+// Variables (définies ici pour personnaliser facilement les couleurs, espacements, etc.)
+$primary-color: #0070f3;
+$primary-color-hover: #005bb5;
+$border-color: #ccc;
+$border-radius: 4px;
+$animation-duration: 2s;
+
+// Conteneur principal du formulaire de contact
+.contact-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+// Titres et descriptions avec animations
+.contact-title,
+.contact-description,
+.contact-info-title,
+.contact-info-item,
+.map-title,
+.form-title,
+.contact-form {
+  opacity: 0;
+  transform: translateX(-120vw); // Démarrer très loin à gauche
+  transition:
+    opacity 1s ease-out,
+    transform 1s ease-out;
+}
+
+.contact-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+  animation: slideInFromFarLeft $animation-duration ease-out forwards;
+}
+
+.contact-description {
+  margin-bottom: 1rem;
+  animation: slideInFromFarLeft $animation-duration ease-out 0.5s forwards;
+}
+
+.contact-info {
+  margin-bottom: 0.2rem;
+}
+
+.contact-info-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+  animation: slideInFromFarLeft $animation-duration ease-out 1s forwards;
+}
+
+.contact-info-item {
+  margin-bottom: 0.5rem;
+  animation: slideInFromFarLeft $animation-duration ease-out 1.5s forwards;
+}
+
+.map-container {
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.map-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+  animation: slideInFromFarLeft $animation-duration ease-out 2s forwards;
+}
+
+.map-iframe {
+  width: 100%;
+  height: 450px;
+  border: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1.5s ease-out 2.5s forwards; // Animation plus rapide
+}
+
+.form-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+  animation: slideInFromFarLeft $animation-duration ease-out 3s forwards;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  animation: slideInFromFarLeft $animation-duration ease-out 0.5s forwards;
+
+  label {
+    margin: 0.5rem 0 0.2rem;
+  }
+
+  input,
+  textarea {
+    padding: 0.8rem;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    margin-bottom: 1rem;
+    resize: none;
+    overflow: auto;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 0.8rem;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $primary-color-hover;
+    }
+  }
+}
+
+// Styles pour les messages de validation et de réussite
+.form-message {
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: $border-radius;
+  text-align: center;
+  animation: fadeInOut 4s ease-in-out;
+  &.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  &.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+}
+
+// Animations
+@keyframes slideInFromFarLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-120vw); // Démarrer très loin à gauche
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInOut {
+  0%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 15px;
+  }
+
+  .contact-title {
+    font-size: 1.8rem;
+  }
+
+  .contact-info-title,
+  .map-title,
+  .form-title {
+    font-size: 1.2rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    padding: 0.6rem;
+  }
+}

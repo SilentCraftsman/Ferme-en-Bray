@@ -2,6 +2,13 @@ import PDFDocument from 'pdfkit';
 import fs from 'fs';
 import sgMail from '@sendgrid/mail';
 import logger from '../config/logger.js';
+import {
+  EMAIL_USER,
+  PRODUCER_ADDRESS,
+  PRODUCER_NAME,
+  PRODUCER_TAX_ID,
+  SENDGRID_API_KEY,
+} from '../config/config.js';
 
 // Fonction pour créer une facture
 export function createInvoice(order, path) {
@@ -23,7 +30,7 @@ export function createInvoice(order, path) {
     .fontSize(12)
     .text('24 Rte de Beauvais, 76220 Ferrières-en-Bray', { align: 'left' });
   doc.moveDown(0.2);
-  doc.text(`Numéro de TVA : ${process.env.PRODUCER_TAX_ID}`, { align: 'left' });
+  doc.text(`Numéro de TVA : ${PRODUCER_TAX_ID}`, { align: 'left' });
 
   doc.moveDown(2); // Espacement avant le titre de la facture
 
@@ -34,9 +41,9 @@ export function createInvoice(order, path) {
   // Informations sur la facture
   doc.fontSize(12).text(`Date : ${new Date().toLocaleDateString()}`);
   doc.moveDown(0.2);
-  doc.text(`Nom du producteur : ${process.env.PRODUCER_NAME}`);
+  doc.text(`Nom du producteur : ${PRODUCER_NAME}`);
   doc.moveDown(0.2);
-  doc.text(`Adresse du producteur : ${process.env.PRODUCER_ADDRESS}`);
+  doc.text(`Adresse du producteur : ${PRODUCER_ADDRESS}`);
 
   doc.moveDown(1.5); // Espacement après les informations du producteur
 
@@ -202,11 +209,11 @@ function drawTable(doc, startY, table) {
 
 // Fonction pour envoyer la facture par email
 export function sendInvoiceEmail(customerEmail, invoicePath) {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  sgMail.setApiKey(SENDGRID_API_KEY);
 
   const msg = {
     to: customerEmail,
-    from: process.env.EMAIL_USER,
+    from: EMAIL_USER,
     subject: 'Votre facture pour la commande',
     text: 'Merci pour votre commande. Veuillez trouver votre facture en pièce jointe.',
     attachments: [

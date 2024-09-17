@@ -58,4 +58,3 @@ This project consists of a backend server and a frontend client for managing and
 - `npm run export`: Export the frontend as a static site.
 - `npm start`: Serve the static site using serve.
 - `npm run lint`: Run ESLint to check for linting errors.
-```

@@ -1,0 +1,235 @@
+// Variables pour les styles
+$nav-background-color: #f8f8f8;
+$nav-text-color: #333;
+$nav-link-hover-bg: #495154c9;
+$nav-link-hover-color: #fff;
+$nav-font-size: 16px;
+$nav-padding: 1rem;
+$nav-margin-bottom: 2rem;
+$nav-text-padding: 0.5rem;
+$nav-text-align: center;
+$title-font-size: 1.6rem;
+$title-margin: 0.5rem 0;
+$grid-gap: 2rem;
+
+// Animation de fondu et montée
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// NavBar Secondaire
+.secondary-nav {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 80%;
+  max-width: 1200px;
+  transform: translateX(-50%);
+  background-color: $nav-background-color;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: $nav-padding;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+  margin-bottom: $nav-margin-bottom;
+
+  .nav-description {
+    margin: 0;
+    color: $nav-text-color;
+    font-size: $nav-font-size;
+    text-align: $nav-text-align;
+    padding: $nav-text-padding;
+    width: 100%;
+    box-sizing: border-box;
+    text-decoration: underline;
+  }
+
+  ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    margin-top: 1.2rem;
+    padding: 0;
+    width: 100%;
+
+    li {
+      margin: 0 1rem;
+
+      a {
+        text-decoration: none;
+        color: $nav-text-color;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+
+        &:hover {
+          background-color: $nav-link-hover-bg;
+          color: $nav-link-hover-color;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design pour la NavBar
+@media (max-width: 768px) {
+  .secondary-nav {
+    padding: 0.5rem;
+
+    .nav-description {
+      font-size: 14px;
+      padding: 0.5rem;
+    }
+
+    ul {
+      flex-direction: column;
+
+      li {
+        margin: 0.5rem 0;
+
+        a {
+          padding: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .secondary-nav {
+    padding: 0.25rem;
+
+    .nav-description {
+      font-size: 12px;
+      padding: 0.25rem;
+    }
+
+    ul {
+      flex-direction: column;
+
+      li {
+        margin: 0.25rem 0;
+
+        a {
+          padding: 0.25rem;
+        }
+      }
+    }
+  }
+}
+
+.main-section {
+  padding-top: 1rem;
+}
+
+// Sections principales
+.title-main-content,
+.title-main-content-air,
+.title-main-content-holiday {
+  text-align: center;
+  margin: $title-margin;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1.5s ease-out forwards;
+}
+
+.product-grid,
+.product-grid-air,
+.product-grid-holiday {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $grid-gap;
+  justify-content: center;
+}
+
+.product-grid > .product-card,
+.product-grid-air > .product-card,
+.product-grid-holiday > .product-card {
+  flex: 1 1 calc(33.333% - $grid-gap);
+  max-width: calc(33.333% - $grid-gap);
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .product-grid > .product-card,
+  .product-grid-air > .product-card,
+  .product-grid-holiday > .product-card {
+    flex: 1 1 calc(50% - $grid-gap);
+    max-width: calc(50% - $grid-gap);
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid > .product-card,
+  .product-grid-air > .product-card,
+  .product-grid-holiday > .product-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+// Flèche de retour en haut
+.scroll-container {
+  display: flex;
+  justify-content: flex-end;
+  position: sticky;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.scroll-to-top {
+  width: 55px;
+  height: 55px;
+  background-color: #495154c9;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 24px;
+  opacity: 0.7;
+  transition:
+    background-color 0.3s ease,
+    opacity 0.3s ease;
+  visibility: hidden;
+
+  &.visible {
+    visibility: visible;
+  }
+
+  &:hover {
+    background-color: #333;
+  }
+}
+
+// Responsive design pour la flèche
+@media (max-width: 768px) {
+  .scroll-to-top {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-to-top {
+    background-color: #35393be0;
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+}

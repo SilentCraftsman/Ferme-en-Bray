@@ -5,8 +5,15 @@ import sgMail from '@sendgrid/mail';
 import { ObjectId } from 'mongodb';
 import { getInvoicePath } from '../utils/invoiceHelper.js';
 import logger from '../config/logger.js';
+import {
+  EMAIL_USER,
+  FRONTEND_BASE_URL,
+  PRODUCER_ACCOUNT_ID,
+  PRODUCER_EMAIL,
+  SENDGRID_API_KEY,
+} from '../config/config.js';
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(SENDGRID_API_KEY);
 
 export const createCheckoutSession = async (req, res) => {
   const {
@@ -88,14 +95,12 @@ export const createCheckoutSession = async (req, res) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${
-        process.env.BASE_URL || 'http://localhost:3000'
-      }/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.BASE_URL || 'http://localhost:3000'}/cancel`,
+      success_url: `${FRONTEND_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${FRONTEND_BASE_URL}/cancel`,
       payment_intent_data: {
         application_fee_amount: applicationFeeAmount,
         transfer_data: {
-          destination: process.env.PRODUCER_ACCOUNT_ID,
+          destination: PRODUCER_ACCOUNT_ID,
         },
       },
       customer_email: customerEmail,
@@ -168,8 +173,8 @@ export const handlePaymentSuccess = async (req, res) => {
         </tr>`;
 
       const msg = {
-        to: process.env.PRODUCER_EMAIL,
-        from: process.env.EMAIL_USER,
+        to: PRODUCER_EMAIL,
+        from: EMAIL_USER,
         subject: 'Confirmation de votre commande',
         html: `
           <strong>Le client de la commande : ${customerName}</strong><br>
@@ -207,7 +212,7 @@ export const handlePaymentSuccess = async (req, res) => {
       logger.info('Payment not completed. Email not sent.');
     }
 
-    res.redirect(`${process.env.BASE_URL}/success`);
+    res.redirect(`${FRONTEND_BASE_URL}/success`);
   } catch (err) {
     console.error('Error retrieving session or sending email:', err);
     res.status(500).send(`Internal Server Error: ${err.message}`);

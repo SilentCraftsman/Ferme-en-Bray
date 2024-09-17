@@ -1,0 +1,126 @@
+// styles/Header.scss
+
+// Variables (définies ici pour personnaliser facilement les couleurs, tailles et espacements)
+$header-bg-color: #333;
+$header-text-color: white;
+$nav-list-gap: 15px;
+$nav-link-bg-color: #333;
+$nav-link-hover-bg-color: #444;
+$nav-link-hover-color: #ddd;
+$cart-icon-bg-color: red;
+$cart-icon-text-color: white;
+$cart-icon-border-color: white;
+$cart-icon-font-size: 12px;
+
+// Style principal du header
+.header {
+  background-color: $header-bg-color;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .header-title {
+    font-size: 2.5rem;
+    font-family: 'Georgia', serif;
+    color: $header-text-color;
+    margin-bottom: 1rem;
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  nav {
+    width: 100%;
+  }
+
+  .nav-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: $nav-list-gap;
+    flex-wrap: wrap; // Permet aux éléments de passer à la ligne si nécessaire
+
+    li {
+      display: inline-block;
+      position: relative;
+
+      a {
+        text-decoration: none;
+        color: $header-text-color;
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        background-color: $nav-link-bg-color;
+
+        &:hover {
+          background-color: $nav-link-hover-bg-color;
+          color: $nav-link-hover-color;
+        }
+
+        svg {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+
+  .cart-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .cart-item-count {
+      position: absolute;
+      top: -24px;
+      right: -60px;
+      background-color: $cart-icon-bg-color;
+      color: $cart-icon-text-color;
+      border-radius: 50%;
+      padding: 5px 10px;
+      font-size: $cart-icon-font-size;
+      font-weight: bold;
+      border: 2px solid $cart-icon-border-color;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .header-title {
+    font-size: 1.8rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .nav-list {
+    display: grid; // Utilisation du grid pour la mise en page en colonnes
+    gap: 10px;
+    grid-template-columns: repeat(2, 1fr); // Deux colonnes
+    justify-items: center; // Centrer les éléments dans les colonnes
+  }
+
+  .nav-item {
+    grid-column: span 2; // Faire en sorte que le Panier occupe toute la largeur
+  }
+}
+
+@media (max-width: 480px) {
+  .header-title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-list {
+    gap: 5px;
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); // Toujours deux colonnes pour les écrans les plus petits
+  }
+}
