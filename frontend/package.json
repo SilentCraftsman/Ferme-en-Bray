@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next lint && next dev",
     "build": "next lint && cross-env NODE_ENV=production next build",
-    "start": "npx serve@latest out",
+    "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "prettier:fix": "prettier --write ./src"
