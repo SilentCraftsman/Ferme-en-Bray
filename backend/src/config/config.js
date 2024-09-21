@@ -4,6 +4,7 @@ dotenv.config();
 
 export const NODE_ENV = process.env.NODE_ENV;
 export const API_BASE_URL = process.env.API_BASE_URL;
+export const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL;
 export const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 export const PORT = process.env.PORT || 3001;
 export const CORS_ORIGINS = process.env.CORS_ORIGINS.split(',');
@@ -19,6 +20,11 @@ export const PRODUCER_ADDRESS = process.env.PRODUCER_ADDRESS;
 if (!API_BASE_URL) {
   throw new Error(
     'API_BASE_URL environment variable is not set. Please set it to your frontend URL.'
+  );
+}
+if (!FRONTEND_BASE_URL) {
+  throw new Error(
+    'FRONTEND_BASE_URL environment variable is not set. Please set it to your frontend URL.'
   );
 }
 if (!SENDGRID_API_KEY) {

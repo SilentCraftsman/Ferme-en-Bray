@@ -11,6 +11,7 @@ import {
   PRODUCER_ACCOUNT_ID,
   PRODUCER_EMAIL,
   SENDGRID_API_KEY,
+  FRONTEND_BASE_URL,
 } from '../config/config.js';
 
 sgMail.setApiKey(SENDGRID_API_KEY);
@@ -95,8 +96,8 @@ export const createCheckoutSession = async (req, res) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${API_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${API_BASE_URL}/cancel`,
+      success_url: `${FRONTEND_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${FRONTEND_BASE_URL}/cancel`,
       payment_intent_data: {
         application_fee_amount: applicationFeeAmount,
         transfer_data: {
