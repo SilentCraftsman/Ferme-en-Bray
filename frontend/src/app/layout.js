@@ -4,6 +4,7 @@ import { CartProvider } from '@/components/cart/CartContext.js';
 import Header from '@/components/Header.js';
 import Footer from '@/components/Footer.js';
 import '@/styles/globals.scss';
+import ToastProvider from '@/components/ToastProvider.js';
 
 export default function RootLayout({ children }) {
   return (
@@ -41,7 +42,9 @@ export default function RootLayout({ children }) {
         <script src="https://js.stripe.com/v3/" async></script>
         <CartProvider>
           <Header />
-          <main>{children}</main>
+          <main>
+            <ToastProvider>{children}</ToastProvider>
+          </main>
           <Footer />
         </CartProvider>
       </body>

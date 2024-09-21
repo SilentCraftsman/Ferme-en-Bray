@@ -5,6 +5,7 @@ import { corsMiddleware } from './config/corsConfig.js';
 import logger from './config/logger.js';
 import { NODE_ENV, PORT } from './config/config.js';
 import path from 'path';
+import fs from 'fs';
 
 const app = express();
 
@@ -26,14 +27,21 @@ app.use((req, res, next) => {
   next();
 });
 
-if (NODE_ENV === 'production') {
-  logger.info('Serving static files for frontend');
-  app.use(express.static('public'));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve('public/index.html'));
-  });
-}
+// if (NODE_ENV === 'production') {
+//   logger.info('Serving static files for frontend');
+//   app.use(express.static('public'));
+//
+//   app.get('*', (req, res) => {
+//     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
+//     const pageFile = `public${parsedUrl.pathname}.html`;
+//     // check if exist
+//     if (!fs.existsSync(pageFile)) {
+//       return res.sendFile(path.resolve('public/404.html'));
+//     }
+//
+//     res.sendFile(path.resolve(pageFile));
+//   });
+// }
 
 app.use('/api', apiRoutes);
 

@@ -95,8 +95,8 @@ export const createCheckoutSession = async (req, res) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${API_BASE_URL}/api/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${API_BASE_URL}/api/cancel`,
+      success_url: `${API_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${API_BASE_URL}/cancel`,
       payment_intent_data: {
         application_fee_amount: applicationFeeAmount,
         transfer_data: {
