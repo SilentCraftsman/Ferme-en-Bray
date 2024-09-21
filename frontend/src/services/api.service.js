@@ -1,5 +1,26 @@
 import axios from 'axios';
-import { API_BASE_PATH } from '@/config/common.config.js';
+import CryptoJS from 'crypto-js';
+import {
+  API_BASE_PATH,
+  AUTH_KEY,
+  ENCRYPT_KEY,
+} from '@/config/common.config.js';
+
+const apiClient = axios.create({
+  baseURL: API_BASE_PATH,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+apiClient.interceptors.request.use((config) => {
+  const timestamp = Date.now().toString();
+  config.headers['Authorization'] = CryptoJS.AES.encrypt(
+    `${AUTH_KEY}${timestamp}`,
+    ENCRYPT_KEY
+  ).toString();
+  return config;
+});
 
 export const createCheckoutSession = async (
   cart,
@@ -11,29 +32,21 @@ export const createCheckoutSession = async (
   getTotal
 ) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_PATH}/stripe/create-checkout-session`,
-      {
-        items: cart.map((item) => ({
-          title: item.title,
-          image: item.image,
-          price: item.price,
-          quantity: item.quantity,
-          selectedVariant: item.selectedVariant,
-        })),
-        pickupDay,
-        pickupTime,
-        customerEmail,
-        customerName,
-        customerAddress,
-        totalPrice: getTotal(),
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const response = await apiClient.post('/stripe/create-checkout-session', {
+      items: cart.map((item) => ({
+        title: item.title,
+        image: item.image,
+        price: item.price,
+        quantity: item.quantity,
+        selectedVariant: item.selectedVariant,
+      })),
+      pickupDay,
+      pickupTime,
+      customerEmail,
+      customerName,
+      customerAddress,
+      totalPrice: getTotal(),
+    });
     return response.data;
   } catch (error) {
     console.error('Error in createCheckoutSession:', error);
@@ -43,7 +56,7 @@ export const createCheckoutSession = async (
 
 export const cancelSession = async (sessionId) => {
   try {
-    const response = await axios.get(`${API_BASE_PATH}/stripe/cancel`, {
+    const response = await apiClient.get('/stripe/cancel', {
       params: { session_id: sessionId },
     });
     return response.data;
@@ -55,7 +68,7 @@ export const cancelSession = async (sessionId) => {
 
 export const checkPaymentStatus = async (sessionId) => {
   try {
-    const response = await axios.get(`${API_BASE_PATH}/stripe/success`, {
+    const response = await apiClient.get('/stripe/success', {
       params: { session_id: sessionId },
     });
     return response.data;

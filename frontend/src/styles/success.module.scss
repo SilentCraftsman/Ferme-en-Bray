@@ -24,9 +24,25 @@
   word-wrap: break-word; // Éviter les débordements de texte
 }
 
+.titleLoading {
+  color: #f1c40f; // Couleur de chargement
+}
+
+.titleError {
+  color: #e74c3c; // Couleur d'erreur
+}
+
 .message {
   margin: 0.5rem 0;
   word-wrap: break-word; // Éviter les débordements de texte
+}
+
+.messageLoading {
+  color: #f1c40f; // Couleur de chargement
+}
+
+.messageError {
+  color: #e74c3c; // Couleur d'erreur
 }
 
 .link {

@@ -3,37 +3,35 @@ import { clearCart } from '@/utils/utility.js';
 import { useRouter } from 'next/router';
 import styles from '@/styles/success.module.scss';
 import { checkPaymentStatus } from '@/services/api.service.js';
-import notify from '@/utils/notify.utils.js';
+import classNames from 'classnames';
 
 const checkPaymentStatusAndSendEmail = async (
   sessionId,
   router,
-  setLoading
+  setLoading,
+  setError
 ) => {
   try {
     const data = await checkPaymentStatus(sessionId);
     console.debug('Payment status checked:', data);
-    setLoading(false);
   } catch (error) {
     console.error('Erreur lors de la vérification du paiement:', error);
-    notify.error(
-      'Erreur lors de la vérification du paiement. Vous allez être redirigé.'
-    );
-    setTimeout(() => {
-      router.push('/');
-    }, 5000);
+    setError(error);
+  } finally {
+    setLoading(false);
   }
 };
 
 const SuccessPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const { session_id } = router.query;
 
     if (session_id) {
-      checkPaymentStatusAndSendEmail(session_id, router, setLoading);
+      checkPaymentStatusAndSendEmail(session_id, router, setLoading, setError);
       clearCart();
     }
   }, [router]);
@@ -41,8 +39,17 @@ const SuccessPage = () => {
   if (loading) {
     return (
       <div className={styles.page}>
-        <h1 className={styles.title}>
+        <h1 className={classNames(styles.title, styles.titleLoading)}>
           Vérification du statut de votre paiement...
+        </h1>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className={styles.page}>
+        <h1 className={classNames(styles.title, styles.titleError)}>
+          Erreur lors de la vérification du paiement.
         </h1>
       </div>
     );

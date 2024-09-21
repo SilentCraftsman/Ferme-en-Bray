@@ -11,10 +11,18 @@ import {
 
 const router = express.Router();
 
-router.post('/stripe/create-checkout-session', createCheckoutSession);
-router.get('/stripe/success', handlePaymentSuccess);
-router.get('/cancel', cancelOrder);
-router.get('/success', successResponse);
-router.get('/test', testRoute);
+// To handle async errors in route handlers
+const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+router.post(
+  '/stripe/create-checkout-session',
+  asyncHandler(createCheckoutSession)
+);
+router.get('/stripe/success', asyncHandler(handlePaymentSuccess));
+router.get('/cancel', asyncHandler(cancelOrder));
+router.get('/success', asyncHandler(successResponse));
+router.get('/test', asyncHandler(testRoute));
 
 export default router;
