@@ -213,7 +213,7 @@ export const handlePaymentSuccess = async (req, res) => {
       logger.info('Payment not completed. Email not sent.');
     }
 
-    res.redirect(`${API_BASE_URL}/api/success`);
+    res.status(200).send('Success');
   } catch (err) {
     console.error('Error retrieving session or sending email:', err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
