@@ -4,7 +4,7 @@ export const AUTH_KEY = process.env.AUTH_KEY;
 
 if (!process.env.API_BASE_URL) {
   throw new Error(
-    'API_BASE_PATH environment variable is not set. Please set it to your backend URL.'
+    'API_BASE_URL environment variable is not set. Please set it to your backend URL.'
   );
 }
 
