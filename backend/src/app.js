@@ -4,8 +4,7 @@ import apiRoutes from './routes/apiRoutes.js';
 import { corsMiddleware } from './config/corsConfig.js';
 import logger from './config/logger.js';
 import { NODE_ENV, PORT } from './config/config.js';
-import path from 'path';
-import fs from 'fs';
+import { authMiddleware } from './middleware/authMiddleware.js';
 
 const app = express();
 
@@ -21,27 +20,15 @@ if (NODE_ENV === 'production') {
 app.use(corsMiddleware);
 app.use(bodyParser.json());
 
-// Log each request
+// Log each request and response status code
 app.use((req, res, next) => {
-  logger.info(`${req.method} ${req.url}`);
+  res.on('finish', () => {
+    logger.info(`${req.method} ${req.url} - ${res.statusCode}`);
+  });
   next();
 });
 
-// if (NODE_ENV === 'production') {
-//   logger.info('Serving static files for frontend');
-//   app.use(express.static('public'));
-//
-//   app.get('*', (req, res) => {
-//     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
-//     const pageFile = `public${parsedUrl.pathname}.html`;
-//     // check if exist
-//     if (!fs.existsSync(pageFile)) {
-//       return res.sendFile(path.resolve('public/404.html'));
-//     }
-//
-//     res.sendFile(path.resolve(pageFile));
-//   });
-// }
+app.use(authMiddleware);
 
 app.use('/api', apiRoutes);
 
