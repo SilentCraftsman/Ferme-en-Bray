@@ -1,47 +1,56 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { clearCart } from '@/utils/utility.js';
 import { useRouter } from 'next/router';
 import styles from '@/styles/success.module.scss';
-import { checkPaymentStatus } from '@/services/api.service.js'; // Assurez-vous que le chemin est correct
+import { checkPaymentStatus } from '@/services/api.service.js';
+import notify from '@/utils/notify.utils.js';
+
+const checkPaymentStatusAndSendEmail = async (
+  sessionId,
+  router,
+  setLoading
+) => {
+  try {
+    const data = await checkPaymentStatus(sessionId);
+    console.debug('Payment status checked:', data);
+    setLoading(false);
+  } catch (error) {
+    console.error('Erreur lors de la vérification du paiement:', error);
+    notify.error(
+      'Erreur lors de la vérification du paiement. Vous allez être redirigé.'
+    );
+    setTimeout(() => {
+      router.push('/');
+    }, 5000);
+  }
+};
 
 const SuccessPage = () => {
   const router = useRouter();
-  const { session_id } = router.query;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('useEffect triggered with session_id:', session_id); // Ajouté pour vérifier le déclenchement de useEffect
+    const { session_id } = router.query;
 
     if (session_id) {
-      checkPaymentStatusAndSendEmail(session_id);
-    } else {
-      console.log('Session ID is not available yet.');
+      checkPaymentStatusAndSendEmail(session_id, router, setLoading);
+      clearCart();
     }
+  }, [router]);
 
-    clearCart();
-
-    const timer = setTimeout(() => {
-      router.push('/');
-    }, 10000); // Réduit le temps d'attente à 10 secondes pour les tests
-
-    return () => clearTimeout(timer);
-  }, [session_id, router]);
-
-  const checkPaymentStatusAndSendEmail = async (sessionId) => {
-    console.log('Function is called with sessionId:', sessionId); // Ajouté pour vérifier si la fonction est appelée
-
-    try {
-      const data = await checkPaymentStatus(sessionId);
-      console.log('Payment status checked:', data);
-    } catch (error) {
-      console.error('Erreur lors de la vérification du paiement:', error);
-    }
-  };
-
+  if (loading) {
+    return (
+      <div className={styles.page}>
+        <h1 className={styles.title}>
+          Vérification du statut de votre paiement...
+        </h1>
+      </div>
+    );
+  }
+  // TODO - add btn to return to home page
   return (
     <div className={styles.page}>
-      {/* Utilisation de la classe 'page' */}
       <h1 className={styles.title}>
-        {/* Utilisation de la classe 'title' */}
         Merci pour votre commande ! Vous recevrez bientôt une confirmation par
         email.
       </h1>
