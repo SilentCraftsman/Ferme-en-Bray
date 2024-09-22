@@ -8,16 +8,10 @@ function pingUrl(url) {
   axios
     .get(url)
     .then((response) => {
-      logger.info(
-        `Successfully pinged ${url} at ${new Date().toISOString()}: ${
-          response.status
-        }`
-      );
+      logger.debug(`Successfully pinged ${url}: ${response.status}`);
     })
     .catch((error) => {
-      logger.error(
-        `Error pinging ${url} at ${new Date().toISOString()}: ${error}`
-      );
+      logger.error(`Error pinging ${url}: ${error}`);
     });
 }
 
