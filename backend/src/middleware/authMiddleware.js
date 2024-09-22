@@ -2,7 +2,14 @@ import { AUTH_KEY, ENCRYPT_KEY } from '../config/config.js';
 import CryptoJS from 'crypto-js';
 import logger from '../config/logger.js';
 
+const pathNotRequiringAuth = ['/api/health'];
+
 export const authMiddleware = (req, res, next) => {
+  if (pathNotRequiringAuth.includes(req.path)) {
+    next();
+    return;
+  }
+
   const authHeader = req.headers['authorization'];
 
   if (authHeader) {

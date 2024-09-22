@@ -3,11 +3,7 @@ import {
   createCheckoutSession,
   handlePaymentSuccess,
 } from '../controllers/paymentController.js';
-import {
-  cancelOrder,
-  successResponse,
-  testRoute,
-} from '../controllers/orderController.js';
+import { healthRoute, testRoute } from '../controllers/orderController.js';
 
 const router = express.Router();
 
@@ -21,8 +17,7 @@ router.post(
   asyncHandler(createCheckoutSession)
 );
 router.get('/stripe/success', asyncHandler(handlePaymentSuccess));
-router.get('/cancel', asyncHandler(cancelOrder));
-router.get('/success', asyncHandler(successResponse));
 router.get('/test', asyncHandler(testRoute));
+router.get('/health', asyncHandler(healthRoute));
 
 export default router;

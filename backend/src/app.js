@@ -1,10 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import apiRoutes from './routes/apiRoutes.js';
-import { corsMiddleware } from './config/corsConfig.js';
+import { corsMiddleware } from './middleware/corsMiddleware.js';
 import logger from './config/logger.js';
 import { NODE_ENV, PORT } from './config/config.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
+import { initPingIntervals } from './utils/pingHelper.js';
 
 const app = express();
 
@@ -42,4 +43,6 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   logger.info(`Server running on port ${PORT}`);
+  // useful to keep the servers awake on render.com
+  initPingIntervals();
 });
