@@ -113,7 +113,6 @@ const CartPage = () => {
         customerAddress,
         getTotal
       );
-      console.log('Checkout session created:', data);
       const { id } = data;
       const stripe = window.Stripe(
         process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY

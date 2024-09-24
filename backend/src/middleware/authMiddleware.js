@@ -25,7 +25,9 @@ export const authMiddleware = (req, res, next) => {
         if (timeDifference >= 0 && timeDifference <= 60) {
           next();
         } else {
-          logger.info(`Request with expired auth key: ${authHeader}`);
+          logger.info(
+            `Request with expired auth key: ${authHeader}, decryptedString: ${decryptedString}, timestamp: ${timestamp}, currentTime: ${currentTime}, timeDifference: ${timeDifference}`
+          );
           res.status(403).json({ message: 'Forbidden: Auth key expired' });
         }
       } else {
