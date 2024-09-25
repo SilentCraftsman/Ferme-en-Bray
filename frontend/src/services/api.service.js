@@ -14,14 +14,10 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  const timestamp = Date.now().toString();
-  console.log('timestamp:', timestamp);
   config.headers['Authorization'] = CryptoJS.AES.encrypt(
-    `${AUTH_KEY}${timestamp}`,
+    AUTH_KEY,
     ENCRYPT_KEY
   ).toString();
-  console.log(`${AUTH_KEY}${timestamp}`);
-  console.log('Authorization:', config.headers['Authorization']);
   return config;
 });
 
@@ -35,7 +31,6 @@ export const createCheckoutSession = async (
   getTotal
 ) => {
   try {
-    console.log('requesting createCheckoutSession');
     const response = await apiClient.post('/stripe/create-checkout-session', {
       items: cart.map((item) => ({
         title: item.title,
@@ -53,7 +48,7 @@ export const createCheckoutSession = async (
     });
     return response.data;
   } catch (error) {
-    console.error('Error in createCheckoutSession:', error);
+    console.error(`Error in createCheckoutSession: ${error}`);
     throw error;
   }
 };
@@ -65,7 +60,7 @@ export const cancelSession = async (sessionId) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error in cancelSession:', error);
+    console.error(`Error in cancelSession: ${error}`);
     throw error;
   }
 };
@@ -77,7 +72,7 @@ export const checkPaymentStatus = async (sessionId) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error in checkPaymentStatus:', error);
+    console.error(`Error in checkPaymentStatus: ${error}`);
     throw error;
   }
 };

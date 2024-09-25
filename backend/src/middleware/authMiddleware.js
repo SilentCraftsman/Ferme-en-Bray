@@ -16,23 +16,12 @@ export const authMiddleware = (req, res, next) => {
     try {
       const bytes = CryptoJS.AES.decrypt(authHeader, ENCRYPT_KEY);
       const decryptedString = bytes.toString(CryptoJS.enc.Utf8);
-      const authKey = decryptedString.slice(0, AUTH_KEY.length);
-      const timestamp = parseInt(decryptedString.slice(AUTH_KEY.length), 10);
 
-      if (authKey === AUTH_KEY) {
-        const currentTime = Date.now();
-        const timeDifference = (currentTime - timestamp) / 1000; // in seconds
-        if (timeDifference >= 0 && timeDifference <= 60) {
-          next();
-        } else {
-          logger.info(
-            `Request with expired auth key: ${authHeader}, decryptedString: ${decryptedString}, timestamp: ${timestamp}, currentTime: ${currentTime}, timeDifference: ${timeDifference}`
-          );
-          res.status(403).json({ message: 'Forbidden: Auth key expired' });
-        }
-      } else {
+      if (decryptedString !== AUTH_KEY) {
         logger.info(`Request with invalid auth key: ${authHeader}`);
         res.status(403).json({ message: 'Forbidden: Invalid auth key' });
+      } else {
+        next();
       }
     } catch (error) {
       logger.error('Error in authMiddleware:', error);

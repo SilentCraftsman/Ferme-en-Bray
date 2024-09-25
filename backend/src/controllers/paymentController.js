@@ -1,4 +1,9 @@
-import { stripe } from '../config/stripeConfig.js';
+import {
+  adminFeePercentage,
+  fixedStripeFeeInCent,
+  stripe,
+  stripeFeePercentage,
+} from '../config/stripeConfig.js';
 import { ordersCollection } from '../services/orderService.js';
 import { createInvoice, sendInvoiceEmail } from '../utils/invoiceGenerator.js';
 import sgMail from '@sendgrid/mail';
@@ -73,8 +78,18 @@ export const createCheckoutSession = async (req, res) => {
       0
     );
 
-    // Ma commission sur chaque commande
-    const applicationFeeAmount = Math.round(totalAmount * 0.05);
+    // Calculate the application fee amount including Stripe fee
+    const stripeFee = Math.round(
+      totalAmount * stripeFeePercentage + fixedStripeFeeInCent
+    );
+    const remainingAmount = totalAmount - stripeFee;
+    const adminFee = Math.round(remainingAmount * adminFeePercentage);
+    const applicationFeeAmount = stripeFee + adminFee;
+
+    logger.info(`Total amount: ${totalAmount}`);
+    logger.info(`Stripe fee: ${stripeFee}`);
+    logger.info(`Admin fee: ${adminFee}`);
+    logger.info(`Application fee amount: ${applicationFeeAmount}`);
 
     // Stockage des détails de la commande dans MongoDB
     const order = {
@@ -99,6 +114,7 @@ export const createCheckoutSession = async (req, res) => {
       cancel_url: `${FRONTEND_BASE_URL}/cancel`,
       payment_intent_data: {
         application_fee_amount: applicationFeeAmount,
+        on_behalf_of: PRODUCER_ACCOUNT_ID,
         transfer_data: {
           destination: PRODUCER_ACCOUNT_ID,
         },

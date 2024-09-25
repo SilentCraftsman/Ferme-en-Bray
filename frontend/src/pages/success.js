@@ -51,16 +51,25 @@ const SuccessPage = () => {
         <h1 className={classNames(styles.title, styles.titleError)}>
           Erreur lors de la vérification du paiement.
         </h1>
+        <p>
+          <a href="/" className={styles.link}>
+            Retour à l'accueil
+          </a>
+        </p>
       </div>
     );
   }
-  // TODO - add btn to return to home page
   return (
     <div className={styles.page}>
       <h1 className={styles.title}>
         Merci pour votre commande ! Vous recevrez bientôt une confirmation par
         email.
       </h1>
+      <p>
+        <a href="/" className={styles.link}>
+          Retour à l'accueil
+        </a>
+      </p>
     </div>
   );
 };

@@ -8,6 +8,11 @@ import { createCheckoutSession } from '@/services/api.service.js';
 
 const MAX_QUANTITY = 80;
 
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 const CartPage = () => {
   const { cart, updateQuantity, getTotal } = useCart();
   const [error, setError] = useState(null);
@@ -18,6 +23,8 @@ const CartPage = () => {
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
+  const [allFieldsFilled, setAllFieldsFilled] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   useEffect(() => {
     if (window.Stripe) {
@@ -26,6 +33,17 @@ const CartPage = () => {
       console.error('Stripe.js has not loaded.');
     }
   }, []);
+
+  useEffect(() => {
+    const emailValid = validateEmail(customerEmail);
+    setIsEmailValid(emailValid);
+    setAllFieldsFilled(
+      customerName.trim() !== '' &&
+        emailValid &&
+        customerAddress.trim() !== '' &&
+        validateDateTime()
+    );
+  }, [customerName, customerEmail, customerAddress, pickupDay, pickupTime]);
 
   const handleQuantityChange = (id, newQuantity) => {
     if (newQuantity > MAX_QUANTITY) {
@@ -101,6 +119,14 @@ const CartPage = () => {
       return;
     }
     if (!validateDateTime()) {
+      return;
+    }
+    if (!validateEmail(customerEmail)) {
+      setError('Veuillez entrer une adresse email valide.');
+      return;
+    }
+    if (!allFieldsFilled) {
+      setError('Veuillez remplir tous les champs.');
       return;
     }
     try {
@@ -243,7 +269,19 @@ const CartPage = () => {
             />
           </div>
           <div>
-            <button onClick={createPayment}>Payer avec Stripe</button>
+            <button
+              onClick={createPayment}
+              disabled={!allFieldsFilled}
+              title={
+                !allFieldsFilled
+                  ? 'Veuillez remplir tous les champs.'
+                  : !isEmailValid
+                    ? 'Veuillez entrer une adresse email valide.'
+                    : ''
+              }
+            >
+              Payer avec Stripe
+            </button>
           </div>
           {error && <div className={styles.errorMessage}>{error}</div>}
         </>

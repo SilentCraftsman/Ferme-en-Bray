@@ -21,9 +21,14 @@ if (NODE_ENV === 'production') {
 app.use(corsMiddleware);
 app.use(bodyParser.json());
 
+const endpointsToNotLog = ['/health'];
+
 // Log each request and response status code
 app.use((req, res, next) => {
   res.on('finish', () => {
+    if (endpointsToNotLog.includes(req.path)) {
+      return;
+    }
     logger.info(`${req.method} ${req.url} - ${res.statusCode}`);
   });
   next();
