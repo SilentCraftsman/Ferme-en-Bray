@@ -78,64 +78,71 @@ const Modal = ({ show, onClose, product }) => {
         onClick={(e) => e.stopPropagation()}
         ref={modalRef}
       >
-        <button className="modal-close-button" onClick={onClose}>
-          ×
-        </button>
-        <h2>{sanitizedTitle}</h2>
-        <div
-          className={`modal-image-wrapper ${isZoomed ? 'zoomed' : ''}`}
-          onClick={() => setIsZoomed(!isZoomed)}
-        >
-          <img
-            src={sanitizedImage}
-            alt={sanitizedTitle}
-            className="modal-image"
-          />
-        </div>
-        <p className="description-title">Ingrédients :</p>
-        <p>{sanitizedIngredients}</p>
-
-        {product.variants && (
-          <div>
-            <label>
-              Type :
-              <select
-                value={selectedVariant ? selectedVariant.type : ''}
-                onChange={(e) =>
-                  setSelectedVariant(
-                    product.variants.find((v) => v.type === e.target.value)
-                  )
-                }
-              >
-                {product.variants.map((variant) => (
-                  <option key={variant.variantId} value={variant.type}>
-                    {variant.type} - {variant.weight}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <p>
-              <strong>Prix :</strong>{' '}
-              {selectedVariant ? selectedVariant.price : product.price}
-            </p>
+        <div className="modal-content-image">
+          <div
+            className={`modal-image-wrapper ${isZoomed ? 'zoomed' : ''}`}
+            onClick={() => setIsZoomed(!isZoomed)}
+          >
+            <img
+              src={sanitizedImage}
+              alt={sanitizedTitle}
+              className="modal-image"
+            />
           </div>
-        )}
+        </div>
+        <div className="modal-content-info">
+          <button className="modal-close-button" onClick={onClose}>
+            ×
+          </button>
+          <h2>{sanitizedTitle}</h2>
+          <div className="modal-content-info-text">
+            <p className="product-description">{product.description}</p>
+            <p className="description-title">Ingrédients :</p>
+            <p className="description-ingredients">{sanitizedIngredients}</p>
+          </div>
 
-        <label>
-          Quantité:
-          <input
-            type="number"
-            value={quantity}
-            min="1"
-            max={MAX_QUANTITY}
-            onChange={handleQuantityChange}
-          />
-        </label>
-        {error && <p className="error-message">{error}</p>}
+          {product.variants && (
+            <div>
+              <label>
+                Type :
+                <select
+                  value={selectedVariant ? selectedVariant.type : ''}
+                  onChange={(e) =>
+                    setSelectedVariant(
+                      product.variants.find((v) => v.type === e.target.value)
+                    )
+                  }
+                >
+                  {product.variants.map((variant) => (
+                    <option key={variant.variantId} value={variant.type}>
+                      {variant.type} - {variant.weight}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <p>
+                <strong>Prix :</strong>{' '}
+                {selectedVariant ? selectedVariant.price : product.price}
+              </p>
+            </div>
+          )}
 
-        <div className="modal-buttons">
-          <button onClick={handleAddToCart}>Ajouter au panier</button>
-          <button onClick={onClose}>Fermer</button>
+          <label>
+            Quantité:
+            <input
+              type="number"
+              value={quantity}
+              min="1"
+              max={MAX_QUANTITY}
+              onChange={handleQuantityChange}
+            />
+          </label>
+          {error && <p className="error-message">{error}</p>}
+
+          <div className="modal-buttons">
+            <button onClick={handleAddToCart}>Ajouter au panier</button>
+            <button onClick={onClose}>Fermer</button>
+          </div>
         </div>
       </div>
     </div>,

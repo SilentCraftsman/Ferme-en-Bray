@@ -5,14 +5,17 @@ export default function AboutPage() {
   return (
     <div className="about-container">
       <div className="about-header">
-        <h1>À propos de notre entreprise :</h1>
-        <p>
-          Nous sommes une entreprise spécialisée dans la production de produits
-          alimentaires à base de volailles. Depuis 2023, nous nous engageons à
-          offrir des produits de la plus haute qualité tout en respectant les
-          standards les plus stricts en matière de sécurité alimentaire et de
-          durabilité.
-        </p>
+        <div className="about-header-content">
+          <h1>À propos de notre entreprise </h1>
+          <p>
+            {' '}
+            Nous sommes une entreprise spécialisée dans la production de
+            produits alimentaires à base de volailles. Depuis 2023, nous nous
+            engageons à offrir des produits de la plus haute qualité tout en
+            respectant les standards les plus stricts en matière de sécurité
+            alimentaire et de durabilité.
+          </p>
+        </div>
         {/* Utilisation de la balise <img> */}
         <img
           src="/images/about-images/farm-image.jpg"

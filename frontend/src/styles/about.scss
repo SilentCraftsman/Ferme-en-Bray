@@ -4,7 +4,7 @@
 $primary-color: #e91e63;
 $text-color-dark: #333;
 $text-color-light: #666;
-$background-color: #fff;
+$background-color: hsla(0, 0%, 100%, 0.906);
 $box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 $border-radius: 8px;
 
@@ -28,32 +28,48 @@ $border-radius: 8px;
   flex-direction: column;
   gap: 2rem;
   box-sizing: border-box;
+  margin-top: 30px;
 }
 
 .about-header {
   display: flex;
-  flex-direction: column;
+  flex-direction:row-reverse;
   align-items: center;
   gap: 1rem;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 1.5s ease-out forwards;
 
-  h1 {
-    font-size: 2.5rem;
-    color: $text-color-dark;
-    margin-bottom: 0;
-    text-align: center;
-    text-decoration: underline;
-    text-decoration-color: $text-color-dark;
-    text-decoration-thickness: 2px;
+
+  .about-header-content{
+    background-color: $background-color;
+    @include border-radius($border-radius);
+    @include box-shadow($box-shadow);
+    background-color:#fffffe ;
+    padding: 35px 40px;
+    h1 {
+      font-size: 2.5rem;
+      color: $text-color-dark;
+      margin-bottom: 0;
+      text-align: left;
+      text-decoration-color: $text-color-dark;
+      text-decoration-thickness: 2px;
+    }
+  
+    p {
+      font-size: 1.1rem;
+      color: $text-color-light;
+      line-height: 1.6;
+      text-align: left;
+    }
   }
 
-  p {
-    font-size: 1.1rem;
-    color: $text-color-light;
-    line-height: 1.6;
-    text-align: center;
+
+
+  img{
+    width: 410px;
+    height: 297px;
+    object-fit: cover;
   }
 }
 
@@ -126,16 +142,21 @@ $border-radius: 8px;
 @media (max-width: 768px) {
   .about-container {
     padding: 1rem;
-    width: 95%;
+    width: 90%;
   }
+  
 
   .about-header {
+    flex-direction: column;
     h1 {
       font-size: 2rem;
     }
 
     p {
       font-size: 1rem;
+    }
+    img{
+      width: 100%;
     }
   }
 
@@ -153,7 +174,11 @@ $border-radius: 8px;
 @media (max-width: 480px) {
   .about-container {
     padding: 0.5rem;
-    width: 100%;
+    width: 90%;
+  }
+
+  .about-header{
+    flex-direction: column;
   }
 
   .about-header {

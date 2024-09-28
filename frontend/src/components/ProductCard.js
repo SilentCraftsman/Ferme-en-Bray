@@ -67,13 +67,17 @@ const ProductCard = ({ product, onShowDetails }) => {
           </div>
         )}
       </div>
-      <h4>{product.title}</h4>
+      <div className="card-header">
+        <h4>{product.title}</h4>
+        <p className="price">
+          {selectedVariant ? selectedVariant.price : product.price}
+        </p>
+      </div>
+      {/* <div className="card-info">
       <p className="description-title">Description :</p>
       <p>{product.description}</p>
-      <p className="price">
-        Prix : {selectedVariant ? selectedVariant.price : product.price}
-      </p>
-      {product.variants && (
+      </div> */}
+      {/* {product.variants && (
         <label>
           Type :
           <select
@@ -101,12 +105,22 @@ const ProductCard = ({ product, onShowDetails }) => {
           max={MAX_QUANTITY}
           onChange={handleQuantityChange}
         />
-      </label>
-      {error && <p className="error-message">{error}</p>}
-      <button onClick={handleAddToCart}>Ajouter au panier</button>
-      {onShowDetails && (
-        <button onClick={() => onShowDetails(product)}>Voir les détails</button>
-      )}
+      </label> */}
+      <div className="card-action">
+        {error && <p className="error-message">{error}</p>}
+
+        <button className="button-market" onClick={handleAddToCart}>
+          Ajouter au panier
+        </button>
+        {onShowDetails && (
+          <button
+            className="button-info"
+            onClick={() => onShowDetails(product)}
+          >
+            Voir les détails
+          </button>
+        )}
+      </div>
     </div>
   );
 };

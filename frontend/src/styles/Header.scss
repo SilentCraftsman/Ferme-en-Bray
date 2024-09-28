@@ -1,11 +1,11 @@
 // styles/Header.scss
-
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 // Variables (définies ici pour personnaliser facilement les couleurs, tailles et espacements)
 $header-bg-color: #333;
 $header-text-color: white;
 $nav-list-gap: 15px;
 $nav-link-bg-color: #333;
-$nav-link-hover-bg-color: #444;
+$nav-link-hover-bg-color: #ed8936;
 $nav-link-hover-color: #ddd;
 $cart-icon-bg-color: red;
 $cart-icon-text-color: white;
@@ -22,18 +22,24 @@ $cart-icon-font-size: 12px;
   justify-content: center;
   position: relative;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
+  font-family: "Playfair Display", serif;
   .header-title {
     font-size: 2.5rem;
-    font-family: 'Georgia', serif;
-    color: $header-text-color;
     margin-bottom: 1rem;
     text-align: center;
     word-wrap: break-word;
+    background: linear-gradient(90deg, blue, white, red);
+    font-style: italic;
+    background-clip: text;
+    -webkit-text-fill-color: transparent; // rend le texte transparent pour afficher le dégradé
   }
 
   nav {
     width: 100%;
+  }
+
+  .nav-button {
+    display: none;
   }
 
   .nav-list {
@@ -93,20 +99,50 @@ $cart-icon-font-size: 12px;
 
 // Responsive Design
 @media (max-width: 768px) {
-  .header-title {
-    font-size: 1.8rem;
-    margin-bottom: 0.75rem;
+
+
+  .nav-button {
+    display: flex !important;
+    align-items: center !important;
+    margin: auto;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid white;
+    border-radius: 0.25rem;
+    color: white;
+    transition: color 0.3s, border-color 0.3s;
+
+
+    &:hover {
+      color: white;
+      border-color: white;
+    }
+
+    .icon {
+      fill: currentColor;
+      height: 1.5rem; // equivalent to h-6 in Tailwind
+      width: 1.5rem; // equivalent to w-6 in Tailwind
+      color: #4a5568; // equivalent to text-gray-700 in Tailwind
+    }
   }
 
   .nav-list {
-    display: grid; // Utilisation du grid pour la mise en page en colonnes
+    display: none !important; // Cacher le menu par défaut
+    flex-direction: column;
     gap: 10px;
-    grid-template-columns: repeat(2, 1fr); // Deux colonnes
-    justify-items: center; // Centrer les éléments dans les colonnes
+    max-height: 0px;
+
+    &.open {
+      display: flex !important; // Afficher le menu si la classe "open" est présente
+      max-height: 330px;
+      align-items: center;
+      transition: 4s ease-out !important;
+
+    }
+
   }
 
   .nav-item {
-    grid-column: span 2; // Faire en sorte que le Panier occupe toute la largeur
+    grid-column: span 2;
   }
 }
 
@@ -118,9 +154,7 @@ $cart-icon-font-size: 12px;
 
   .nav-list {
     gap: 5px;
-    grid-template-columns: repeat(
-      2,
-      1fr
-    ); // Toujours deux colonnes pour les écrans les plus petits
+    grid-template-columns: repeat(2,
+        1fr); // Toujours deux colonnes pour les écrans les plus petits
   }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   FaHome,
@@ -14,6 +14,11 @@ import '@/styles/Header.scss';
 export default function Header() {
   const { cart } = useCart();
   const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0); // Assure le bon comptage des items
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <header className="header">
@@ -21,9 +26,19 @@ export default function Header() {
         <h1>La volaille en Bray</h1>
       </Link>
       <nav>
-        <ul className="nav-list">
+        <button onClick={toggleMenu} className="nav-button">
+          <svg
+            className="icon"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>Menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+          </svg>
+        </button>
+        <ul className={`nav-list ${isOpen ? 'open' : ''}`}>
           <li>
-            <Link href="/" passHref>
+            <Link className="test" href="/" passHref>
               <FaHome /> Accueil
             </Link>
           </li>
