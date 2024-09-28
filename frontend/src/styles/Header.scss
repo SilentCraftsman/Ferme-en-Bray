@@ -22,7 +22,7 @@ $cart-icon-font-size: 12px;
   justify-content: center;
   position: relative;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-family: "Playfair Display", serif;
+  font-family: 'Playfair Display', serif;
   .header-title {
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -99,8 +99,6 @@ $cart-icon-font-size: 12px;
 
 // Responsive Design
 @media (max-width: 768px) {
-
-
   .nav-button {
     display: flex !important;
     align-items: center !important;
@@ -109,8 +107,9 @@ $cart-icon-font-size: 12px;
     border: 1px solid white;
     border-radius: 0.25rem;
     color: white;
-    transition: color 0.3s, border-color 0.3s;
-
+    transition:
+      color 0.3s,
+      border-color 0.3s;
 
     &:hover {
       color: white;
@@ -136,9 +135,7 @@ $cart-icon-font-size: 12px;
       max-height: 330px;
       align-items: center;
       transition: 4s ease-out !important;
-
     }
-
   }
 
   .nav-item {
@@ -154,7 +151,9 @@ $cart-icon-font-size: 12px;
 
   .nav-list {
     gap: 5px;
-    grid-template-columns: repeat(2,
-        1fr); // Toujours deux colonnes pour les écrans les plus petits
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); // Toujours deux colonnes pour les écrans les plus petits
   }
 }

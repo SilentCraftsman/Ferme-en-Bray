@@ -16,7 +16,6 @@ $animation-duration: 2s;
   line-height: 1.6;
   display: flex;
   justify-content: center;
-
 }
 
 .contact-container-content {
@@ -30,19 +29,18 @@ $animation-duration: 2s;
 .contact-info-item,
 .map-title,
 .form-title,
-.contact-form {}
+.contact-form {
+}
 
 .contact-title {
   font-weight: bold;
   font-size: 40px;
   margin-bottom: 1rem;
-
 }
 
 .contact-description {
   margin-bottom: 1rem;
   width: 80%;
-
 }
 
 .contact-info {
@@ -74,7 +72,6 @@ $animation-duration: 2s;
   font-size: 1.5rem;
   margin-bottom: 1rem;
   text-decoration: underline;
-
 }
 
 .map-iframe {
@@ -83,7 +80,6 @@ $animation-duration: 2s;
   border: 0;
   opacity: 0;
   transform: translateY(20px);
-
 }
 
 .form-container {
@@ -94,7 +90,6 @@ $animation-duration: 2s;
   font-size: 1.5rem;
   margin-bottom: 1rem;
   text-decoration: underline;
-
 }
 
 .contact-form {
@@ -130,18 +125,15 @@ $animation-duration: 2s;
   .form-email {
     width: 85%;
     margin: auto;
-
-
   }
 
   input {
-    box-shadow: inset 0 .0625em .125em hsla(0, 0%, 4%, .05);
+    box-shadow: inset 0 0.0625em 0.125em hsla(0, 0%, 4%, 0.05);
     border-radius: 290486px;
     width: 245px;
     height: 55px;
     font-size: 18px;
   }
-
 
   textarea {
     padding: 0.8rem;
@@ -158,7 +150,7 @@ $animation-duration: 2s;
   }
 
   button {
-   @include button-styles
+    @include button-styles;
   }
 }
 
@@ -188,7 +180,6 @@ $animation-duration: 2s;
   .contact-container {
     padding: 15px;
     flex-direction: column;
-
   }
 
   .contact-title {
@@ -204,7 +195,6 @@ $animation-duration: 2s;
   .contact-form input {
     width: 100%;
     height: 45px;
-   
   }
 
   .contact-form textarea {
@@ -215,7 +205,6 @@ $animation-duration: 2s;
     margin-top: 15px;
     margin-bottom: 15px;
   }
-
 
   .contact-container-content {
     width: 100%;
@@ -239,7 +228,4 @@ $animation-duration: 2s;
   .form-container {
     width: 100%;
   }
-
-
-
 }

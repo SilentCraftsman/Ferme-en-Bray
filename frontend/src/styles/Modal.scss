@@ -47,7 +47,6 @@
   }
 
   h2 {
-
     font-size: 32px;
   }
 
@@ -59,7 +58,9 @@
     width: 100%;
     /* Assurez-vous que la wrapper prend toute la largeur disponible */
     height: 100%;
-    box-shadow: 0 0 0 1px hwb(295 15% 33% / 0.2), 0 20px 50px 0 rgba(0, 0, 0, 0.2);
+    box-shadow:
+      0 0 0 1px hwb(295 15% 33% / 0.2),
+      0 20px 50px 0 rgba(0, 0, 0, 0.2);
 
     .modal-image {
       width: 395px;
@@ -81,7 +82,7 @@
 
   .modal-content-info {
     padding: 36px 40px 0px;
-    font-family: "Playfair Display", serif;
+    font-family: 'Playfair Display', serif;
     text-align: left;
 
     .modal-content-info-text {
@@ -91,16 +92,13 @@
         width: 360px;
       }
     }
-
   }
 
   .description-title {
-
     color: #333;
     text-decoration: underline;
     font-size: 1.2rem;
     font-weight: 500;
-
   }
 
   .description-ingredients {
@@ -176,19 +174,14 @@
 }
 
 @media (max-width: 768px) {
-
   .modal-overlay {
     overflow: scroll;
   }
 
-
-
   .modal-content {
     flex-direction: column;
     width: 80%;
-
   }
-
 
   .modal-image {
     height: auto;
@@ -207,9 +200,7 @@
       font-size: 24px;
       text-align: center;
     }
-
   }
-
 
   .modal-buttons {
     flex-direction: column;
@@ -219,38 +210,32 @@
 
 @media (max-width: 480px) {
   .modal-content {
-
     margin: 10px;
     box-sizing: border-box;
-
   }
 
   .modal-content-info {
-
     max-width: 80%;
     margin: auto;
     padding: 0 !important;
-
   }
 
   .product-description {
     width: 100% !important;
   }
 
-  .description-ingredients{
+  .description-ingredients {
     width: 100% !important;
   }
 
-  .modal-content-info .modal-buttons{
+  .modal-content-info .modal-buttons {
     border: 2ps solid red !important;
     display: inline;
     margin-top: 40px;
-    button{
+    button {
       margin-bottom: 20px;
     }
   }
-
-
 
   .modal-image {
     height: 150px;
@@ -278,7 +263,6 @@
   from {
     opacity: 0;
     transform: scale(0.9);
-    
   }
 
   to {

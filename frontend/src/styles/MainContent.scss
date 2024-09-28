@@ -15,7 +15,7 @@ $grid-gap: 2rem;
 
 // NavBar Secondaire
 .secondary-nav {
-  font-family: "Playfair Display", serif;
+  font-family: 'Playfair Display', serif;
   position: fixed;
   top: 0;
   right: 0;
@@ -103,7 +103,6 @@ $grid-gap: 2rem;
 .product-grid,
 .product-grid-air,
 .product-grid-holiday {
-
   height: 500px;
 }
 
@@ -139,8 +138,8 @@ $grid-gap: 2rem;
       }
     }
   }
-  .main-section{
-    h2{
+  .main-section {
+    h2 {
       margin-bottom: 50px !important;
       margin-top: 50px !important;
     }
@@ -170,23 +169,20 @@ $grid-gap: 2rem;
   }
 }
 
-
 // Responsive Design
 @media (max-width: 768px) {
-
-  .product-grid>.product-card,
-  .product-grid-air>.product-card,
-  .product-grid-holiday>.product-card {
+  .product-grid > .product-card,
+  .product-grid-air > .product-card,
+  .product-grid-holiday > .product-card {
     flex: 1 1 calc(50% - $grid-gap);
     max-width: calc(50% - $grid-gap);
   }
 }
 
 @media (max-width: 480px) {
-
-  .product-grid>.product-card,
-  .product-grid-air>.product-card,
-  .product-grid-holiday>.product-card {
+  .product-grid > .product-card,
+  .product-grid-air > .product-card,
+  .product-grid-holiday > .product-card {
     flex: 1 1 100%;
     max-width: 100%;
   }

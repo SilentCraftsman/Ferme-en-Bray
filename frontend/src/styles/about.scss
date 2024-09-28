@@ -33,19 +33,18 @@ $border-radius: 8px;
 
 .about-header {
   display: flex;
-  flex-direction:row-reverse;
+  flex-direction: row-reverse;
   align-items: center;
   gap: 1rem;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 1.5s ease-out forwards;
 
-
-  .about-header-content{
+  .about-header-content {
     background-color: $background-color;
     @include border-radius($border-radius);
     @include box-shadow($box-shadow);
-    background-color:#fffffe ;
+    background-color: #fffffe;
     padding: 35px 40px;
     h1 {
       font-size: 2.5rem;
@@ -55,7 +54,7 @@ $border-radius: 8px;
       text-decoration-color: $text-color-dark;
       text-decoration-thickness: 2px;
     }
-  
+
     p {
       font-size: 1.1rem;
       color: $text-color-light;
@@ -64,9 +63,7 @@ $border-radius: 8px;
     }
   }
 
-
-
-  img{
+  img {
     width: 410px;
     height: 297px;
     object-fit: cover;
@@ -144,7 +141,6 @@ $border-radius: 8px;
     padding: 1rem;
     width: 90%;
   }
-  
 
   .about-header {
     flex-direction: column;
@@ -155,7 +151,7 @@ $border-radius: 8px;
     p {
       font-size: 1rem;
     }
-    img{
+    img {
       width: 100%;
     }
   }
@@ -177,7 +173,7 @@ $border-radius: 8px;
     width: 90%;
   }
 
-  .about-header{
+  .about-header {
     flex-direction: column;
   }
 

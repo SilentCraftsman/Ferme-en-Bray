@@ -99,22 +99,19 @@ $footer-link-hover-color: #b26943;
       font-size: 0.9rem; // Taille réduite du texte pour les petits écrans
     }
     .footer-content {
-
       flex-direction: column;
     }
 
     .footer-content .footer-links {
-
       a {
         text-align: center;
       }
     }
 
-    .footer-content .footer-contact{
+    .footer-content .footer-contact {
       bottom: 0px;
       text-align: center;
     }
-
 
     .footer-links {
       a {
@@ -136,20 +133,17 @@ $footer-link-hover-color: #b26943;
   .footer {
     padding-top: 50px;
 
-
     .footer-content {
-
       flex-direction: column;
     }
 
     .footer-content .footer-links {
-
       a {
         text-align: center;
       }
     }
 
-    .footer-content .footer-contact{
+    .footer-content .footer-contact {
       bottom: 0px;
       text-align: center;
     }
