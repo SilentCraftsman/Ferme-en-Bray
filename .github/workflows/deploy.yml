@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Tag to deploy (leave empty for latest)'
+        description: 'Tag to deploy'
         required: false
-        default: ''
+        default: 'latest'
 
 jobs:
   deploy:
