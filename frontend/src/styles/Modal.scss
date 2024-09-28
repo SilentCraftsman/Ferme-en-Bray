@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 .modal-overlay {
   position: fixed;
@@ -6,8 +6,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: hsla(0, 0%, 0%, 0.741);
   display: flex;
+  backdrop-filter: blur(6px);
   align-items: center;
   justify-content: center;
   z-index: 1000;
@@ -15,20 +16,13 @@
 
 .modal-content {
   background: #fff;
-  padding: 20px;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 600px; /* Augmenté la largeur maximale de la modale */
-  max-height: 90vh;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1001;
   text-align: center;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   animation: fadeIn 0.3s ease-in-out;
-  font-family: 'Roboto', sans-serif;
 
   .modal-close-button {
     position: absolute;
@@ -53,7 +47,8 @@
   }
 
   h2 {
-    margin-top: 50px;
+
+    font-size: 32px;
   }
 
   .modal-image-wrapper {
@@ -61,32 +56,55 @@
     display: inline-block;
     overflow: hidden;
     cursor: zoom-in;
-    margin: 15px 0;
-    width: 100%; /* Assurez-vous que la wrapper prend toute la largeur disponible */
-    height: auto;
+    width: 100%;
+    /* Assurez-vous que la wrapper prend toute la largeur disponible */
+    height: 100%;
+    box-shadow: 0 0 0 1px hwb(295 15% 33% / 0.2), 0 20px 50px 0 rgba(0, 0, 0, 0.2);
 
     .modal-image {
-      width: 80%;
-      height: 300px; /* Hauteur fixe pour l'image */
+      width: 395px;
+      height: 480px;
+      /* Hauteur fixe pour l'image */
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       transition: transform 0.3s ease;
-      object-fit: scale-down;
+      object-fit: cover;
     }
 
     &.zoomed .modal-image {
       cursor: zoom-out;
-      transform: scale(2); /* Ajustez le facteur de zoom ici */
+      transform: scale(2);
+      /* Ajustez le facteur de zoom ici */
     }
   }
 
+  .modal-content-info {
+    padding: 36px 40px 0px;
+    font-family: "Playfair Display", serif;
+    text-align: left;
+
+    .modal-content-info-text {
+      p {
+        font-size: 16px;
+        margin: 24px 0px;
+        width: 360px;
+      }
+    }
+
+  }
+
   .description-title {
-    margin: 10px 0 0 0;
+
     color: #333;
     text-decoration: underline;
     font-size: 1.2rem;
     font-weight: 500;
+
+  }
+
+  .description-ingredients {
+    color: #b26943;
   }
 
   label {
@@ -112,7 +130,10 @@
     justify-content: center;
     flex-direction: row;
     gap: 15px;
-    margin-top: 15px;
+    margin-top: 2px;
+    padding-top: 2rem;
+    padding-bottom: 1.5rem;
+    // background-color: #b26943;
 
     button {
       padding: 10px 20px;
@@ -126,17 +147,17 @@
         transform 0.2s;
 
       &:first-child {
-        background: #28a745;
+        background: #536dfe;
         color: #fff;
 
         &:hover {
-          background: #218838;
+          background: #0d2660;
           transform: scale(1.05);
         }
       }
 
       &:last-child {
-        background: #dc3545;
+        background: #b26943;
         color: #fff;
 
         &:hover {
@@ -154,28 +175,41 @@
   }
 }
 
-@media (max-width: 1200px) {
-  .modal-content {
-    padding: 15px;
-    max-width: 500px; /* Ajusté pour maintenir la proportion */
-    margin: 20px;
-  }
-
-  .modal-image {
-    height: 250px; /* Augmenté la hauteur maximale */
-  }
-}
-
 @media (max-width: 768px) {
-  .modal-content {
-    padding: 15px;
-    width: calc(100% - 30px);
-    margin: 20px;
+
+  .modal-overlay {
+    overflow: scroll;
   }
 
-  .modal-image {
-    height: 200px; /* Ajusté pour s'adapter aux tailles plus petites */
+
+
+  .modal-content {
+    flex-direction: column;
+    width: 80%;
+
   }
+
+
+  .modal-image {
+    height: auto;
+    /* Ajusté pour s'adapter aux tailles plus petites */
+  }
+
+  img {
+    width: 100% !important;
+  }
+
+  .modal-content-info {
+    max-width: 80%;
+    margin: auto;
+
+    h2 {
+      font-size: 24px;
+      text-align: center;
+    }
+
+  }
+
 
   .modal-buttons {
     flex-direction: column;
@@ -185,14 +219,42 @@
 
 @media (max-width: 480px) {
   .modal-content {
-    padding: 15px;
-    width: calc(100% - 30px);
+
     margin: 10px;
     box-sizing: border-box;
+
   }
 
+  .modal-content-info {
+
+    max-width: 80%;
+    margin: auto;
+    padding: 0 !important;
+
+  }
+
+  .product-description {
+    width: 100% !important;
+  }
+
+  .description-ingredients{
+    width: 100% !important;
+  }
+
+  .modal-content-info .modal-buttons{
+    border: 2ps solid red !important;
+    display: inline;
+    margin-top: 40px;
+    button{
+      margin-bottom: 20px;
+    }
+  }
+
+
+
   .modal-image {
-    height: 150px; /* Ajusté pour les petits écrans */
+    height: 150px;
+    /* Ajusté pour les petits écrans */
   }
 
   .modal-buttons {
@@ -216,7 +278,9 @@
   from {
     opacity: 0;
     transform: scale(0.9);
+    
   }
+
   to {
     opacity: 1;
     transform: scale(1);

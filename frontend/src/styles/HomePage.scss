@@ -18,16 +18,17 @@
   text-align: center;
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 1.5s ease-out forwards;
+  animation: fadeInUp 0s ease-out forwards;
   margin-bottom: 1rem;
 
   // Titre principal
   h1 {
     font-size: 3rem;
-    color: #333;
+    color: #b26943;
     margin-top: 13.5rem;
     margin-bottom: 0.5rem;
     opacity: 0;
+    text-decoration: underline;
     transform: translateY(20px);
     animation: fadeInUp 1.5s ease-out 1.5s forwards;
   }

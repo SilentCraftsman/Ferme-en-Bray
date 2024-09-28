@@ -7,6 +7,8 @@ import Modal from './Modal.js'; // Importation du composant de la modale
 import { useCart } from './cart/CartContext.js';
 import '@/styles/MainContent.scss';
 import { FaArrowUp } from 'react-icons/fa';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 const MainContent = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -16,6 +18,23 @@ const MainContent = () => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [savedScrollPosition, setSavedScrollPosition] = useState(0);
   const { addToCart } = useCart();
+
+  const responsives = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 2,
+
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 425 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 425, min: 0 },
+      items: 1,
+      partialVisibilityGutter: 30,
+    },
+  };
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -87,19 +106,24 @@ const MainContent = () => {
           </li>
         </ul>
       </nav>
-
       {/* Section pour les spécialités */}
       <section id="specialties" className="main-section">
         <h2>Nos spécialités</h2>
         <div className="product-grid">
-          {specialtyProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={handleAddToCart}
-              onShowDetails={handleShowDetails}
-            />
-          ))}
+          <Carousel.default
+            responsive={responsives}
+            centerMode
+            className="carousel"
+          >
+            {specialtyProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={handleAddToCart}
+                onShowDetails={handleShowDetails}
+              />
+            ))}
+          </Carousel.default>
         </div>
       </section>
 
@@ -107,14 +131,20 @@ const MainContent = () => {
       <section id="outdoor-poultry" className="main-section">
         <h2>Nos produits de plein air</h2>
         <div className="product-grid">
-          {outdoorPoultryProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={handleAddToCart}
-              onShowDetails={handleShowDetails}
-            />
-          ))}
+          <Carousel.default
+            responsive={responsives}
+            centerMode
+            className="carousel"
+          >
+            {outdoorPoultryProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={handleAddToCart}
+                onShowDetails={handleShowDetails}
+              />
+            ))}
+          </Carousel.default>
         </div>
       </section>
 
@@ -126,14 +156,20 @@ const MainContent = () => {
           uniquement sur commande.
         </p>
         <div className="product-grid">
-          {holidayProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={handleAddToCart}
-              onShowDetails={handleShowDetails}
-            />
-          ))}
+          <Carousel.default
+            responsive={responsives}
+            centerMode
+            className="carousel"
+          >
+            {holidayProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={handleAddToCart}
+                onShowDetails={handleShowDetails}
+              />
+            ))}
+          </Carousel.default>
         </div>
       </section>
 

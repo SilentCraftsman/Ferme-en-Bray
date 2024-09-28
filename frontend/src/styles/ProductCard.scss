@@ -1,5 +1,5 @@
 // ProductCard.scss
-
+@import './button.scss';
 // Variables pour les styles
 $card-padding: 0.8rem;
 $card-border-radius: 8px;
@@ -23,6 +23,7 @@ $image-height: 200px;
     opacity: 0;
     transform: translateX(-100px); // Commence à gauche
   }
+
   to {
     opacity: 1;
     transform: translateX(0); // Se termine à sa position d'origine
@@ -30,21 +31,21 @@ $image-height: 200px;
 }
 
 .product-card {
-  background-color: $card-background-color;
-  border-radius: $card-border-radius;
-  box-shadow: $card-shadow;
-  overflow: hidden;
+  background-color: #FFF;
+  border-radius: 15px;
+
+  padding: 24px;
+  height: 480px;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: $card-padding;
-  transition: transform 0.3s ease;
-  animation: slideInFromLeft 1.5s ease-out; // Applique l'animation
-
+  
+  transition: .15s ease-in;
+  max-width: 345px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.129);
+ 
   &:hover {
-    transform: scale(1.03);
+    box-shadow: 0 0 0 2px #ff5c5c, 0 10px 60px 0 rgba(#000, .1);
+    transform: translatey(-5px);
   }
-
   .product-image-container {
     position: relative;
     cursor: pointer;
@@ -56,6 +57,8 @@ $image-height: 200px;
       height: 100%;
       object-fit: cover;
       display: block;
+      border-radius: 10px;
+      overflow: hidden;
     }
 
     .overlay {
@@ -70,6 +73,7 @@ $image-height: 200px;
       justify-content: center;
       opacity: 0;
       transition: opacity 0.3s ease;
+  
 
       .plus-icon {
         color: #fff;
@@ -82,51 +86,127 @@ $image-height: 200px;
     }
   }
 
-  h4 {
-    font-size: $title-font-size;
-    margin: 0.8rem 0 0;
-  }
+  .card-header {
+    border-bottom: 2px solid grey;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
 
-  .description-title {
-    text-decoration: underline black;
-    font-weight: bold;
-    margin: 0.8rem 0 0;
-  }
+    h4 {
+      font-weight: 600;
+      font-size: 1.375rem;
+      line-height: 1.25;
+      padding-right: 1rem;
+      text-decoration: none;
+      color: inherit;
+      will-change: transform;
+      text-align: left;
+      width: 60%;
 
-  p {
-    font-size: $description-font-size;
-    margin: 0;
-    line-height: 1.4;
-  }
 
-  .price {
-    font-size: $price-font-size;
-    font-weight: bold;
-    margin: 1.2rem 0 0.3rem 0;
-  }
-
-  button {
-    background-color: $button-background;
-    color: $button-color;
-    border: none;
-    width: 180px;
-    margin: 0 auto;
-    margin-top: 15px;
-    padding: $button-padding;
-    border-radius: $button-border-radius;
-    font-size: $button-font-size;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: $button-hover-background;
+      &:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+      }
+    }
+    .price {
+      position: relative;
+      top: 40px;
+      font-size: 18px;
+      font-weight: bold;
+      color: black;
+      
     }
   }
 
+.card-action{
+  display: flex;
+  justify-content: space-around;
+}
+
+.card-action .button-market{
+  cursor: pointer;
+  border: none;
+  width: 147px;
+  height: 46px;
+  margin-top: 43px;
+  margin-bottom: 0;
+  padding: 0;
+  color: #fff;
+  background-color: #536dfe;
+  border-radius: 0.5rem;
+  font-size: 17px;
+  transition: all 0.3s;
+  &:hover{
+    background-color: #0d2660;
+  }
+}
+
+
+.card-action .button-info{
+  cursor: pointer;
+  border: none;
+  width: 147px;
+  height: 46px;
+  margin-top: 43px;
+  margin-bottom: 0;
+  padding: 0;
+  color: #fff;
+  background-color:#f1425d;
+  border-radius: 0.5rem;
+  font-size: 17px;
+  transition: all 0.3s;
+  &:hover{
+    background-color: #0d2660;
+  }
+}
+
   // Style pour le message d'erreur
   .error-message {
-    color: red;
+
     font-size: 0.9rem;
     margin-top: 10px;
   }
 }
+
+@media (max-width: 768px) {
+  .product-card{
+   
+    padding: 18px;
+    max-width: 190px;
+
+    .product-image-container .product-image{
+      height: 80%;
+    }
+
+    .card-header{
+      flex-direction: column;
+      margin-top: 0rem;
+      h4{
+        margin: 0;
+        width: 100%;
+        font-size: 1.188rem;
+        text-align: center;
+      }
+      .price{
+        top: 0;
+      }
+    }
+
+    .card-action{
+      display: inline;
+
+    }
+
+    .card-action .button-market{
+      margin-top: 20px;
+    }
+
+  }
+
+}
+

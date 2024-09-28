@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 // Variables pour les styles
 $nav-background-color: #f8f8f8;
 $nav-text-color: #333;
@@ -12,27 +13,14 @@ $title-font-size: 1.6rem;
 $title-margin: 0.5rem 0;
 $grid-gap: 2rem;
 
-// Animation de fondu et montée
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 // NavBar Secondaire
 .secondary-nav {
+  font-family: "Playfair Display", serif;
   position: fixed;
   top: 0;
-  left: 50%;
-  width: 80%;
-  max-width: 1200px;
-  transform: translateX(-50%);
-  background-color: $nav-background-color;
+  right: 0;
+  width: 100%;
+  background-color: $nav-text-color;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   padding: $nav-padding;
@@ -44,13 +32,14 @@ $grid-gap: 2rem;
 
   .nav-description {
     margin: 0;
-    color: $nav-text-color;
+    color: white;
     font-size: $nav-font-size;
     text-align: $nav-text-align;
     padding: $nav-text-padding;
     width: 100%;
     box-sizing: border-box;
     text-decoration: underline;
+    color: #b26943;
   }
 
   ul {
@@ -66,15 +55,14 @@ $grid-gap: 2rem;
 
       a {
         text-decoration: none;
-        color: $nav-text-color;
+        color: white;
         font-weight: bold;
         padding: 0.5rem 1rem;
-        transition:
-          background-color 0.3s,
-          color 0.3s;
+        border-radius: 5px;
 
         &:hover {
-          background-color: $nav-link-hover-bg;
+          transition: all 0.4s ease;
+          background-color: #ed8936;
           color: $nav-link-hover-color;
         }
       }
@@ -82,16 +70,63 @@ $grid-gap: 2rem;
   }
 }
 
+.main-section {
+  margin: auto;
+  background-color: #f3f4f6;
+
+  h2 {
+    color: white !important;
+    margin-top: 100px !important;
+    margin-bottom: 100px !important;
+    background-color: #333;
+    border: 2px solid white !important;
+    padding: 50px;
+  }
+}
+
+.carousel {
+  padding: 10px;
+  overflow: visible;
+  transform: translateY(20px);
+  animation: fadeInUp 1.5s ease-out forwards;
+}
+
+// Sections principales
+.title-main-content,
+.title-main-content-air,
+.title-main-content-holiday {
+  text-align: center;
+  margin: $title-margin;
+  opacity: 0;
+}
+
+.product-grid,
+.product-grid-air,
+.product-grid-holiday {
+
+  height: 500px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 // Responsive design pour la NavBar
 @media (max-width: 768px) {
   .secondary-nav {
     padding: 0.5rem;
-
     .nav-description {
       font-size: 14px;
       padding: 0.5rem;
     }
-
     ul {
       flex-direction: column;
 
@@ -102,6 +137,12 @@ $grid-gap: 2rem;
           padding: 0.5rem;
         }
       }
+    }
+  }
+  .main-section{
+    h2{
+      margin-bottom: 50px !important;
+      margin-top: 50px !important;
     }
   }
 }
@@ -129,51 +170,23 @@ $grid-gap: 2rem;
   }
 }
 
-.main-section {
-  padding-top: 1rem;
-}
-
-// Sections principales
-.title-main-content,
-.title-main-content-air,
-.title-main-content-holiday {
-  text-align: center;
-  margin: $title-margin;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 1.5s ease-out forwards;
-}
-
-.product-grid,
-.product-grid-air,
-.product-grid-holiday {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $grid-gap;
-  justify-content: center;
-}
-
-.product-grid > .product-card,
-.product-grid-air > .product-card,
-.product-grid-holiday > .product-card {
-  flex: 1 1 calc(33.333% - $grid-gap);
-  max-width: calc(33.333% - $grid-gap);
-}
 
 // Responsive Design
 @media (max-width: 768px) {
-  .product-grid > .product-card,
-  .product-grid-air > .product-card,
-  .product-grid-holiday > .product-card {
+
+  .product-grid>.product-card,
+  .product-grid-air>.product-card,
+  .product-grid-holiday>.product-card {
     flex: 1 1 calc(50% - $grid-gap);
     max-width: calc(50% - $grid-gap);
   }
 }
 
 @media (max-width: 480px) {
-  .product-grid > .product-card,
-  .product-grid-air > .product-card,
-  .product-grid-holiday > .product-card {
+
+  .product-grid>.product-card,
+  .product-grid-air>.product-card,
+  .product-grid-holiday>.product-card {
     flex: 1 1 100%;
     max-width: 100%;
   }
