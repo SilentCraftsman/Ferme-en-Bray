@@ -1,5 +1,3 @@
-name: 🚀 Deploy Common
-
 on:
   workflow_call:
     inputs:
