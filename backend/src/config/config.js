@@ -18,6 +18,8 @@ export const MONGODB_URI = process.env.MONGODB_URI;
 export const PRODUCER_TAX_ID = process.env.PRODUCER_TAX_ID;
 export const PRODUCER_NAME = process.env.PRODUCER_NAME;
 export const PRODUCER_ADDRESS = process.env.PRODUCER_ADDRESS;
+export const LOG_DIR = process.env.LOG_DIR;
+export const FACTURES_DIR = process.env.FACTURES_DIR;
 
 if (!FRONTEND_BASE_URL) {
   throw new Error(
@@ -87,5 +89,17 @@ if (!PRODUCER_NAME) {
 if (!PRODUCER_ADDRESS) {
   throw new Error(
     'PRODUCER_ADDRESS environment variable is not set. Please set it to your producer address.'
+  );
+}
+
+if (!LOG_DIR) {
+  throw new Error(
+    'LOG_DIR environment variable is not set. Please set it to your log directory.'
+  );
+}
+
+if (!FACTURES_DIR) {
+  throw new Error(
+    'FACTURES_DIR environment variable is not set. Please set it to your factures directory.'
   );
 }
