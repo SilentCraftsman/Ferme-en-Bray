@@ -33,7 +33,7 @@ jobs:
           source: 'backend'
           target: '${{ vars.DEPLOY_BACKEND_PATH }}'
 
-      - name: Deploy frontend to server
+      - name: Deploy backend to server
         if: ${{ github.event.inputs.backend == true }}
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -43,13 +43,36 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             set -e
+            echo "Stopping app"
+            stop_output=$(/usr/sbin/cloudlinux-selector stop --json --interpreter=nodejs --app-root=${{ vars.DEPLOY_BACKEND_PATH }})
+            echo $stop_output | grep -q '"result": "success"' || { echo "Failed to stop app"; exit 1; }
             source ${{ vars.SOURCE_ENV_BACKEND_PATH }}
             cd ${{ vars.DEPLOY_BACKEND_PATH }}
-            echo "ENV_VAR1=${{ secrets.ENV_VAR1 }}" > ${{ vars.DEPLOY_BACKEND_PATH }}/.env
-            echo "ENV_VAR2=${{ secrets.ENV_VAR2 }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "NODE_ENV=${{ vars.NODE_ENV }}" > ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "STRIPE_FEE_PERCENTAGE=${{ vars.STRIPE_FEE_PERCENTAGE }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "FIXED_STRIPE_FEE_IN_CENT=${{ vars.FIXED_STRIPE_FEE_IN_CENT }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "ADMIN_FEE_PERCENTAGE=${{ vars.ADMIN_FEE_PERCENTAGE }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "CORS_ORIGINS=${{ vars.CORS_ORIGINS }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "PRODUCER_ACCOUNT_ID=${{ secrets.PRODUCER_ACCOUNT_ID }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "ADMIN_ACCOUNT_ID=${{ secrets.ADMIN_ACCOUNT_ID }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "API_BASE_URL=${{ vars.API_BASE_URL }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "ENCRYPT_KEY=${{ secrets.ENCRYPT_KEY }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "AUTH_KEY=${{ secrets.AUTH_KEY }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "FRONTEND_BASE_URL=${{ vars.FRONTEND_BASE_URL }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "PORT=${{ vars.PORT }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "EMAIL_USER=${{ secrets.EMAIL_USER }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "EMAIL_PASS=${{ secrets.EMAIL_PASS }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "PRODUCER_EMAIL=${{ secrets.PRODUCER_EMAIL }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "PRODUCER_NAME=${{ secrets.PRODUCER_NAME }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "PRODUCER_ADDRESS=${{ secrets.PRODUCER_ADDRESS }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "PRODUCER_TAX_ID=${{ secrets.PRODUCER_TAX_ID }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
             echo "Installing dependencies"
             npm install
-
+            echo "Starting app"
+            start_output=$(/usr/sbin/cloudlinux-selector start --json --interpreter=nodejs --app-root=${{ vars.DEPLOY_BACKEND_PATH }})
       - name: Copy frontend files
         if: ${{ github.event.inputs.frontend == true }}
         uses: appleboy/scp-action@v0.1.7
@@ -60,7 +83,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           source: 'frontend'
           target: '${{ vars.DEPLOY_FRONTEND_PATH }}'
-
+        
       - name: Deploy frontend to server
         if: ${{ github.event.inputs.frontend == true }}
         uses: appleboy/ssh-action@v0.1.7
@@ -71,10 +94,19 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             set -e
+            echo "Stopping app"
+            stop_output=$(/usr/sbin/cloudlinux-selector stop --json --interpreter=nodejs --app-root=${{ vars.DEPLOY_FRONTEND_PATH }})
+            echo $stop_output | grep -q '"result": "success"' || { echo "Failed to stop app"; exit 1; }
             source ${{ vars.SOURCE_ENV_FRONTEND_PATH }}
             cd ${{ vars.DEPLOY_FRONTEND_PATH }}
-            echo "ENV_VAR1=${{ secrets.ENV_VAR1 }}" > ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
-            echo "ENV_VAR2=${{ secrets.ENV_VAR2 }}" >> ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
+            echo "NODE_ENV=${{ vars.NODE_ENV }}" > ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
+            echo "API_BASE_URL=${{ vars.API_BASE_URL }}" >> ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
+            echo "ENCRYPT_KEY=${{ secrets.ENCRYPT_KEY }}" >> ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
+            echo "AUTH_KEY=${{ secrets.AUTH_KEY }}" >> ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
+            echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}" >> ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
+            echo "EMAIL_USER=${{ secrets.EMAIL_USER }}" >> ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
+            echo "EMAIL_PASS=${{ secrets.EMAIL_PASS }}" >> ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
+            echo "NEXT_PUBLIC_FORMSPREE_URL=${{ secrets.NEXT_PUBLIC_FORMSPREE_URL }}" >> ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
             echo "Installing dependencies"
             npm install
             echo "Building"
@@ -87,3 +119,6 @@ jobs:
             cp ".next/static" "output/.next/static"
             echo "Deleting unnecessary files"
             find . -mindepth 1 -maxdepth 1 -not -name "output" -exec rm -rf {} \;
+            echo "Start app"
+            start_output=$(/usr/sbin/cloudlinux-selector start --json --interpreter=nodejs --app-root=${{ vars.DEPLOY_FRONTEND_PATH }})
+            echo $start_output | grep -q '"result": "success"' || { echo "Failed to start app"; exit 1; }

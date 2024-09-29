@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const NODE_ENV = process.env.NODE_ENV;
-export const API_BASE_URL = process.env.API_BASE_URL;
+export const API_BASE_URL = process.env.API_BASE_URL || '';
 export const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL;
 export const AUTH_KEY = process.env.AUTH_KEY;
 export const ENCRYPT_KEY = process.env.ENCRYPT_KEY;
@@ -19,11 +19,6 @@ export const PRODUCER_TAX_ID = process.env.PRODUCER_TAX_ID;
 export const PRODUCER_NAME = process.env.PRODUCER_NAME;
 export const PRODUCER_ADDRESS = process.env.PRODUCER_ADDRESS;
 
-if (!API_BASE_URL) {
-  throw new Error(
-    'API_BASE_URL environment variable is not set. Please set it to your frontend URL.'
-  );
-}
 if (!FRONTEND_BASE_URL) {
   throw new Error(
     'FRONTEND_BASE_URL environment variable is not set. Please set it to your frontend URL.'
