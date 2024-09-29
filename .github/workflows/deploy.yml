@@ -3,10 +3,16 @@ name: Deploy
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'Tag to deploy'
+      frontend:
+        type: boolean
         required: false
-        default: 'latest'
+        default: false
+        description: Deploy frontend
+      backend:
+        type: boolean
+        required: false
+        default: false
+        description: Deploy backend
 
 jobs:
   deploy:
@@ -16,17 +22,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Copy docker-compose.yml to server
+      - name: Copy backend files
+        if: ${{ github.event.inputs.backend == true }}
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: 'docker-compose.yml'
-          target: '${{ vars.DEPLOY_PATH }}/docker-compose.yml'
+          source: 'backend'
+          target: '${{ vars.DEPLOY_BACKEND_PATH }}'
 
-      - name: Deploy to server
+      - name: Deploy frontend to server
+        if: ${{ github.event.inputs.backend == true }}
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -34,15 +42,48 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            echo "ENV_VAR1=${{ secrets.ENV_VAR1 }}" > ${{ vars.DEPLOY_PATH }}/.env
-            echo "ENV_VAR2=${{ secrets.ENV_VAR2 }}" >> ${{ vars.DEPLOY_PATH }}/.env
-            docker-compose -f ${{ vars.DEPLOY_PATH }}/docker-compose.yml down
-            if [ "${{ github.event.inputs.tag }}" == "" ]; then
-              TAG="latest"
-            else
-              TAG="${{ github.event.inputs.tag }}"
-            fi
-            docker pull ${{ secrets.DOCKER_USERNAME }}/ferme-en-bray-frontend-frontend:$TAG
-            docker pull ${{ secrets.DOCKER_USERNAME }}/ferme-en-bray-frontend-backend:$TAG
-            docker pull ${{ secrets.DOCKER_USERNAME }}/ferme-en-bray-frontend-nginx:$TAG
-            docker-compose --env-file ${{ vars.DEPLOY_PATH }}/.env -f ${{ vars.DEPLOY_PATH }}/docker-compose.yml up -d
+            set -e
+            source ${{ vars.SOURCE_ENV_BACKEND_PATH }}
+            cd ${{ vars.DEPLOY_BACKEND_PATH }}
+            echo "ENV_VAR1=${{ secrets.ENV_VAR1 }}" > ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "ENV_VAR2=${{ secrets.ENV_VAR2 }}" >> ${{ vars.DEPLOY_BACKEND_PATH }}/.env
+            echo "Installing dependencies"
+            npm install
+
+      - name: Copy frontend files
+        if: ${{ github.event.inputs.frontend == true }}
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          source: 'frontend'
+          target: '${{ vars.DEPLOY_FRONTEND_PATH }}'
+
+      - name: Deploy frontend to server
+        if: ${{ github.event.inputs.frontend == true }}
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            set -e
+            source ${{ vars.SOURCE_ENV_FRONTEND_PATH }}
+            cd ${{ vars.DEPLOY_FRONTEND_PATH }}
+            echo "ENV_VAR1=${{ secrets.ENV_VAR1 }}" > ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
+            echo "ENV_VAR2=${{ secrets.ENV_VAR2 }}" >> ${{ vars.DEPLOY_FRONTEND_PATH }}/.env
+            echo "Installing dependencies"
+            npm install
+            echo "Building"
+            npm run build
+            rm -rf output
+            mkdir output
+            echo "Copying files"
+            cp -r ".next/standalone" "output/"
+            cp -r "public" "output/public"
+            cp ".next/static" "output/.next/static"
+            echo "Deleting unnecessary files"
+            find . -mindepth 1 -maxdepth 1 -not -name "output" -exec rm -rf {} \;
