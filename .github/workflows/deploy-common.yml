@@ -1,0 +1,139 @@
+name: 🚀 Deploy Common
+
+on:
+  workflow_call:
+    inputs:
+      service:
+        required: true
+        type: string
+      deploy_path:
+        required: true
+        type: string
+      source_env_path:
+        required: true
+        type: string
+      is_frontend:
+        required: false
+        type: boolean
+
+env:
+  NODE_ENV: ${{ vars.NODE_ENV }}
+  STRIPE_FEE_PERCENTAGE: ${{ vars.STRIPE_FEE_PERCENTAGE }}
+  FIXED_STRIPE_FEE_IN_CENT: ${{ vars.FIXED_STRIPE_FEE_IN_CENT }}
+  ADMIN_FEE_PERCENTAGE: ${{ vars.ADMIN_FEE_PERCENTAGE }}
+  CORS_ORIGINS: ${{ vars.CORS_ORIGINS }}
+  STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+  PRODUCER_ACCOUNT_ID: ${{ secrets.PRODUCER_ACCOUNT_ID }}
+  ADMIN_ACCOUNT_ID: ${{ secrets.ADMIN_ACCOUNT_ID }}
+  API_BASE_URL: ${{ vars.API_BASE_URL }}
+  ENCRYPT_KEY: ${{ secrets.ENCRYPT_KEY }}
+  AUTH_KEY: ${{ secrets.AUTH_KEY }}
+  FRONTEND_BASE_URL: ${{ vars.FRONTEND_BASE_URL }}
+  EMAIL_USER: ${{ secrets.EMAIL_USER }}
+  EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+  PRODUCER_EMAIL: ${{ secrets.PRODUCER_EMAIL }}
+  PRODUCER_NAME: ${{ secrets.PRODUCER_NAME }}
+  PRODUCER_ADDRESS: ${{ secrets.PRODUCER_ADDRESS }}
+  PRODUCER_TAX_ID: ${{ secrets.PRODUCER_TAX_ID }}
+  SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+  MONGODB_URI: ${{ secrets.MONGODB_URI }}
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+  NEXT_PUBLIC_FORMSPREE_URL: ${{ secrets.NEXT_PUBLIC_FORMSPREE_URL }}
+  LOG_DIR: ${{ vars.LOG_DIR }}
+  FACTURES_DIR: ${{ vars.FACTURES_DIR }}
+
+jobs:
+  deploy:
+    name: 🚀 Deploy ${{ inputs.service }} on server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧑‍💻 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: 🌐 Install Node.js
+        if: ${{ inputs.is_frontend == true }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: 📄 Create .env file
+        run: |
+          envsubst < ${{ inputs.service }}/.env.template > ${{ inputs.service }}/.env
+
+      - name: 🏗️ Build frontend
+        if: ${{ inputs.is_frontend == true }}
+        run: |
+          cd frontend
+          npm install --include=dev
+          npm run build
+          mkdir ../output
+          mkdir ../output/.next
+          shopt -s dotglob
+          cp -r .next/standalone/* ../output
+          cp -r public ../output/public
+          cp -r .next/static ../output/.next/static
+          cp entry.cjs ../output/entry.cjs
+          cd ..
+          rm -rf frontend
+          mv output frontend
+
+      - name: 📂 Copy ${{ inputs.service }} files to server
+        run: |
+          sshpass -p "${{ secrets.SERVER_SSH_PASS }}" rsync -az --delete -e "ssh -p ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no" ${{ inputs.service }}/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ inputs.deploy_path }}/../tmp/${{ inputs.service }}
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_SSH_PASS: ${{ secrets.SERVER_SSH_PASS }}
+          SERVER_PORT: ${{ secrets.SERVER_PORT }}
+
+      - name: 🚀 Deploy to server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_SSH_PASS }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            set -e
+
+            SERVICE=${{ inputs.service }}
+            APP_ROOT=${{ inputs.deploy_path }}
+            ENV_PATH=${{ inputs.source_env_path }}
+            INSTALL=${{ inputs.is_frontend != true }}
+
+            echo "Stopping app"
+            stop_output=$(/usr/sbin/cloudlinux-selector stop --json --interpreter=nodejs --app-root=$APP_ROOT)
+            echo $stop_output
+            echo $stop_output | grep -q '"result": "success"' || { echo "Failed to stop app"; exit 1; }
+
+            shopt -s dotglob  # Enable dotglob
+            
+            echo "Removing old files"
+            rm -rf $APP_ROOT/*
+
+            echo "Moving new files"
+            mv $APP_ROOT/../tmp/$SERVICE/* $APP_ROOT
+            
+            shopt -u dotglob  # Disable dotglob to revert back to default behavior
+
+            echo "Activating environment nodejs"
+            source $ENV_PATH
+
+            cd $APP_ROOT
+
+            echo "Installing dependencies"
+            if [ "$INSTALL" = "true" ]; then
+              echo "Installing"
+              npm install
+            fi
+
+            echo "Starting app"
+            start_output=$(/usr/sbin/cloudlinux-selector start --json --interpreter=nodejs --app-root=$APP_ROOT)
+            echo $start_output
+            echo $start_output | grep -q '"result": "success"' || { echo "Failed to start app"; exit 1; }
+
+            ls -la $APP_ROOT
