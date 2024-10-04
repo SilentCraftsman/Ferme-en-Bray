@@ -47,9 +47,9 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
     border-radius: 0.5rem;
     background-color: white;
     box-shadow:
-      0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.1);
-    max-height: 199px;
+            0 4px 6px -1px rgb(0 0 0 / 0.1),
+            0 2px 4px -2px rgb(0 0 0 / 0.1);
+    max-height: 20px;
   }
 
   ul {
@@ -67,8 +67,8 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
     background-color: white;
     transition: background-color $transition;
     box-shadow:
-      0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.1);
+            0 4px 6px -1px rgb(0 0 0 / 0.1),
+            0 2px 4px -2px rgb(0 0 0 / 0.1);
     margin-bottom: 34px;
 
     &:hover {
@@ -90,7 +90,7 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
 
     h3 {
       font-size: 1.3rem;
-      margin: 0;
+      margin: 0.5px;
       color: $text-color-dark;
     }
 
@@ -131,8 +131,8 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
       padding: 0.25rem 0.875rem;
       border-radius: 0.25rem;
       transition:
-        background-color 0.1s ease,
-        color 0.1s ease;
+              background-color 0.1s ease,
+              color 0.1s ease;
       border-color: #e5e7eb;
 
       &:hover {
@@ -152,7 +152,6 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
     }
 
     span {
-      height: 1.5rem;
       width: 2rem;
       border: 1px solid #d1d5db;
       background-color: #ffffff;
@@ -171,8 +170,8 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
     border-radius: $border-radius;
     cursor: pointer;
     transition:
-      background-color $transition,
-      transform 0.2s ease;
+            background-color $transition,
+            transform 0.2s ease;
     margin-top: 15px;
     font-size: 0.9rem;
 
@@ -235,8 +234,8 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
   border-radius: 0.5rem;
   background-color: white;
   box-shadow:
-    0 4px 6px -1px rgb(0 0 0 / 0.1),
-    0 2px 4px -2px rgb(0 0 0 / 0.1);
+          0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
   max-height: 199px;
   width: 20%;
 
@@ -289,7 +288,7 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
     font-size: $title-font-size;
     color: $text-color-dark;
     text-decoration: underline;
-    margin-bottom: 15px;
+    margin-bottom: 45px;
   }
 
   input {
@@ -317,6 +316,7 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
   .firstInfoEmail,
   .InfoText {
     input {
+      padding-left: 8px;
       margin-top: 10px;
       margin-bottom: 10px;
     }
@@ -329,7 +329,8 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
   }
 
   .InfoText input {
-    width: 100% !important;
+    margin: 10px auto;
+    width: 65% !important;
   }
 }
 
@@ -366,17 +367,19 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
     }
 
     .productDetails .productDetailsContent {
-      text-align: left;
+      text-align: center;
 
       h3 {
         font-size: 18px;
         width: 78%;
+        margin: 0 0 15px 0;
+        padding-left: 15px;
       }
     }
 
     .productDetails .productDetailsPrice .priceQuantity .quantityButtons {
       justify-content: center;
-      margin: auto;
+      margin-top: 8px;
     }
   }
 
@@ -443,14 +446,15 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
       h3 {
         font-size: 16px;
         width: 78%;
-        margin: auto;
+        margin: 0 0 15px 0;
+        padding-left: 15px;
         text-align: center;
       }
     }
 
     .productDetails .productDetailsPrice .priceQuantity .quantityButtons {
       justify-content: center;
-      margin: auto;
+      margin-top: 8px;
     }
   }
 
@@ -461,7 +465,7 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
   }
 
   .customerInfo {
-    width: 100%;
+    width: 90%;
     margin: 40px auto; // Centre le container horizontalement
     padding: 10px;
     max-width: 100%;

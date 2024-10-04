@@ -56,6 +56,7 @@ $cart-icon-font-size: 12px;
       position: relative;
 
       a {
+        margin-top: 5px;
         text-decoration: none;
         color: $header-text-color;
         display: flex;
@@ -108,8 +109,8 @@ $cart-icon-font-size: 12px;
     border-radius: 0.25rem;
     color: white;
     transition:
-      color 0.3s,
-      border-color 0.3s;
+            color 0.3s,
+            border-color 0.3s;
 
     &:hover {
       color: white;
@@ -153,7 +154,7 @@ $cart-icon-font-size: 12px;
     gap: 5px;
     grid-template-columns: repeat(
       2,
-      1fr
+                    1fr
     ); // Toujours deux colonnes pour les écrans les plus petits
   }
 }

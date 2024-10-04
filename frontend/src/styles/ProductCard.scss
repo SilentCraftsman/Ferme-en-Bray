@@ -33,19 +33,18 @@ $image-height: 200px;
 .product-card {
   background-color: #fff;
   border-radius: 15px;
-
   padding: 24px;
+
   height: 480px;
   position: relative;
-
   transition: 0.15s ease-in;
   max-width: 345px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.129);
 
   &:hover {
     box-shadow:
-      0 0 0 2px #ff5c5c,
-      0 10px 60px 0 rgba(#000, 0.1);
+            0 0 0 2px #ff5c5c,
+            0 10px 60px 0 rgba(#000, 0.1);
     transform: translatey(-5px);
   }
   .product-image-container {
@@ -125,14 +124,15 @@ $image-height: 200px;
   .card-action {
     display: flex;
     justify-content: space-around;
+    gap: 8px;
   }
 
   .card-action .button-market {
     cursor: pointer;
     border: none;
-    width: 147px;
+    width: 95%;
     height: 46px;
-    margin-top: 43px;
+    margin-top: 10px;
     margin-bottom: 0;
     padding: 0;
     color: #fff;
@@ -148,9 +148,9 @@ $image-height: 200px;
   .card-action .button-info {
     cursor: pointer;
     border: none;
-    width: 147px;
+    width: 95%;
     height: 46px;
-    margin-top: 43px;
+    margin-top: 10px;
     margin-bottom: 0;
     padding: 0;
     color: #fff;
@@ -174,6 +174,7 @@ $image-height: 200px;
   .product-card {
     padding: 18px;
     max-width: 190px;
+    margin: 5px;
 
     .product-image-container .product-image {
       height: 80%;
@@ -198,7 +199,13 @@ $image-height: 200px;
     }
 
     .card-action .button-market {
-      margin-top: 20px;
+      margin-top: 12px;
     }
+  }
+}
+
+@media (max-width: 450px) {
+  .product-card {
+    padding-bottom: 25px;
   }
 }

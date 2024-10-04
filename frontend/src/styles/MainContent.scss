@@ -71,7 +71,6 @@ $grid-gap: 2rem;
 }
 
 .main-section {
-  margin: auto;
   background-color: #f3f4f6;
 
   h2 {
@@ -84,12 +83,27 @@ $grid-gap: 2rem;
   }
 }
 
-.carousel {
+.custom-carousel {
   padding: 10px;
   overflow: visible;
   transform: translateY(20px);
   animation: fadeInUp 1.5s ease-out forwards;
 }
+
+/*Responsive carousel - Début*/
+@media (max-width: 1650px) {
+  .custom-carousel .react-multi-carousel-item {
+    margin: 0 -0.5em; /* Espace horizontal entre les cartes */
+  }
+}
+
+@media (max-width: 1300px) {
+  .custom-carousel .react-multi-carousel-item {
+    margin: 0 10px; /* Espace horizontal entre les cartes */
+  }
+}
+
+/*Responsive carousel - Fin*/
 
 // Sections principales
 .title-main-content,
@@ -170,6 +184,7 @@ $grid-gap: 2rem;
 }
 
 // Responsive Design
+
 @media (max-width: 768px) {
   .product-grid > .product-card,
   .product-grid-air > .product-card,
@@ -212,8 +227,8 @@ $grid-gap: 2rem;
   font-size: 24px;
   opacity: 0.7;
   transition:
-    background-color 0.3s ease,
-    opacity 0.3s ease;
+          background-color 0.3s ease,
+          opacity 0.3s ease;
   visibility: hidden;
 
   &.visible {

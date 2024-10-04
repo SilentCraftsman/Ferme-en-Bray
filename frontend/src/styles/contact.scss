@@ -22,16 +22,6 @@ $animation-duration: 2s;
   width: 50%;
 }
 
-// Titres et descriptions avec animations
-.contact-title,
-.contact-description,
-.contact-info-title,
-.contact-info-item,
-.map-title,
-.form-title,
-.contact-form {
-}
-
 .contact-title {
   font-weight: bold;
   font-size: 40px;
@@ -54,8 +44,6 @@ $animation-duration: 2s;
 }
 
 .contact-info-item {
-  margin-bottom: 0.5rem;
-
   strong {
     font-weight: bold;
     font-size: 18px;
@@ -84,6 +72,7 @@ $animation-duration: 2s;
 
 .form-container {
   width: 50%;
+  margin-top: 50px;
 }
 
 .form-title {
@@ -98,9 +87,10 @@ $animation-duration: 2s;
   animation: slideInFromFarLeft $animation-duration ease-out 0.5s forwards;
 
   label {
-    margin-left: 30px;
+    margin-bottom: 10px;
+    margin-top: 25px;
+    margin-left: 12px;
     font-weight: bold;
-    margin-bottom: 20px;
     padding-top: 12px;
     font-size: 18px;
   }
@@ -108,7 +98,8 @@ $animation-duration: 2s;
   .form-name {
     display: flex;
     justify-content: space-around;
-    padding: 12px;
+    padding: 5px;
+    gap: 12px;
 
     .form-name-content {
       display: flex;
@@ -117,7 +108,8 @@ $animation-duration: 2s;
       span {
         font-weight: bold;
         font-size: 18px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+        margin-top: 10px;
       }
     }
   }
@@ -132,6 +124,7 @@ $animation-duration: 2s;
     border-radius: 290486px;
     width: 245px;
     height: 55px;
+    padding-left: 5px;
     font-size: 18px;
   }
 
@@ -140,7 +133,7 @@ $animation-duration: 2s;
     border: 1px solid $border-color;
     border-radius: $border-radius;
     margin: auto;
-    margin-bottom: 1rem;
+    margin-bottom: 3rem;
     resize: none;
     overflow: auto;
     font-family: Arial, sans-serif;

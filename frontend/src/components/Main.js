@@ -113,6 +113,7 @@ const MainContent = () => {
             responsive={responsives}
             centerMode
             className="carousel"
+            containerClass="custom-carousel" // Classe personnalisée
           >
             {specialtyProducts.map((product) => (
               <ProductCard
@@ -134,6 +135,7 @@ const MainContent = () => {
             responsive={responsives}
             centerMode
             className="carousel"
+            containerClass="custom-carousel" // Classe personnalisée
           >
             {outdoorPoultryProducts.map((product) => (
               <ProductCard
@@ -159,6 +161,7 @@ const MainContent = () => {
             responsive={responsives}
             centerMode
             className="carousel"
+            containerClass="custom-carousel" // Classe personnalisée
           >
             {holidayProducts.map((product) => (
               <ProductCard
