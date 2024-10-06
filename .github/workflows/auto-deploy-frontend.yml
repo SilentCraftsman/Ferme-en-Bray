@@ -1,5 +1,3 @@
-name: 🚀 Auto Deploy Frontend
-
 on:
   push:
     branches:
@@ -9,8 +7,11 @@ on:
 
 jobs:
   deploy-frontend:
-    name: 🌐 Auto Deploy Frontend
-    uses: ./.github/workflows/deploy.yml
+    name: 🚀 Auto Deploy Frontend
+    uses: ./.github/workflows/deploy-common.yml
     secrets: inherit
     with:
-      frontend: true
+      service: 'frontend'
+      deploy_path: ${{ vars.DEPLOY_FRONTEND_PATH }}
+      source_env_path: ${{ vars.SOURCE_ENV_FRONTEND_PATH }}
+      is_frontend: true
