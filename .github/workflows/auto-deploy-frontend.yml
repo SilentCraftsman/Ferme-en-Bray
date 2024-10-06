@@ -4,10 +4,11 @@ on:
       - master
     paths:
       - 'frontend/**'
+      - '.github/workflows/**'
 
 jobs:
   deploy-frontend:
-    name: 🚀 Auto Deploy Frontend
+    name: 🌐 Auto Deploy Frontend
     uses: ./.github/workflows/deploy-common.yml
     secrets: inherit
     with:

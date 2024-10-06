@@ -4,10 +4,11 @@ on:
       - master
     paths:
       - 'backend/**'
+      - '.github/workflows/**'
 
 jobs:
   deploy-backend:
-    name: 🚀 Auto Deploy Backend
+    name: 🛠 Auto Deploy Backend
     uses: ./.github/workflows/deploy-common.yml
     secrets: inherit
     with:
