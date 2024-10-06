@@ -15,7 +15,6 @@ on:
         description: Deploy backend
   push:
     branches:
-      - main
       - master
     paths:
       - 'frontend/**'
@@ -28,8 +27,7 @@ jobs:
       - name: Log modified files
         run: |
           echo "Event name: ${{ github.event_name }}"
-          echo "Modified files:"
-          echo "${{ toJSON(github.event.commits.*.modified) }}"
+          echo "Event payload: ${{ toJSON(github.event) }}"
 
   deploy-backend:
     name: 🛠️ Deploy Backend
