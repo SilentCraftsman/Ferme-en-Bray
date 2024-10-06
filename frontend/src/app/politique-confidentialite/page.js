@@ -1,6 +1,12 @@
 import React from 'react';
 import '@/styles/politique-confidentialite.scss';
 
+export const metadata = {
+  title: 'Politique de Confidentialité - La volaille en Bray',
+  description:
+    'Découvrez notre politique de confidentialité et comment nous protégeons vos informations personnelles chez La volaille en Bray.',
+};
+
 const PolitiqueConfidentialite = () => (
   <div className="politique-confidentialite-container">
     <h1>Politique de Confidentialité</h1>

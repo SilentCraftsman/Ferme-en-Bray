@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import PropTypes from 'prop-types';
 import '@/styles/ProductCard.scss';
 import { useCart } from './cart/CartContext.js'; // Assurez-vous d'importer useCart
@@ -57,6 +58,7 @@ const ProductCard = ({ product, onShowDetails }) => {
     <div className="product-card">
       <div className="product-image-container">
         <img
+          loading="lazy"
           src={product.image}
           alt={product.title || 'Image du produit'}
           className="product-image"
@@ -113,12 +115,16 @@ const ProductCard = ({ product, onShowDetails }) => {
           Ajouter au panier
         </button>
         {onShowDetails && (
-          <button
-            className="button-info"
-            onClick={() => onShowDetails(product)}
+          <a
+            className="button-info-container"
+            href={`/produits/${product.subroute}`} // important for seo
+            onClick={(event) => {
+              event.preventDefault(); // to open modal instead of following the href
+              onShowDetails(product);
+            }}
           >
-            Voir les détails
-          </button>
+            <button className="button-info">Voir les détails</button>
+          </a>
         )}
       </div>
     </div>

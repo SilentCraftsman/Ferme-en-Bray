@@ -1,5 +1,10 @@
-// app/about/page.js
 import '@/styles/about.scss';
+
+export const metadata = {
+  title: 'À propos de nous - La volaille en Bray',
+  description:
+    'Découvrez notre entreprise spécialisée dans la production de produits alimentaires à base de volailles, notre mission, et notre équipe.',
+};
 
 export default function AboutPage() {
   return (

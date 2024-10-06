@@ -9,6 +9,7 @@ import '@/styles/MainContent.scss';
 import { FaArrowUp } from 'react-icons/fa';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import products from '@/config/products.json';
 
 const MainContent = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -37,12 +38,9 @@ const MainContent = () => {
 
   useEffect(() => {
     const loadProducts = async () => {
-      const response = await fetch('/products.json');
-      const data = await response.json();
-
-      setSpecialtyProducts(data.specialtyProducts);
-      setOutdoorPoultryProducts(data.outdoorPoultryProducts);
-      setHolidayProducts(data.holidayProducts);
+      setSpecialtyProducts(products.specialtyProducts);
+      setOutdoorPoultryProducts(products.outdoorPoultryProducts);
+      setHolidayProducts(products.holidayProducts);
     };
 
     loadProducts();

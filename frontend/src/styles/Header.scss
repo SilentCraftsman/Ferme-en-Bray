@@ -32,6 +32,9 @@ $cart-icon-font-size: 12px;
     font-style: italic;
     background-clip: text;
     -webkit-text-fill-color: transparent; // rend le texte transparent pour afficher le dégradé
+    h1 {
+      margin: 0;
+    }
   }
 
   nav {

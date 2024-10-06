@@ -1,6 +1,12 @@
 import React from 'react';
 import '@/styles/mentions-legales.scss';
 
+export const metadata = {
+  title: 'Mentions Légales - La volaille en Bray',
+  description:
+    "Consultez les mentions légales de La volaille en Bray, incluant les informations de contact et les détails de l'entreprise.",
+};
+
 const MentionsLegales = () => (
   <div className="mentions-legales-container">
     <h1>Mentions Légales</h1>

@@ -2,47 +2,62 @@
   "specialtyProducts": [
     {
       "id": 1,
-      "image": "./images/main-images/image-1.jpg",
+      "subroute": "roulage-de-poulet",
+      "image": "/images/main-images/image-1.jpg",
       "title": "Roulade de poulet - 800gr - 18.20 € le kg",
       "price": "14.56 €",
+      "priceForRichSnippet": 14.56,
       "ingredients": "Poulet, épices secrètes, ail, oignons, herbes de Provence.",
-      "description": "Roulade de poulet tendre aux épices secrètes, parfaite pour un repas savoureux et rapide. Poids: 800gr."
+      "description": "Roulade de poulet tendre aux épices secrètes, parfaite pour un repas savoureux et rapide. Poids: 800gr.",
+      "preparationTips": "Faire cuire au four à 180°C pendant 35 minutes. Accompagner de légumes grillés.",
+      "nutritionalInfo": "Calories: 250kcal, Protéines: 22g, Lipides: 15g, Glucides: 3g."
     },
     {
       "id": 2,
-      "image": "./images/main-images/image-2.jpg",
+      "subroute": "roulage-de-pintade",
+      "image": "/images/main-images/image-2.jpg",
       "title": "Roulade de pintade - 600gr - 23.40 € le kilo",
       "price": "14.04 €",
+      "priceForRichSnippet": 14.04,
       "ingredients": "Pintade, sauge, thym, échalotes, beurre.",
-      "description": "Roulade de pintade parfumée à la sauge et au thym. Un goût raffiné et authentique pour vos repas."
+      "description": "Roulade de pintade parfumée à la sauge et au thym. Un goût raffiné et authentique pour vos repas.",
+      "preparationTips": "Cuire à feu moyen dans une poêle avec du beurre pendant 25 minutes.",
+      "nutritionalInfo": "Calories: 210kcal, Protéines: 24g, Lipides: 10g, Glucides: 1g."
     },
     {
       "id": 3,
-      "image": "./images/main-images/Boudin_blanc_de_volaille.webp",
+      "subroute": "boudin-blanc-de-volaille",
+      "image": "/images/main-images/Boudin_blanc_de_volaille.webp",
       "title": "Boudin blanc de volaille - 130gr - 15.90 € le kg",
       "price": "2.07 €",
+      "priceForRichSnippet": 2.07,
       "ingredients": "Volaille, crème fraîche, œufs, pain, épices.",
       "description": "Boudin blanc de volaille délicat, crémeux et savoureux. Parfait pour une touche gourmande à votre repas."
     },
     {
       "id": 4,
-      "image": "./images/main-images/Quenelle_de_volaille.webp",
+      "subroute": "quenelle-de-volaille",
+      "image": "/images/main-images/Quenelle_de_volaille.webp",
       "title": "Quenelles de volaille - 125gr - 16.80 € le kg",
       "price": "2.10 €",
+      "priceForRichSnippet": 2.10,
       "ingredients": "Volaille, farine, lait, œufs, beurre.",
       "description": "Quenelles de volaille légères et savoureuses. Idéales pour un repas réconfortant et délicieux."
     },
     {
       "id": 5,
-      "image": "./images/main-images/Croquette_de_poulet.webp",
+      "subroute": "croquette-de-poulet",
+      "image": "/images/main-images/Croquette_de_poulet.webp",
       "title": "Croquettes de poulet - 75gr - 19.80 € le kg",
       "price": "1.49 €",
+      "priceForRichSnippet": 1.49,
       "ingredients": "Poulet, chapelure, œufs, épices, huile de tournesol.",
       "description": "Croquettes de poulet croustillantes et savoureuses. Un régal pour les amateurs de snacks irrésistibles."
     },
     {
       "id": 6,
-      "image": "./images/main-images/Bouchée_de_volaille.webp",
+      "subroute": "bouchee-de-volaille",
+      "image": "/images/main-images/Bouchée_de_volaille.webp",
       "title": "Bouchée de volaille - 150gr - 19.80 € le kg",
       "price": "2.80 €",
       "ingredients": "Volaille, fromage, herbes fraîches, épices, beurre.",
@@ -50,9 +65,11 @@
     },
     {
       "id": 7,
-      "image": "./images/main-images/Terrine_de_volaille.webp",
+      "subroute": "terrines-de-volaille",
+      "image": "/images/main-images/Terrine_de_volaille.webp",
       "title": "Terrine de volaille - 250gr - 17.20 € le kg",
       "price": "4.30 €",
+      "priceForRichSnippet": 4.30,
       "ingredients": "Volaille, porc, cognac, échalotes, épices.",
       "description": "Terrine de volaille et porc au cognac. Parfaite pour vos apéritifs, riche en saveurs et raffinée."
     }
@@ -60,9 +77,11 @@
   "outdoorPoultryProducts": [
     {
       "id": "chicken",
-      "image": "./images/main-images/Poulet.webp",
+      "subroute": "poulet",
+      "image": "/images/main-images/Poulet.webp",
       "title": "Poulet - 1.5kg - 9.10 € le kg",
       "price": "13.65 € et 18.20 €",
+      "priceForRichSnippet": 13.65,
       "ingredients": "Poulet élevé en plein air, \"cou nu, roux, blanc\", herbes fraîches, ail, sel, poivre.",
       "description": "Poulet plein air, tendre et savoureux. Disponible en petit ou moyen, idéal pour toute la famille. Poids: 1.5kg ou 2kg.",
       "variants": [
@@ -82,41 +101,51 @@
     },
     {
       "id": 10,
-      "image": "./images/main-images/image-1.jpg",
+      "image": "/images/main-images/image-1.jpg",
+      "subroute": "canette-canard-barbarie",
       "title": "Canette / Canard Barbarie - 2.2kg - 9.80 € le kg",
       "price": "21.56 €",
+      "priceForRichSnippet": 21.56,
       "ingredients": "Canard, oignons, épices, pommes, vin rouge, thym.",
       "description": "Canard Barbarie tendre et savoureux, mijoté aux épices et vin rouge. Un plat festif pour vos repas."
     },
     {
       "id": 11,
-      "image": "./images/main-images/Cuisse_de_poulet.webp",
+      "image": "/images/main-images/Cuisse_de_poulet.webp",
+      "subroute": "cuisses-de-poulet",
       "title": "Cuisses de poulet - 300gr - 11.00 € le kg",
       "price": "3.30 €",
+      "priceForRichSnippet": 3.30,
       "ingredients": "Poulet, paprika, ail en poudre, sel, poivre, huile d'olive.",
       "description": "Cuisses de poulet marinées au paprika, prêtes à griller. Un repas simple et plein de saveurs."
     },
     {
       "id": 12,
-      "image": "./images/main-images/Filet_de_poulet.webp",
+      "image": "/images/main-images/Filet_de_poulet.webp",
+      "subroute": "filets-de-poulet",
       "title": "Filets de poulet - 250gr - 18.00 € le kg",
       "price": "4.50 €",
+      "priceForRichSnippet": 4.50,
       "ingredients": "Poulet, herbes fraîches, ail, citron, sel, poivre.",
       "description": "Filets de poulet aux herbes fraîches et citron. Parfait pour une cuisine rapide et savoureuse."
     },
     {
       "id": 13,
-      "image": "./images/main-images/Ailerons_de_poulet.webp",
+      "image": "/images/main-images/Ailerons_de_poulet.webp",
+      "subroute": "ailerons-de-poulet",
       "title": "Ailerons de poulet - 800gr - 7.30 € le kg",
       "price": "5.84 €",
+      "priceForRichSnippet": 5.84,
       "ingredients": "Poulet, sauce soja, miel, ail, gingembre, sésame.",
       "description": "Ailerons de poulet caramélisés au miel et sauce soja. Un délice sucré-salé pour vos repas."
     },
     {
       "id": 14,
-      "image": "./images/main-images/image-1.jpg",
+      "image": "/images/main-images/image-1.jpg",
+      "subroute": "dinde",
       "title": "Dinde - 10kg - 8.10 € le kg",
       "price": "81.00 €",
+      "priceForRichSnippet": 81.00,
       "ingredients": "Dinde, (blanche entière ou découpée), oignons, céleri, carottes, thym, romarin.",
       "description": "Dinde généreuse, parfaite pour les repas festifs. Prête à être farcie ou cuisinée selon vos envies."
     }
@@ -124,41 +153,51 @@
   "holidayProducts": [
     {
       "id": 15,
-      "image": "./images/main-images/image-1.jpg",
+      "image": "/images/main-images/image-1.jpg",
+      "subroute": "poulet-de-noel",
       "title": "Poulet de Noël - 2.8kg - 11.80 € le kg",
       "price": "33.04 €",
+      "priceForRichSnippet": 33.04,
       "ingredients": "Poulet, (finission aliment + lait), lait, maïs, soja, herbes festives.",
       "description": "Poulet festif nourri aux herbes et lait. Idéal pour un repas de Noël délicieux avec vos proches."
     },
     {
       "id": 16,
-      "image": "./images/main-images/image-3.jpg",
+      "image": "/images/main-images/image-3.jpg",
+      "subroute": "poularde",
       "title": "Poularde - 2.2kg - 11.00 € le kg",
       "price": "24.20 €",
+      "priceForRichSnippet": 24.20,
       "ingredients": "Poularde, \"Cou nu\" (finission aliment + lait), lait, blé, herbes fines, épices douces.",
       "description": "Poularde tendre avec herbes fines. Parfaite pour un repas raffiné avec une chair délicate et savoureuse."
     },
     {
       "id": 17,
-      "image": "./images/main-images/image-4.jpg",
+      "image": "/images/main-images/image-4.jpg",
+      "subroute": "chapon",
       "title": "Chapon - 3.5kg - 13.50 € le kg",
       "price": "47.25 €",
+      "priceForRichSnippet": 47.25,
       "ingredients": "Chapon, \"roux\", maïs, légumes racines, herbes aromatiques.",
       "description": "Chapon de qualité aux herbes aromatiques. Idéal pour les fêtes, avec une chair savoureuse et tendre."
     },
     {
       "id": 18,
-      "image": "./images/main-images/image-1.jpg",
+      "image": "/images/main-images/image-1.jpg",
+      "subroute": "dinde",
       "title": "Dinde - 5kg - 12.40 € le kg",
       "price": "62.00 €",
+      "priceForRichSnippet": 62.00,
       "ingredients": "Dinde, \"Bronzée d'Amérique\" ou \"noir\", maïs, épices festives, herbes, beurre.",
       "description": "Dinde festive, juteuse et savoureuse. Parfaite pour vos repas de fête avec une chair exquise."
     },
     {
       "id": 19,
-      "image": "./images/main-images/image-2.jpg",
+      "image": "/images/main-images/image-2.jpg",
+      "subroute": "canette-de-barbarie",
       "title": "Canette de Barbarie - 2.2kg - 9.80 € le kg",
       "price": "21.56 €",
+      "priceForRichSnippet": 21.56,
       "ingredients": "Canette, vin blanc, ail, échalotes, thym.",
       "description": "Canette de Barbarie mijotée au vin blanc et thym. Un plat délicieux pour les amateurs de volaille raffinée."
     }

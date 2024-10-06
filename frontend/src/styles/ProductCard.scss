@@ -145,13 +145,18 @@ $image-height: 200px;
     }
   }
 
-  .card-action .button-info {
+  .card-action .button-info-container {
+    width: 100%;
+    height: 100%;
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  .card-action .button-info-container .button-info {
     cursor: pointer;
     border: none;
     width: 95%;
     height: 46px;
-    margin-top: 10px;
-    margin-bottom: 0;
     padding: 0;
     color: #fff;
     background-color: #f1425d;

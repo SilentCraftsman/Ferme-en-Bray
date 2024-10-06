@@ -1,6 +1,12 @@
 import React from 'react';
 import '@/styles/cgu.scss';
 
+export const metadata = {
+  title: "Conditions Générales d'Utilisation - La volaille en Bray",
+  description:
+    "Consultez les conditions générales d'utilisation de La volaille en Bray, incluant les responsabilités, la propriété intellectuelle, et les informations de contact.",
+};
+
 const CGU = () => (
   <div className="cgu-container">
     <h1>Conditions Générales d'Utilisation (CGU)</h1>

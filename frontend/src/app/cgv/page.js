@@ -1,6 +1,10 @@
-// app\cgv\page.js
-
 import '@/styles/cgv.scss';
+
+export const metadata = {
+  title: 'Conditions Générales de Vente - La volaille en Bray',
+  description:
+    'Consultez les conditions générales de vente de La volaille en Bray, incluant les modalités de vente, les prix, et les informations de contact.',
+};
 
 const Cgv = () => {
   return (
