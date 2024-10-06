@@ -1,0 +1,16 @@
+name: 🚀 Auto Deploy Frontend
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'frontend/**'
+
+jobs:
+  deploy-frontend:
+    name: 🌐 Auto Deploy Frontend
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
+    with:
+      frontend: true

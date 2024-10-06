@@ -1,0 +1,16 @@
+name: 🚀 Auto Deploy Backend
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'backend/**'
+
+jobs:
+  deploy-backend:
+    name: 🛠 Auto Deploy Backend
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
+    with:
+      backend: true
