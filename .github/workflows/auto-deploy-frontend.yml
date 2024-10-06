@@ -1,3 +1,5 @@
+name: Auto Deploy Frontend
+
 on:
   push:
     branches:
