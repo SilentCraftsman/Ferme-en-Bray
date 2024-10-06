@@ -7,15 +7,15 @@ import Modal from './Modal.js'; // Importation du composant de la modale
 import { useCart } from './cart/CartContext.js';
 import '@/styles/MainContent.scss';
 import { FaArrowUp } from 'react-icons/fa';
-import Carousel from 'react-multi-carousel';
+import RMCarousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import products from '@/config/products.json';
 
+const Carousel = RMCarousel.default ? RMCarousel.default : RMCarousel;
+const { specialtyProducts, outdoorPoultryProducts, holidayProducts } = products;
+
 const MainContent = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [specialtyProducts, setSpecialtyProducts] = useState([]);
-  const [outdoorPoultryProducts, setOutdoorPoultryProducts] = useState([]);
-  const [holidayProducts, setHolidayProducts] = useState([]);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [savedScrollPosition, setSavedScrollPosition] = useState(0);
   const { addToCart } = useCart();
@@ -37,14 +37,6 @@ const MainContent = () => {
   };
 
   useEffect(() => {
-    const loadProducts = async () => {
-      setSpecialtyProducts(products.specialtyProducts);
-      setOutdoorPoultryProducts(products.outdoorPoultryProducts);
-      setHolidayProducts(products.holidayProducts);
-    };
-
-    loadProducts();
-
     const handleScroll = () => {
       if (window.scrollY > 300) {
         setShowScrollToTop(true);
@@ -107,8 +99,9 @@ const MainContent = () => {
       <section id="specialties" className="main-section">
         <h2>Nos spécialités</h2>
         <div className="product-grid">
-          <Carousel.default
+          <Carousel
             responsive={responsives}
+            ssr={true}
             centerMode
             className="carousel"
             containerClass="custom-carousel" // Classe personnalisée
@@ -121,7 +114,7 @@ const MainContent = () => {
                 onShowDetails={handleShowDetails}
               />
             ))}
-          </Carousel.default>
+          </Carousel>
         </div>
       </section>
 
@@ -129,7 +122,8 @@ const MainContent = () => {
       <section id="outdoor-poultry" className="main-section">
         <h2>Nos produits de plein air</h2>
         <div className="product-grid">
-          <Carousel.default
+          <Carousel
+            ssr={true}
             responsive={responsives}
             centerMode
             className="carousel"
@@ -143,7 +137,7 @@ const MainContent = () => {
                 onShowDetails={handleShowDetails}
               />
             ))}
-          </Carousel.default>
+          </Carousel>
         </div>
       </section>
 
@@ -155,7 +149,8 @@ const MainContent = () => {
           uniquement sur commande.
         </p>
         <div className="product-grid">
-          <Carousel.default
+          <Carousel
+            ssr={true}
             responsive={responsives}
             centerMode
             className="carousel"
@@ -169,7 +164,7 @@ const MainContent = () => {
                 onShowDetails={handleShowDetails}
               />
             ))}
-          </Carousel.default>
+          </Carousel>
         </div>
       </section>
 
