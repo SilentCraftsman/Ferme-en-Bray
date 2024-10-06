@@ -26,6 +26,12 @@ export async function generateMetadata({ params }, parent) {
   };
 }
 
+const getPriceValidUntil = () => {
+  const currentDate = new Date();
+  const expiryDate = new Date(currentDate.setMonth(currentDate.getMonth() + 3)); // 3 months from now
+  return expiryDate.toISOString().split('T')[0]; // format YYYY-MM-DD
+};
+
 const ProduitPage = ({ params }) => {
   const { id } = params;
   const product = getProductById(id);
@@ -33,6 +39,9 @@ const ProduitPage = ({ params }) => {
   if (!product) {
     return <div>Produit non trouvé</div>;
   }
+
+  const aggregateRating = product.aggregateRating || {};
+  const reviews = product.reviews || [];
 
   return (
     <>
@@ -57,7 +66,40 @@ const ProduitPage = ({ params }) => {
               price: product.priceForRichSnippet,
               itemCondition: 'https://schema.org/NewCondition',
               availability: 'https://schema.org/InStock',
+              hasMerchantReturnPolicy: false,
+              shippingDetails: {
+                '@type': 'OfferShippingDetails',
+                shippingRate: {
+                  '@type': 'MonetaryAmount',
+                  value: '0',
+                  currency: 'EUR',
+                },
+                deliveryTime: {
+                  '@type': 'ShippingDeliveryTime',
+                  businessDays: '0-1',
+                },
+              },
+              priceValidUntil: getPriceValidUntil(),
             },
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: aggregateRating.ratingValue || '0',
+              reviewCount: aggregateRating.reviewCount || '0',
+            },
+            review: reviews.map((review) => ({
+              '@type': 'Review',
+              author: {
+                '@type': 'Person',
+                name: review.author,
+              },
+              reviewRating: {
+                '@type': 'Rating',
+                ratingValue: review.rating,
+                bestRating: '5',
+              },
+              datePublished: review.date,
+              reviewBody: review.content,
+            })),
           }),
         }}
       />

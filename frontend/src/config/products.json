@@ -10,7 +10,25 @@
       "ingredients": "Poulet, épices secrètes, ail, oignons, herbes de Provence.",
       "description": "Roulade de poulet tendre aux épices secrètes, parfaite pour un repas savoureux et rapide. Poids: 800gr.",
       "preparationTips": "Faire cuire au four à 180°C pendant 35 minutes. Accompagner de légumes grillés.",
-      "nutritionalInfo": "Calories: 250kcal, Protéines: 22g, Lipides: 15g, Glucides: 3g."
+      "nutritionalInfo": "Calories: 250kcal, Protéines: 22g, Lipides: 15g, Glucides: 3g.",
+      "aggregateRating": {
+        "ratingValue": 4.9,
+        "reviewCount": 24
+      },
+      "reviews": [
+        {
+          "author": "Jean Dupont",
+          "rating": 5,
+          "date": "2024-10-01",
+          "content": "Excellente qualité, je recommande vivement !"
+        },
+        {
+          "author": "Marie Martin",
+          "rating": 4,
+          "date": "2024-09-20",
+          "content": "Très bon produit."
+        }
+      ]
     },
     {
       "id": 2,
@@ -22,7 +40,25 @@
       "ingredients": "Pintade, sauge, thym, échalotes, beurre.",
       "description": "Roulade de pintade parfumée à la sauge et au thym. Un goût raffiné et authentique pour vos repas.",
       "preparationTips": "Cuire à feu moyen dans une poêle avec du beurre pendant 25 minutes.",
-      "nutritionalInfo": "Calories: 210kcal, Protéines: 24g, Lipides: 10g, Glucides: 1g."
+      "nutritionalInfo": "Calories: 210kcal, Protéines: 24g, Lipides: 10g, Glucides: 1g.",
+      "aggregateRating": {
+        "ratingValue": 4.8,
+        "reviewCount": 16
+      },
+      "reviews": [
+        {
+          "author": "Alain Dubois",
+          "rating": 5,
+          "date": "2024-09-25",
+          "content": "Un délice pour toute la famille !"
+        },
+        {
+          "author": "Sophie Durand",
+          "rating": 4,
+          "date": "2024-09-15",
+          "content": "Très bon mais un peu trop épicé à mon goût."
+        }
+      ]
     },
     {
       "id": 3,
@@ -32,7 +68,25 @@
       "price": "2.07 €",
       "priceForRichSnippet": 2.07,
       "ingredients": "Volaille, crème fraîche, œufs, pain, épices.",
-      "description": "Boudin blanc de volaille délicat, crémeux et savoureux. Parfait pour une touche gourmande à votre repas."
+      "description": "Boudin blanc de volaille délicat, crémeux et savoureux. Parfait pour une touche gourmande à votre repas.",
+      "aggregateRating": {
+        "ratingValue": 4.6,
+        "reviewCount": 10
+      },
+      "reviews": [
+        {
+          "author": "Patrick Legrand",
+          "rating": 5,
+          "date": "2024-09-12",
+          "content": "Excellent produit, je vais en racheter."
+        },
+        {
+          "author": "Emma Lefevre",
+          "rating": 4,
+          "date": "2024-09-10",
+          "content": "Bonne qualité mais un peu trop crémeux pour moi."
+        }
+      ]
     },
     {
       "id": 4,
@@ -42,7 +96,25 @@
       "price": "2.10 €",
       "priceForRichSnippet": 2.10,
       "ingredients": "Volaille, farine, lait, œufs, beurre.",
-      "description": "Quenelles de volaille légères et savoureuses. Idéales pour un repas réconfortant et délicieux."
+      "description": "Quenelles de volaille légères et savoureuses. Idéales pour un repas réconfortant et délicieux.",
+      "aggregateRating": {
+        "ratingValue": 4.7,
+        "reviewCount": 8
+      },
+      "reviews": [
+        {
+          "author": "Lucie Martel",
+          "rating": 5,
+          "date": "2024-08-30",
+          "content": "Superbe texture, j'adore !"
+        },
+        {
+          "author": "Michel Blanc",
+          "rating": 4,
+          "date": "2024-08-25",
+          "content": "Bon mais un peu cher."
+        }
+      ]
     },
     {
       "id": 5,
@@ -52,7 +124,25 @@
       "price": "1.49 €",
       "priceForRichSnippet": 1.49,
       "ingredients": "Poulet, chapelure, œufs, épices, huile de tournesol.",
-      "description": "Croquettes de poulet croustillantes et savoureuses. Un régal pour les amateurs de snacks irrésistibles."
+      "description": "Croquettes de poulet croustillantes et savoureuses. Un régal pour les amateurs de snacks irrésistibles.",
+      "aggregateRating": {
+        "ratingValue": 4.5,
+        "reviewCount": 15
+      },
+      "reviews": [
+        {
+          "author": "Camille Petit",
+          "rating": 5,
+          "date": "2024-09-05",
+          "content": "Mes enfants en raffolent !"
+        },
+        {
+          "author": "Paul Richard",
+          "rating": 4,
+          "date": "2024-09-03",
+          "content": "Très bon mais un peu gras."
+        }
+      ]
     },
     {
       "id": 6,
@@ -61,7 +151,25 @@
       "title": "Bouchée de volaille - 150gr - 19.80 € le kg",
       "price": "2.80 €",
       "ingredients": "Volaille, fromage, herbes fraîches, épices, beurre.",
-      "description": "Bouchées de volaille au fromage fondant et herbes fraîches. Un délice savoureux pour vos moments conviviaux."
+      "description": "Bouchées de volaille au fromage fondant et herbes fraîches. Un délice savoureux pour vos moments conviviaux.",
+      "aggregateRating": {
+        "ratingValue": 4.8,
+        "reviewCount": 12
+      },
+      "reviews": [
+        {
+          "author": "Elodie Laurent",
+          "rating": 5,
+          "date": "2024-09-18",
+          "content": "Fondant en bouche, parfait pour l'apéro."
+        },
+        {
+          "author": "Julien Leroy",
+          "rating": 4,
+          "date": "2024-09-12",
+          "content": "Très bon mais un peu cher pour la portion."
+        }
+      ]
     },
     {
       "id": 7,
@@ -71,7 +179,25 @@
       "price": "4.30 €",
       "priceForRichSnippet": 4.30,
       "ingredients": "Volaille, porc, cognac, échalotes, épices.",
-      "description": "Terrine de volaille et porc au cognac. Parfaite pour vos apéritifs, riche en saveurs et raffinée."
+      "description": "Terrine de volaille et porc au cognac. Parfaite pour vos apéritifs, riche en saveurs et raffinée.",
+      "aggregateRating": {
+        "ratingValue": 4.9,
+        "reviewCount": 20
+      },
+      "reviews": [
+        {
+          "author": "Henri Dubois",
+          "rating": 5,
+          "date": "2024-09-27",
+          "content": "Délicieuse terrine, riche en goût."
+        },
+        {
+          "author": "Claire Moreau",
+          "rating": 5,
+          "date": "2024-09-22",
+          "content": "Parfaite pour les soirées entre amis."
+        }
+      ]
     }
   ],
   "outdoorPoultryProducts": [

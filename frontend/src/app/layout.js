@@ -55,6 +55,7 @@ export default function RootLayout({ children }) {
               image: `${process.env.FRONTEND_BASE_URL}/images/about-images/farm-image.jpg`,
               url: process.env.FRONTEND_BASE_URL,
               telephone: '+33609505778',
+              priceRange: '$$',
               address: {
                 '@type': 'PostalAddress',
                 streetAddress: '24 Route de Beauvais',
