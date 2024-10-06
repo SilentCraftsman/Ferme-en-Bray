@@ -101,7 +101,6 @@ const MainContent = () => {
         <div className="product-grid">
           <Carousel
             responsive={responsives}
-            ssr={true}
             centerMode
             className="carousel"
             containerClass="custom-carousel" // Classe personnalisée
@@ -123,7 +122,6 @@ const MainContent = () => {
         <h2>Nos produits de plein air</h2>
         <div className="product-grid">
           <Carousel
-            ssr={true}
             responsive={responsives}
             centerMode
             className="carousel"
@@ -150,7 +148,6 @@ const MainContent = () => {
         </p>
         <div className="product-grid">
           <Carousel
-            ssr={true}
             responsive={responsives}
             centerMode
             className="carousel"

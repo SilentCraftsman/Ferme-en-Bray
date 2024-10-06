@@ -60,7 +60,7 @@ function generateSiteMap() {
     .map((product) => {
       return `
       <url>
-        <loc>${DOMAIN}/products/${product.subroute}</loc>
+        <loc>${DOMAIN}/produits/${product.subroute}</loc>
         <lastmod>${new Date().toISOString()}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
