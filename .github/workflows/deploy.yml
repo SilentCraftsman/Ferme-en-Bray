@@ -13,11 +13,26 @@ on:
         required: false
         default: false
         description: Deploy backend
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+      - 'backend/**'
 
 jobs:
+  log-modified-files:
+    if : github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log modified files
+        run: |
+          echo "Modified files:"
+          echo "${{ toJSON(github.event.commits.*.modified) }}"
+
   deploy-backend:
     name: 🛠️ Deploy Backend
-    if: ${{ github.event.inputs.backend == 'true' }}
+    if: ${{ github.event.inputs.backend == 'true' || (github.event_name == 'push' && contains(github.event.commits.*.modified, 'backend/')) }}
     uses: ./.github/workflows/deploy-common.yml
     secrets: inherit
     with:
@@ -28,7 +43,7 @@ jobs:
 
   deploy-frontend:
     name: 🌐 Deploy Frontend
-    if: ${{ github.event.inputs.frontend == 'true' }}
+    if: ${{ github.event.inputs.frontend == 'true' || (github.event_name == 'push' && contains(github.event.commits.*.modified, 'frontend/')) }}
     uses: ./.github/workflows/deploy-common.yml
     secrets: inherit
     with:

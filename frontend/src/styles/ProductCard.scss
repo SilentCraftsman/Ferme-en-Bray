@@ -166,6 +166,11 @@ $image-height: 200px;
     &:hover {
       background-color: #0d2660;
     }
+
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
   }
 
   // Style pour le message d'erreur

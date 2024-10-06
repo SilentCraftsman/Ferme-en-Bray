@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
 import '@/styles/ProductCard.scss';
-import { useCart } from './cart/CartContext.js'; // Assurez-vous d'importer useCart
+import { useCart } from './cart/CartContext.js';
+import Link from 'next/link'; // Assurez-vous d'importer useCart
 
 const MAX_QUANTITY = 80;
 
@@ -115,16 +116,24 @@ const ProductCard = ({ product, onShowDetails }) => {
           Ajouter au panier
         </button>
         {onShowDetails && (
-          <a
-            className="button-info-container"
-            href={`/produits/${product.subroute}`} // important for seo
-            onClick={(event) => {
-              event.preventDefault(); // to open modal instead of following the href
-              onShowDetails(product);
-            }}
-          >
-            <button className="button-info">Voir les détails</button>
-          </a>
+          <div className="button-info-container">
+            <button
+              className="button-info"
+              onClick={(event) => {
+                onShowDetails(product);
+              }}
+            >
+              <Link
+                passHref
+                href={`/produits/${product.subroute}`} // important for seo
+                onClick={(event) => {
+                  event.preventDefault(); // to open modal instead of following the href
+                }}
+              >
+                Voir les détails
+              </Link>
+            </button>
+          </div>
         )}
       </div>
     </div>
