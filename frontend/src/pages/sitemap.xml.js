@@ -13,7 +13,7 @@ function generateSiteMap() {
       <priority>1.00</priority>
     </url>
     <url>
-      <loc>https://lavolailleenbray.com/about</loc>
+      <loc>https://lavolailleenbray.com/a-propos</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
       <priority>0.60</priority>
     </url>
@@ -23,7 +23,7 @@ function generateSiteMap() {
       <priority>0.50</priority>
     </url>
     <url>
-      <loc>https://lavolailleenbray.com/cart</loc>
+      <loc>https://lavolailleenbray.com/panier</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
       <priority>0.30</priority>
     </url>

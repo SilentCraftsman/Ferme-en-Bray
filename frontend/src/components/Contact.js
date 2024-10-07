@@ -73,7 +73,7 @@ export default function Contact() {
   return (
     <div className="contact-container">
       <div className="contact-container-content">
-        <h1 className="contact-title">Contactez-Nous</h1>
+        <h2 className="contact-title">Contactez-Nous</h2>
         <p className="contact-description">
           Pour toute question ou demande, veuillez remplir le formulaire
           ci-dessous ou nous envoyer un email à{' '}

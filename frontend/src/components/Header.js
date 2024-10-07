@@ -43,7 +43,7 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link href="/about" passHref>
+            <Link href="/a-propos" passHref>
               <FaInfoCircle /> À propos
             </Link>
           </li>
@@ -53,7 +53,7 @@ export default function Header() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link href="/cart" className="cart-link" passHref>
+            <Link href="/panier" className="cart-link" passHref>
               <div className="cart-icon-container">
                 <FaShoppingCart />
                 {itemCount > 0 && (

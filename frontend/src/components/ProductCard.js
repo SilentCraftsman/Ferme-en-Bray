@@ -58,8 +58,8 @@ const ProductCard = ({ product, onShowDetails }) => {
   return (
     <div className="product-card">
       <div className="product-image-container">
-        <img
-          loading="lazy"
+        <Image
+          fill
           src={product.image}
           alt={product.title || 'Image du produit'}
           className="product-image"

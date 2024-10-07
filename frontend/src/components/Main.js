@@ -97,7 +97,7 @@ const MainContent = () => {
       </nav>
       {/* Section pour les spécialités */}
       <section id="specialties" className="main-section">
-        <h2>Nos spécialités</h2>
+        <h3>Nos spécialités</h3>
         <div className="product-grid">
           <Carousel
             responsive={responsives}
@@ -119,7 +119,7 @@ const MainContent = () => {
 
       {/* Section pour les produits de plein air */}
       <section id="outdoor-poultry" className="main-section">
-        <h2>Nos produits de plein air</h2>
+        <h3>Nos produits de plein air</h3>
         <div className="product-grid">
           <Carousel
             responsive={responsives}
@@ -141,7 +141,7 @@ const MainContent = () => {
 
       {/* Section pour les produits de fête */}
       <section id="holiday-products" className="main-section">
-        <h2>Nos produits de fête</h2>
+        <h3>Nos produits de fête</h3>
         <p className="holiday-products-text">
           Veuillez noter que les produits de cette section sont disponibles
           uniquement sur commande.

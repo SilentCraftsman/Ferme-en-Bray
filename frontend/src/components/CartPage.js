@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from './cart/CartContext';
 import { FaShoppingCart } from 'react-icons/fa';
-import axios from 'axios';
 import styles from '../styles/CartPage.module.scss';
 import { createCheckoutSession } from '@/services/api.service.js';
 
@@ -171,6 +170,7 @@ const CartPage = () => {
               {cart.map((item) => (
                 <li key={item.uniqueId}>
                   <img
+                    loading="lazy"
                     src={item.image}
                     alt={item.title}
                     className={styles.productImage}

@@ -9,7 +9,7 @@ export const metadata = {
 
 const CGU = () => (
   <div className="cgu-container">
-    <h1>Conditions Générales d'Utilisation (CGU)</h1>
+    <h2>Conditions Générales d'Utilisation (CGU)</h2>
     <p>
       <strong>Préambule :</strong> Les présentes conditions générales
       d'utilisation (CGU) régissent l'accès et l'utilisation du site{' '}

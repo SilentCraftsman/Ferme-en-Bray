@@ -4,14 +4,17 @@ export const metadata = {
   title: 'Conditions Générales de Vente - La volaille en Bray',
   description:
     'Consultez les conditions générales de vente de La volaille en Bray, incluant les modalités de vente, les prix, et les informations de contact.',
+  alternates: {
+    canonical: `${process.env.FRONTEND_BASE_URL}/cgv`,
+  },
 };
 
 const Cgv = () => {
   return (
     <div className="cgv-container">
-      <h1>Conditions Générales de Vente (CGV)</h1>
+      <h2>Conditions Générales de Vente (CGV)</h2>
       <section>
-        <h2>Introduction</h2>
+        <h3>Introduction</h3>
         <p>
           Les présentes conditions générales de vente régissent l'ensemble des
           transactions réalisées sur notre site. En accédant à notre site et en
@@ -21,7 +24,7 @@ const Cgv = () => {
       </section>
 
       <section>
-        <h2>1. Objet</h2>
+        <h3>1. Objet</h3>
         <p>
           Les présentes CGV visent à définir les modalités de vente entre la
           société "La volaille en Bray" et le client.
@@ -29,7 +32,7 @@ const Cgv = () => {
       </section>
 
       <section>
-        <h2>2. Produits</h2>
+        <h3>2. Produits</h3>
         <p>
           Nos produits sont décrits avec la plus grande précision possible. Les
           photographies des produits ne sont pas contractuelles.
@@ -37,7 +40,7 @@ const Cgv = () => {
       </section>
 
       <section>
-        <h2>3. Prix</h2>
+        <h3>3. Prix</h3>
         <p>
           Les prix sont indiqués en euros, toutes taxes comprises. "La volaille
           en Bray" se réserve le droit de modifier les prix à tout moment.
@@ -45,7 +48,7 @@ const Cgv = () => {
       </section>
 
       <section>
-        <h2>4. Paiement</h2>
+        <h3>4. Paiement</h3>
         <p>
           Le paiement s'effectue en ligne via une plateforme sécurisée. Le
           client garantit qu'il est pleinement autorisé à utiliser la carte de
@@ -54,7 +57,7 @@ const Cgv = () => {
       </section>
 
       <section>
-        <h2>5. Retrait des produits</h2>
+        <h3>5. Retrait des produits</h3>
         <p>
           Les produits commandés peuvent être retirés directement à notre point
           de vente situé à 24 Rte de Beauvais, 76220 Ferrières-en-Bray. Les
@@ -64,7 +67,7 @@ const Cgv = () => {
       </section>
 
       <section>
-        <h2>6. Droit de rétractation</h2>
+        <h3>6. Droit de rétractation</h3>
         <p>
           Conformément à la législation en vigueur, le client dispose d'un délai
           de 14 jours pour se rétracter sans avoir à justifier de motif.
@@ -72,7 +75,7 @@ const Cgv = () => {
       </section>
 
       <section>
-        <h2>7. Service client</h2>
+        <h3>7. Service client</h3>
         <p>
           Pour toute question ou réclamation, vous pouvez nous contacter via la
           page de contact ou par email à l'adresse suivante :
@@ -81,7 +84,7 @@ const Cgv = () => {
       </section>
 
       <section>
-        <h2>8. Informations de Contact</h2>
+        <h3>8. Informations de Contact</h3>
         <p>
           Adresse : 24 Rte de Beauvais, 76220 Ferrières-en-Bray
           <br />
@@ -92,7 +95,7 @@ const Cgv = () => {
       </section>
 
       <section>
-        <h2>9. Litiges</h2>
+        <h3>9. Litiges</h3>
         <p>
           En cas de litige, les parties conviennent de rechercher une solution
           amiable avant toute action judiciaire.
@@ -100,7 +103,7 @@ const Cgv = () => {
       </section>
 
       <section>
-        <h2>10. Modification des CGV</h2>
+        <h3>10. Modification des CGV</h3>
         <p>
           "La volaille en Bray" se réserve le droit de modifier les présentes
           conditions générales de vente à tout moment.

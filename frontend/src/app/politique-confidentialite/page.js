@@ -5,11 +5,14 @@ export const metadata = {
   title: 'Politique de Confidentialité - La volaille en Bray',
   description:
     'Découvrez notre politique de confidentialité et comment nous protégeons vos informations personnelles chez La volaille en Bray.',
+  alternates: {
+    canonical: `${process.env.FRONTEND_BASE_URL}/politique-confidentialite`,
+  },
 };
 
 const PolitiqueConfidentialite = () => (
   <div className="politique-confidentialite-container">
-    <h1>Politique de Confidentialité</h1>
+    <h2>Politique de Confidentialité</h2>
     <p>
       <strong>Introduction :</strong> Chez <strong>La volaille en Bray</strong>,
       nous nous engageons à protéger votre vie privée. Cette politique de

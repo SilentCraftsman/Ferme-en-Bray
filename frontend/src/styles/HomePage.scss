@@ -22,7 +22,7 @@
   margin-bottom: 1rem;
 
   // Titre principal
-  h1 {
+  h2 {
     font-size: 3rem;
     color: #b26943;
     margin-top: 13.5rem;
@@ -33,7 +33,7 @@
     animation: fadeInUp 1.5s ease-out 1.5s forwards;
   }
 
-  h2 {
+  h3 {
     text-decoration: underline rgba(255, 0, 0, 0.653) 2px;
     font-size: 1.5rem;
     color: #333;
@@ -76,7 +76,7 @@
 // Responsive Design
 @media (max-width: 768px) {
   .home-container {
-    h1 {
+    h2 {
       font-size: 1.75rem;
     }
     p {
@@ -87,7 +87,7 @@
 
 @media (max-width: 480px) {
   .home-container {
-    h1 {
+    h2 {
       font-size: 1.5rem;
     }
     p {

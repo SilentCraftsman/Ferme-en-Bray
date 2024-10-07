@@ -7,8 +7,8 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-contact">
-          <a href="/about" rel="noopener noreferrer">
-            A propos
+          <a href="/a-propos" rel="noopener noreferrer">
+            À propos
           </a>
 
           <a href="/contact" rel="noopener noreferrer">

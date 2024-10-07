@@ -10,6 +10,9 @@ export const metadata = {
   title: 'Mon Panier - La volaille en Bray',
   description:
     'Consultez et gérez les articles dans votre panier chez La volaille en Bray.',
+  alternates: {
+    canonical: `${process.env.FRONTEND_BASE_URL}/panier`,
+  },
 };
 
 export default function Cart() {

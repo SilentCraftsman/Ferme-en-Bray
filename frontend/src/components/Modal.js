@@ -84,6 +84,7 @@ const Modal = ({ show, onClose, product }) => {
             onClick={() => setIsZoomed(!isZoomed)}
           >
             <img
+              loading="lazy"
               src={sanitizedImage}
               alt={sanitizedTitle}
               className="modal-image"

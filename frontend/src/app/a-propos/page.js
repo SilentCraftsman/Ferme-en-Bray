@@ -4,6 +4,9 @@ export const metadata = {
   title: 'À propos de nous - La volaille en Bray',
   description:
     'Découvrez notre entreprise spécialisée dans la production de produits alimentaires à base de volailles, notre mission, et notre équipe.',
+  alternates: {
+    canonical: `${process.env.FRONTEND_BASE_URL}/a-propos`,
+  },
 };
 
 export default function AboutPage() {
@@ -11,7 +14,7 @@ export default function AboutPage() {
     <div className="about-container">
       <div className="about-header">
         <div className="about-header-content">
-          <h1>À propos de notre entreprise </h1>
+          <h2>À propos de notre entreprise </h2>
           <p>
             {' '}
             Nous sommes une entreprise spécialisée dans la production de
@@ -21,8 +24,8 @@ export default function AboutPage() {
             alimentaire et de durabilité.
           </p>
         </div>
-        {/* Utilisation de la balise <img> */}
         <img
+          loading="lazy"
           src="/images/about-images/farm-image.jpg"
           alt="Image illustrant notre entreprise"
           className="about-image"
@@ -32,7 +35,7 @@ export default function AboutPage() {
       </div>
       <div className="about-content">
         <div className="about-section">
-          <h2>Notre Mission</h2>
+          <h3>Notre Mission</h3>
           <p>
             Notre mission est de fournir à nos clients des produits sains,
             savoureux et nutritifs, tout en contribuant à la préservation de
@@ -41,7 +44,7 @@ export default function AboutPage() {
           </p>
         </div>
         <div className="about-section">
-          <h2>Notre Équipe</h2>
+          <h3>Notre Équipe</h3>
           <p>
             Notre équipe est composée de professionnels passionnés par leur
             métier, qui travaillent sans relâche pour garantir la qualité de nos

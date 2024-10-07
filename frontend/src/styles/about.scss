@@ -46,7 +46,7 @@ $border-radius: 8px;
     @include box-shadow($box-shadow);
     background-color: #fffffe;
     padding: 35px 40px;
-    h1 {
+    h2 {
       font-size: 2.5rem;
       color: $text-color-dark;
       margin-bottom: 0;
@@ -87,7 +87,7 @@ $border-radius: 8px;
     @include box-shadow($box-shadow);
     padding: 1rem;
 
-    h2 {
+    h3 {
       font-size: 2rem;
       color: #444;
       border-bottom: 2px solid $primary-color;
@@ -144,7 +144,7 @@ $border-radius: 8px;
 
   .about-header {
     flex-direction: column;
-    h1 {
+    h2 {
       font-size: 2rem;
     }
 
@@ -157,7 +157,7 @@ $border-radius: 8px;
   }
 
   .about-section {
-    h2 {
+    h3 {
       font-size: 1.5rem;
     }
   }
@@ -178,7 +178,7 @@ $border-radius: 8px;
   }
 
   .about-header {
-    h1 {
+    h2 {
       font-size: 1.5rem;
     }
 
@@ -188,7 +188,7 @@ $border-radius: 8px;
   }
 
   .about-section {
-    h2 {
+    h3 {
       font-size: 1.25rem;
     }
   }

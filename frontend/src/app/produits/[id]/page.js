@@ -23,6 +23,9 @@ export async function generateMetadata({ params }, parent) {
   return {
     title: `Acheter ${product.title} - Vente en ligne de volaille de qualité`,
     description: `Découvrez notre ${product.title}, ${product.description}. Parfait pour vos repas gourmands. Commandez maintenant en ligne !`,
+    alternates: {
+      canonical: `${process.env.FRONTEND_BASE_URL}/produit/${product.subroute}`,
+    },
   };
 }
 

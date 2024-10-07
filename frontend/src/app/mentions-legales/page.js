@@ -5,11 +5,14 @@ export const metadata = {
   title: 'Mentions Légales - La volaille en Bray',
   description:
     "Consultez les mentions légales de La volaille en Bray, incluant les informations de contact et les détails de l'entreprise.",
+  alternates: {
+    canonical: `${process.env.FRONTEND_BASE_URL}/mentions-legales`,
+  },
 };
 
 const MentionsLegales = () => (
   <div className="mentions-legales-container">
-    <h1>Mentions Légales</h1>
+    <h2>Mentions Légales</h2>
     <p>
       <strong>Informations de Contact</strong>
     </p>
@@ -26,7 +29,7 @@ const MentionsLegales = () => (
       <strong>Nom de l'entreprise :</strong> La volaille en Bray
     </p>
 
-    <h2>Informations sur l'entreprise</h2>
+    <h3>Informations sur l'entreprise</h3>
     <p>
       La société <strong>La volaille en Bray</strong> est spécialisée dans la
       production de produits alimentaires à base de volailles. Nous mettons un
@@ -39,7 +42,7 @@ const MentionsLegales = () => (
       <strong>Hébergeur du site :</strong> [Nom et adresse de l'hébergeur]
     </p>
 
-    <h2>Responsabilité</h2>
+    <h3>Responsabilité</h3>
     <p>
       La société décline toute responsabilité en cas d'erreurs ou d'omissions
       dans les informations fournies sur le site. Les utilisateurs sont invités
@@ -47,7 +50,7 @@ const MentionsLegales = () => (
       e-mail].
     </p>
 
-    <h2>Propriété Intellectuelle</h2>
+    <h3>Propriété Intellectuelle</h3>
     <p>
       Tous les contenus présents sur ce site, y compris les textes, images,
       graphiques, logos, icônes et autres éléments, sont la propriété exclusive

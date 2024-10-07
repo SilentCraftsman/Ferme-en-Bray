@@ -7,6 +7,9 @@ import React from 'react';
 export const metadata = {
   title: 'La volaille en Bray',
   description: 'Découvrez nos produits à base de volailles.',
+  alternates: {
+    canonical: `${process.env.FRONTEND_BASE_URL}`,
+  },
 };
 
 export default function RootLayout({ children }) {
