@@ -24,7 +24,7 @@ export async function generateMetadata({ params }, parent) {
     title: `Acheter ${product.title} - Vente en ligne de volaille de qualité`,
     description: `Découvrez notre ${product.title}, ${product.description}. Parfait pour vos repas gourmands. Commandez maintenant en ligne !`,
     alternates: {
-      canonical: `${process.env.FRONTEND_BASE_URL}/produit/${product.subroute}`,
+      canonical: `${process.env.FRONTEND_BASE_URL}/produits/${product.subroute}`,
     },
   };
 }
@@ -64,7 +64,7 @@ const ProduitPage = ({ params }) => {
             },
             offers: {
               '@type': 'Offer',
-              url: `${process.env.FRONTEND_BASE_URL}/produit/${product.subroute}`,
+              url: `${process.env.FRONTEND_BASE_URL}/produits/${product.subroute}`,
               priceCurrency: 'EUR',
               price: product.priceForRichSnippet,
               itemCondition: 'https://schema.org/NewCondition',
