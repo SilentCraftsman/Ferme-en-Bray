@@ -5,8 +5,9 @@ import Footer from '@/components/Footer.js';
 import React from 'react';
 
 export const metadata = {
-  title: 'La volaille en Bray',
-  description: 'Découvrez nos produits à base de volailles.',
+  title: 'La Volaille en Bray - Vente de Volailles Locales à Ferrières-en-Bray',
+  description:
+    'Achetez des volailles fraîches et locales directement de notre ferme à Ferrières-en-Bray. Découvrez nos volailles fermières élevées avec soin.',
   alternates: {
     canonical: `${process.env.FRONTEND_BASE_URL}`,
   },
@@ -20,15 +21,18 @@ export default function RootLayout({ children }) {
         <meta name="author" content="La volaille en Bray" />
         <meta
           name="keywords"
-          content="volaille, vente volaille, volailles locales, Ferme en Bray"
+          content="volaille, vente volaille, volaille fermière, volaille locale, Ferme en Bray, achat volaille, Ferrières-en-Bray"
         />
         <meta name="robots" content="index, follow" />
 
         {/* Open Graph & Twitter Cards */}
-        <meta property="og:title" content="La volaille en Bray" />
+        <meta
+          property="og:title"
+          content="La Volaille en Bray - Ferme de Volailles à Ferrières-en-Bray"
+        />
         <meta
           property="og:description"
-          content="Découvrez nos produits à base de volailles."
+          content="Découvrez des volailles fermières élevées dans le respect des traditions locales. Achetez directement à la ferme."
         />
         <meta
           property="og:image"
@@ -53,8 +57,9 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'LocalBusiness',
-              name: 'La volaille en Bray',
-              description: 'Découvrez nos produits à base de volailles.',
+              name: 'La Volaille en Bray - Vente de Volailles Locales à Ferrières-en-Bray',
+              description:
+                'Achetez des volailles fraîches et locales directement de notre ferme à Ferrières-en-Bray. Découvrez nos volailles fermières élevées avec soin.',
               image: `${process.env.FRONTEND_BASE_URL}/images/about-images/farm-image.jpg`,
               url: process.env.FRONTEND_BASE_URL,
               telephone: '+33609505778',

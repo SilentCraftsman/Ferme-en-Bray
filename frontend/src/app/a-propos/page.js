@@ -16,7 +16,6 @@ export default function AboutPage() {
         <div className="about-header-content">
           <h2>À propos de notre entreprise </h2>
           <p>
-            {' '}
             Nous sommes une entreprise spécialisée dans la production de
             produits alimentaires à base de volailles. Depuis 2023, nous nous
             engageons à offrir des produits de la plus haute qualité tout en
