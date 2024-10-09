@@ -22,16 +22,27 @@ const MainContent = () => {
 
   const responsives = {
     desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 2,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 425 },
-      items: 2,
+      breakpoint: {
+        max: 3000,
+        min: 1024,
+      },
+      items: 3,
+      partialVisibilityGutter: 40,
     },
     mobile: {
-      breakpoint: { max: 425, min: 0 },
+      breakpoint: {
+        max: 464,
+        min: 0,
+      },
       items: 1,
+      partialVisibilityGutter: 30,
+    },
+    tablet: {
+      breakpoint: {
+        max: 1024,
+        min: 464,
+      },
+      items: 2,
       partialVisibilityGutter: 30,
     },
   };
@@ -97,13 +108,34 @@ const MainContent = () => {
       </nav>
       {/* Section pour les spécialités */}
       <section id="specialties" className="main-section">
-        <h3>Nos spécialités</h3>
+        <h2>Nos spécialités</h2>
         <div className="product-grid">
           <Carousel
+            additionalTransfrom={0}
+            arrows
+            autoPlaySpeed={3000}
+            centerMode={true}
+            className=""
+            containerClass="container-with-dots"
+            dotListClass=""
+            draggable
+            focusOnSelect={false}
+            itemClass=""
+            keyBoardControl
+            minimumTouchDrag={80}
+            pauseOnHover
+            renderArrowsWhenDisabled={false}
+            renderButtonGroupOutside={false}
+            renderDotsOutside={false}
             responsive={responsives}
-            centerMode
-            className="carousel"
-            containerClass="custom-carousel" // Classe personnalisée
+            rewind={false}
+            rewindWithAnimation={false}
+            rtl={false}
+            shouldResetAutoplay
+            showDots={false}
+            sliderClass=""
+            slidesToSlide={1}
+            swipeable
           >
             {specialtyProducts.map((product) => (
               <ProductCard
@@ -119,13 +151,34 @@ const MainContent = () => {
 
       {/* Section pour les produits de plein air */}
       <section id="outdoor-poultry" className="main-section">
-        <h3>Nos produits de plein air</h3>
+        <h2>Nos produits de plein air</h2>
         <div className="product-grid">
           <Carousel
+            additionalTransfrom={0}
+            arrows
+            autoPlaySpeed={3000}
+            centerMode={true}
+            className=""
+            containerClass="container-with-dots"
+            dotListClass=""
+            draggable
+            focusOnSelect={false}
+            itemClass=""
+            keyBoardControl
+            minimumTouchDrag={80}
+            pauseOnHover
+            renderArrowsWhenDisabled={false}
+            renderButtonGroupOutside={false}
+            renderDotsOutside={false}
             responsive={responsives}
-            centerMode
-            className="carousel"
-            containerClass="custom-carousel" // Classe personnalisée
+            rewind={false}
+            rewindWithAnimation={false}
+            rtl={false}
+            shouldResetAutoplay
+            showDots={false}
+            sliderClass=""
+            slidesToSlide={1}
+            swipeable
           >
             {outdoorPoultryProducts.map((product) => (
               <ProductCard
@@ -141,17 +194,38 @@ const MainContent = () => {
 
       {/* Section pour les produits de fête */}
       <section id="holiday-products" className="main-section">
-        <h3>Nos produits de fête</h3>
+        <h2>Nos produits de fête</h2>
         <p className="holiday-products-text">
           Veuillez noter que les produits de cette section sont disponibles
           uniquement sur commande.
         </p>
         <div className="product-grid">
           <Carousel
+            additionalTransfrom={0}
+            arrows
+            autoPlaySpeed={3000}
+            centerMode={true}
+            className=""
+            containerClass="container-with-dots"
+            dotListClass=""
+            draggable
+            focusOnSelect={false}
+            itemClass=""
+            keyBoardControl
+            minimumTouchDrag={80}
+            pauseOnHover
+            renderArrowsWhenDisabled={false}
+            renderButtonGroupOutside={false}
+            renderDotsOutside={false}
             responsive={responsives}
-            centerMode
-            className="carousel"
-            containerClass="custom-carousel" // Classe personnalisée
+            rewind={false}
+            rewindWithAnimation={false}
+            rtl={false}
+            shouldResetAutoplay
+            showDots={false}
+            sliderClass=""
+            slidesToSlide={1}
+            swipeable
           >
             {holidayProducts.map((product) => (
               <ProductCard

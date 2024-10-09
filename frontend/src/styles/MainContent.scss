@@ -73,7 +73,7 @@ $grid-gap: 2rem;
 .main-section {
   background-color: #f3f4f6;
 
-  h3 {
+  h2 {
     color: white !important;
     margin-top: 100px !important;
     margin-bottom: 100px !important;
@@ -90,17 +90,9 @@ $grid-gap: 2rem;
   //animation: fadeInUp 1.5s ease-out forwards;
 }
 
-/*Responsive carousel - Début*/
-@media (max-width: 1650px) {
-  .custom-carousel .react-multi-carousel-item {
-    margin: 0 -0.5em; /* Espace horizontal entre les cartes */
-  }
-}
-
-@media (max-width: 1300px) {
-  .custom-carousel .react-multi-carousel-item {
-    margin: 0 10px; /* Espace horizontal entre les cartes */
-  }
+.custom-carousel .react-multi-carousel-item {
+  margin: 0 20px;
+  /* Espace horizontal entre les cartes */
 }
 
 /*Responsive carousel - Fin*/
@@ -112,6 +104,11 @@ $grid-gap: 2rem;
   text-align: center;
   margin: $title-margin;
   opacity: 0;
+}
+
+
+.product-grid{
+  margin-bottom: 100px;
 }
 
 .product-grid,
@@ -136,10 +133,12 @@ $grid-gap: 2rem;
 @media (max-width: 768px) {
   .secondary-nav {
     padding: 0.5rem;
+
     .nav-description {
       font-size: 14px;
       padding: 0.5rem;
     }
+
     ul {
       flex-direction: column;
 
@@ -152,8 +151,9 @@ $grid-gap: 2rem;
       }
     }
   }
+
   .main-section {
-    h3 {
+    h2 {
       margin-bottom: 50px !important;
       margin-top: 50px !important;
     }
@@ -186,18 +186,21 @@ $grid-gap: 2rem;
 // Responsive Design
 
 @media (max-width: 768px) {
-  .product-grid > .product-card,
-  .product-grid-air > .product-card,
-  .product-grid-holiday > .product-card {
+
+  .product-grid>.product-card,
+  .product-grid-air>.product-card,
+  .product-grid-holiday>.product-card {
     flex: 1 1 calc(50% - $grid-gap);
     max-width: calc(50% - $grid-gap);
   }
+
 }
 
 @media (max-width: 480px) {
-  .product-grid > .product-card,
-  .product-grid-air > .product-card,
-  .product-grid-holiday > .product-card {
+
+  .product-grid>.product-card,
+  .product-grid-air>.product-card,
+  .product-grid-holiday>.product-card {
     flex: 1 1 100%;
     max-width: 100%;
   }

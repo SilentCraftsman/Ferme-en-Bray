@@ -34,7 +34,7 @@ $image-height: 200px;
   background-color: #fff;
   border-radius: 15px;
   padding: 24px;
-
+  margin-right: 40px;
   height: 480px;
   position: relative;
   transition: 0.15s ease-in;
@@ -184,7 +184,7 @@ $image-height: 200px;
   .product-card {
     padding: 18px;
     max-width: 190px;
-    margin: 5px;
+
 
     .product-image-container .product-image {
       height: 80%;
