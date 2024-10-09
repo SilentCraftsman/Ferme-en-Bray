@@ -15,37 +15,37 @@ function generateSiteMap() {
     <url>
       <loc>https://lavolailleenbray.com/a-propos</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.60</priority>
+      <priority>0.70</priority>
     </url>
     <url>
       <loc>https://lavolailleenbray.com/contact</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.50</priority>
+      <priority>0.70</priority>
     </url>
     <url>
       <loc>https://lavolailleenbray.com/panier</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.30</priority>
+      <priority>0.10</priority>
     </url>
     <url>
       <loc>https://lavolailleenbray.com/mentions-legales</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.30</priority>
+      <priority>0.20</priority>
     </url>
     <url>
       <loc>https://lavolailleenbray.com/politique-confidentialite</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.30</priority>
+      <priority>0.20</priority>
     </url>
     <url>
       <loc>https://lavolailleenbray.com/cgu</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.30</priority>
+      <priority>0.20</priority>
     </url>
     <url>
       <loc>https://lavolailleenbray.com/cgv</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.30</priority>
+      <priority>0.20</priority>
     </url>
   `;
 
@@ -63,7 +63,7 @@ function generateSiteMap() {
         <loc>${DOMAIN}/produits/${product.subroute}</loc>
         <lastmod>${new Date().toISOString()}</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
+        <priority>0.9</priority>
       </url>
     `;
     })

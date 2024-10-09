@@ -84,11 +84,15 @@ const ProduitPage = ({ params }) => {
               },
               priceValidUntil: getPriceValidUntil(),
             },
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: aggregateRating.ratingValue || '0',
-              reviewCount: aggregateRating.reviewCount || '0',
-            },
+            ...(aggregateRating.ratingValue && aggregateRating.reviewCount
+              ? {
+                  aggregateRating: {
+                    '@type': 'AggregateRating',
+                    ratingValue: aggregateRating.ratingValue || '0',
+                    reviewCount: aggregateRating.reviewCount || '0',
+                  },
+                }
+              : {}),
             review: reviews.map((review) => ({
               '@type': 'Review',
               author: {
