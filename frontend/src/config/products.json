@@ -3,7 +3,7 @@
     {
       "id": 1,
       "subroute": "roulage-de-poulet",
-      "image": "/images/main-images/image-1.jpg",
+      "image": "/images/main-images/Roulade_de_poulet.jpg",
       "title": "Roulade de poulet - 800gr - 18.20 € le kg",
       "price": "14.56 €",
       "priceForRichSnippet": 14.56,
@@ -33,7 +33,7 @@
     {
       "id": 2,
       "subroute": "roulage-de-pintade",
-      "image": "/images/main-images/image-2.jpg",
+      "image": "/images/main-images/Roulade_de_pintade.jpg",
       "title": "Roulade de pintade - 600gr - 23.40 € le kilo",
       "price": "14.04 €",
       "priceForRichSnippet": 14.04,
@@ -227,7 +227,7 @@
     },
     {
       "id": 10,
-      "image": "/images/main-images/image-1.jpg",
+      "image": "/images/main-images/Canard_ou_Canette.jpg",
       "subroute": "canette-canard-barbarie",
       "title": "Canette / Canard Barbarie - 2.2kg - 9.80 € le kg",
       "price": "21.56 €",
@@ -267,7 +267,7 @@
     },
     {
       "id": 14,
-      "image": "/images/main-images/image-1.jpg",
+      "image": "/images/main-images/Dinde.jpg",
       "subroute": "dinde",
       "title": "Dinde - 10kg - 8.10 € le kg",
       "price": "81.00 €",
@@ -279,7 +279,7 @@
   "holidayProducts": [
     {
       "id": 15,
-      "image": "/images/main-images/image-1.jpg",
+      "image": "/images/main-images/Poulet.jpg",
       "subroute": "poulet-de-noel",
       "title": "Poulet de Noël - 2.8kg - 11.80 € le kg",
       "price": "33.04 €",
@@ -289,7 +289,7 @@
     },
     {
       "id": 16,
-      "image": "/images/main-images/image-3.jpg",
+      "image": "/images/main-images/Poularde.jpg",
       "subroute": "poularde",
       "title": "Poularde - 2.2kg - 11.00 € le kg",
       "price": "24.20 €",
@@ -299,7 +299,7 @@
     },
     {
       "id": 17,
-      "image": "/images/main-images/image-4.jpg",
+      "image": "/images/main-images/Chapon.webp",
       "subroute": "chapon",
       "title": "Chapon - 3.5kg - 13.50 € le kg",
       "price": "47.25 €",
@@ -309,7 +309,7 @@
     },
     {
       "id": 18,
-      "image": "/images/main-images/image-1.jpg",
+      "image": "/images/main-images/Dinde.jpg",
       "subroute": "dinde",
       "title": "Dinde - 5kg - 12.40 € le kg",
       "price": "62.00 €",
@@ -319,7 +319,7 @@
     },
     {
       "id": 19,
-      "image": "/images/main-images/image-2.jpg",
+      "image": "/images/main-images/Canard_ou_Canette.jpg",
       "subroute": "canette-de-barbarie",
       "title": "Canette de Barbarie - 2.2kg - 9.80 € le kg",
       "price": "21.56 €",
