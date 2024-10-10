@@ -4,7 +4,7 @@ import {
   stripe,
   stripeFeePercentage,
 } from '../config/stripeConfig.js';
-import { ordersCollection } from '../services/orderService.js';
+import { getOrdersCollection } from '../services/orderService.js';
 import { createInvoice, sendInvoiceEmail } from '../utils/invoiceGenerator.js';
 import sgMail from '@sendgrid/mail';
 import { ObjectId } from 'mongodb';
@@ -102,7 +102,7 @@ export const createCheckoutSession = async (req, res) => {
       createdAt: new Date(),
     };
 
-    const result = await ordersCollection.insertOne(order);
+    const result = await getOrdersCollection().insertOne(order);
     const orderId = result.insertedId;
 
     // Création de la session Stripe
@@ -164,7 +164,7 @@ export const handlePaymentSuccess = async (req, res) => {
   }
 
   if (session.payment_status === 'paid') {
-    const order = await ordersCollection.findOne({
+    const order = await getOrdersCollection().findOne({
       _id: new ObjectId(session.metadata.order_id),
     });
 
