@@ -102,7 +102,8 @@ export const createCheckoutSession = async (req, res) => {
       createdAt: new Date(),
     };
 
-    const result = await getOrdersCollection().insertOne(order);
+    const ordersCollection = await getOrdersCollection();
+    const result = await ordersCollection.insertOne(order);
     const orderId = result.insertedId;
 
     // Création de la session Stripe
@@ -164,7 +165,8 @@ export const handlePaymentSuccess = async (req, res) => {
   }
 
   if (session.payment_status === 'paid') {
-    const order = await getOrdersCollection().findOne({
+    const ordersCollection = await getOrdersCollection();
+    const order = await ordersCollection.findOne({
       _id: new ObjectId(session.metadata.order_id),
     });
 
