@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start:prod": "cross-env NODE_ENV=production node src/app.js",
+    "start:prod": "cross-env APP_ENV=production node src/app.js",
     "start": "eslint ./src && node src/app.js",
     "dev": "eslint ./src && nodemon src/app.js",
     "lint": "eslint ./src",

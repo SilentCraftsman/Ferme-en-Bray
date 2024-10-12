@@ -232,6 +232,6 @@ export function sendInvoiceEmail(customerEmail, invoicePath) {
       logger.info('Invoice sent successfully');
     })
     .catch((error) => {
-      console.error('Error sending invoice:', error);
+      logger.error('Error sending invoice:', error);
     });
 }

@@ -36,7 +36,7 @@ export const createCheckoutSession = async (req, res) => {
     !customerName ||
     !customerEmail
   ) {
-    console.error('Invalid request data:', req.body);
+    logger.error('Invalid request data:', req.body);
     return res.status(400).send('Bad Request: Invalid request data');
   }
 
@@ -132,7 +132,7 @@ export const createCheckoutSession = async (req, res) => {
 
     res.json({ id: session.id });
   } catch (err) {
-    console.error('Error creating checkout session:', err);
+    logger.error('Error creating checkout session:', err);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
 };
@@ -141,7 +141,7 @@ export const handlePaymentSuccess = async (req, res) => {
   const { session_id } = req.query;
 
   if (!session_id) {
-    console.error('Missing session_id in query parameters');
+    logger.error('Missing session_id in query parameters');
     return res.status(400).send('Bad Request: Missing session_id');
   }
 
@@ -160,7 +160,7 @@ export const handlePaymentSuccess = async (req, res) => {
   }
 
   if (!session) {
-    console.error('Session not found');
+    logger.error('Session not found');
     return res.status(404).send('Session not found');
   }
 
@@ -171,7 +171,7 @@ export const handlePaymentSuccess = async (req, res) => {
     });
 
     if (!order) {
-      console.error('Order not found');
+      logger.error('Order not found');
       return res.status(404).send('Order not found');
     }
 

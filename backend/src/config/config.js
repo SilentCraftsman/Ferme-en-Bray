@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const NODE_ENV = process.env.NODE_ENV;
+export const APP_ENV = process.env.APP_ENV;
 export const API_BASE_URL = process.env.API_BASE_URL || '';
 export const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL;
 export const AUTH_KEY = process.env.AUTH_KEY;

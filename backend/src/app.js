@@ -3,18 +3,18 @@ import bodyParser from 'body-parser';
 import apiRoutes from './routes/apiRoutes.js';
 import { corsMiddleware } from './middleware/corsMiddleware.js';
 import logger from './config/logger.js';
-import { NODE_ENV, PORT } from './config/config.js';
+import { APP_ENV, PORT } from './config/config.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
 
 const app = express();
 
-// check NODE_ENV
-if (NODE_ENV === 'production') {
+// check APP_ENV
+if (APP_ENV === 'production') {
   logger.info('Running in production mode');
-} else if (NODE_ENV === 'development') {
+} else if (APP_ENV === 'development') {
   logger.info('Running in development mode');
 } else {
-  throw new Error('NODE_ENV must be set as either production or development');
+  throw new Error('APP_ENV must be set as either production or development');
 }
 
 app.use(corsMiddleware);

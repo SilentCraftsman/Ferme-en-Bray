@@ -11,14 +11,14 @@
   backdrop-filter: blur(6px);
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 2;
 }
 
 .modal-content {
   background: #fff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   position: relative;
-  z-index: 1001;
+  z-index: 100;
   text-align: center;
   display: flex;
   justify-content: space-around;

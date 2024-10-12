@@ -3,7 +3,6 @@
 // Variables (définies ici pour personnaliser facilement les couleurs, tailles et espacements)
 $header-bg-color: #333;
 $header-text-color: white;
-$nav-list-gap: 15px;
 $nav-link-bg-color: #333;
 $nav-link-hover-bg-color: #ed8936;
 $nav-link-hover-color: #ddd;
@@ -13,36 +12,100 @@ $cart-icon-border-color: white;
 $cart-icon-font-size: 12px;
 
 // Style principal du header
-.header {
-  background-color: $header-bg-color;
-  padding: 1rem;
+.header-container {
+  min-height: 4rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
   justify-content: center;
-  position: relative;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-family: 'Playfair Display', serif;
-  .header-title {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    word-wrap: break-word;
-    background: linear-gradient(90deg, blue, white, red);
-    font-style: italic;
-    background-clip: text;
-    -webkit-text-fill-color: transparent; // rend le texte transparent pour afficher le dégradé
-    h1 {
-      margin: 0;
+  background-color: $header-bg-color;
+
+  .lonely-cart {
+    display: none;
+    position: fixed;
+    right: 4%;
+    top: 20px;
+
+    .cart-item-count {
+      right: -20px;
+    }
+
+    a {
+      text-decoration: none;
+      color: $header-text-color;
+
+      &:hover {
+        color: $nav-link-hover-bg-color;
+      }
+
+      svg {
+        font-size: 1.5rem;
+      }
     }
   }
 
-  nav {
-    width: 100%;
+  .drawer-container{
+    display: none;
+    .drawer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 30px;
+      background-color: $header-bg-color;
+
+      .nav-list {
+        flex-direction: column;
+        gap: 15px;
+        width: 70%;
+
+        a {
+          display: flex;
+          justify-content: center;
+          padding-right: 33px; // to center the text because of the icon
+        }
+      }
+      .cart-item-count {
+        right: 42px;
+        top: -10px;
+      }
+    }
   }
 
-  .nav-button {
-    display: none;
+  .header {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    min-width: 900px;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Playfair Display', serif;
+    .header-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      white-space: nowrap; /* Prevents text from breaking to multiple lines */
+      background: linear-gradient(90deg, blue, white, red);
+      font-style: italic;
+      background-clip: text;
+      -webkit-text-fill-color: transparent; // rend le texte transparent pour afficher le dégradé
+      h1 {
+        margin: 0;
+      }
+    }
+
+    nav {
+      width: 100%;
+    }
+
+    .nav-button {
+      display: none;
+    }
+  }
+
+  .cart-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
   }
 
   .nav-list {
@@ -50,8 +113,7 @@ $cart-icon-font-size: 12px;
     padding: 0;
     margin: 0;
     display: flex;
-    justify-content: center;
-    gap: $nav-list-gap;
+    justify-content: flex-end;
     flex-wrap: wrap; // Permet aux éléments de passer à la ligne si nécessaire
 
     li {
@@ -81,83 +143,114 @@ $cart-icon-font-size: 12px;
     }
   }
 
-  .cart-icon-container {
-    position: relative;
-    display: flex;
-    align-items: center;
 
-    .cart-item-count {
-      position: absolute;
-      top: -24px;
-      right: -60px;
-      background-color: $cart-icon-bg-color;
-      color: $cart-icon-text-color;
-      border-radius: 50%;
-      padding: 5px 10px;
-      font-size: $cart-icon-font-size;
-      font-weight: bold;
-      border: 2px solid $cart-icon-border-color;
-    }
+  .cart-item-count {
+    border-radius: 9999px;
+    align-items: center;
+    width: 1.5rem;
+    justify-content: center;
+    height: 1.5rem;
+    display: inline-flex;
+    inset-inline-end: -.5rem;
+    position: absolute;
+    border: 2px solid rgb(17 24 39 / 1);
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1rem;
+    color: rgb(255 255 255 / 1);
+    background-color: rgb(240 82 82 / 1);
+    font-weight: 700;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    right: -68px;
+    top: -17px;
   }
 }
+
 
 // Responsive Design
-@media (max-width: 768px) {
-  .nav-button {
-    display: flex !important;
-    align-items: center !important;
-    margin: auto;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid white;
-    border-radius: 0.25rem;
-    color: white;
-    transition:
-            color 0.3s,
-            border-color 0.3s;
-
-    &:hover {
-      color: white;
-      border-color: white;
+@media (max-width: 950px) {
+  .header-container {
+    .lonely-cart {
+      display: unset;
     }
 
-    .icon {
-      fill: currentColor;
-      height: 1.5rem; // equivalent to h-6 in Tailwind
-      width: 1.5rem; // equivalent to w-6 in Tailwind
-      color: #4a5568; // equivalent to text-gray-700 in Tailwind
+    .drawer-container{
+      display: unset;
     }
-  }
 
-  .nav-list {
-    display: none !important; // Cacher le menu par défaut
-    flex-direction: column;
-    gap: 10px;
-    max-height: 0px;
+    .header {
+      min-width: unset !important;
+      justify-content: center !important;
 
-    &.open {
-      display: flex !important; // Afficher le menu si la classe "open" est présente
-      max-height: 330px;
-      align-items: center;
-      transition: 4s ease-out !important;
+      .header-title {
+        font-size: 1.25rem !important;
+        margin-bottom: 0.75rem !important;
+      }
+
+      nav {
+        width: unset !important;
+      }
+
+      .nav-button {
+        position: fixed !important;
+        left: 2% !important;
+        top: 12px;
+        cursor: pointer;
+        display: flex !important;
+        align-items: center !important;
+        margin: auto;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid white;
+        border-radius: 0.25rem;
+        color: white;
+        transition: color 0.3s,
+        border-color 0.3s;
+
+        &:hover {
+          color: white;
+          border-color: white;
+        }
+
+        .icon {
+          fill: currentColor;
+          height: 1.5rem; // equivalent to h-6 in Tailwind
+          width: 1.5rem; // equivalent to w-6 in Tailwind
+          color: #4a5568; // equivalent to text-gray-700 in Tailwind
+        }
+      }
+
+      .nav-list {
+        display: none !important; // Cacher le menu par défaut
+        flex-direction: column;
+        gap: 10px;
+        max-height: 0px;
+
+        &.open {
+          display: flex !important; // Afficher le menu si la classe "open" est présente
+          max-height: 330px;
+          align-items: center;
+          transition: 4s ease-out !important;
+        }
+      }
+
+      .nav-item {
+        grid-column: span 2;
+      }
     }
-  }
-
-  .nav-item {
-    grid-column: span 2;
   }
 }
 
-@media (max-width: 480px) {
-  .header-title {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .nav-list {
-    gap: 5px;
-    grid-template-columns: repeat(
-      2,
-                    1fr
-    ); // Toujours deux colonnes pour les écrans les plus petits
+@media (max-width: 488px) {
+  .header-container {
+    .lonely-cart {
+      right: 7%;
+    }
+    .header {
+      .header-title {
+        font-size: 0.75rem!important;
+        margin-bottom: 0.5rem!important;
+      }
+    }
   }
 }

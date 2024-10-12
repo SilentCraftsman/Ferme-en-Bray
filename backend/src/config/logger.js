@@ -1,6 +1,7 @@
 import { createLogger, format, transports } from 'winston';
 import { LOG_DIR } from './config.js';
 import fs from 'fs';
+import path from 'path';
 
 const { combine, timestamp, printf, colorize } = format;
 
@@ -9,7 +10,7 @@ const logFormat = printf(({ level, message, timestamp }) => {
 });
 
 // check if absolute path is provided
-if (!LOG_DIR.startsWith('/')) {
+if (!path.isAbsolute(LOG_DIR)) {
   throw new Error('LOG_DIR must be an absolute path');
 }
 

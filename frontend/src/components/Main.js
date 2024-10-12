@@ -90,10 +90,10 @@ const MainContent = () => {
     <div>
       {/* NavBar secondaire */}
       <nav className="secondary-nav">
-        <p className="nav-description">
-          Si vous souhaitez accéder directement à une section de produits qui
-          vous intéresse, cliquez sur l'un de ces trois liens.
-        </p>
+        {/*<p className="nav-description">*/}
+        {/*  Si vous souhaitez accéder directement à une section de produits qui*/}
+        {/*  vous intéresse, cliquez sur l'un de ces trois liens.*/}
+        {/*</p>*/}
         <ul>
           <li>
             <a href="#specialties">Nos spécialités</a>

@@ -20,15 +20,20 @@
   transform: translateY(20px);
   animation: fadeInUp 0s ease-out forwards;
   margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .home-header {
+    max-width: 60%;
+  }
 
   // Titre principal
   h2 {
-    font-size: 3rem;
+    font-size: 2rem;
     color: #b26943;
-    margin-top: 13.5rem;
+    margin-top: 2.5rem;
     margin-bottom: 0.5rem;
     opacity: 0;
-    text-decoration: underline;
     transform: translateY(20px);
     animation: fadeInUp 1.5s ease-out 1.5s forwards;
   }
@@ -76,6 +81,11 @@
 // Responsive Design
 @media (max-width: 768px) {
   .home-container {
+    .home-header {
+      padding-top: 90px;
+      max-width: 80%;
+    }
+
     h2 {
       font-size: 1.75rem;
     }
