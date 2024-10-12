@@ -21,13 +21,17 @@ if (!fs.existsSync(LOG_DIR)) {
 
 const logger = createLogger({
   level: 'info',
-  format: combine(
-    colorize(),
-    timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    logFormat
-  ),
+  format: combine(timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), logFormat),
   transports: [
-    new transports.Console(),
+    // Apply colorize only to console transport
+    new transports.Console({
+      format: combine(
+        colorize(),
+        timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        logFormat
+      ),
+    }),
+    // File transports without colorize
     new transports.File({ filename: `${LOG_DIR}/error.log`, level: 'error' }),
     new transports.File({ filename: `${LOG_DIR}/combined.log` }),
   ],

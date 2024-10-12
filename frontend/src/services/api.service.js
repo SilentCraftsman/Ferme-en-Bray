@@ -34,7 +34,7 @@ export const createCheckoutSession = async (
     const response = await apiClient.post('/stripe/create-checkout-session', {
       items: cart.map((item) => ({
         title: item.title,
-        image: item.image,
+        image: `${process.env.FRONTEND_BASE_URL}/${item.image}`,
         price: item.price,
         quantity: item.quantity,
         selectedVariant: item.selectedVariant,

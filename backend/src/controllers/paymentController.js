@@ -132,7 +132,9 @@ export const createCheckoutSession = async (req, res) => {
 
     res.json({ id: session.id });
   } catch (err) {
-    logger.error('Error creating checkout session:', err);
+    logger.error(
+      `Error creating checkout session: ${err.type} ${err.message} ${typeof err.raw === 'object' ? JSON.stringify(err.raw) : ''}`
+    );
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
 };
