@@ -1,51 +1,106 @@
-// MainContent.js
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard.js';
-import Modal from './Modal.js'; // Importation du composant de la modale
+import Modal from './Modal.js';
 import { useCart } from './cart/CartContext.js';
 import '@/styles/MainContent.scss';
 import { FaArrowUp } from 'react-icons/fa';
 import RMCarousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import products from '@/config/products.json';
+import { useSearchParams } from 'next/navigation';
 
 const Carousel = RMCarousel.default ? RMCarousel.default : RMCarousel;
 const { specialtyProducts, outdoorPoultryProducts, holidayProducts } = products;
+const responsives = {
+  large: {
+    breakpoint: {
+      max: 2000,
+      min: 1500,
+    },
+    items: 5,
+    partialVisibilityGutter: 40,
+  },
+  desktop: {
+    breakpoint: {
+      max: 1500,
+      min: 1250,
+    },
+    items: 4,
+    partialVisibilityGutter: 40,
+  },
+  tablet: {
+    breakpoint: {
+      max: 1250,
+      min: 464,
+    },
+    items: 3,
+    partialVisibilityGutter: 30,
+  },
+  mobile: {
+    breakpoint: {
+      max: 1000,
+      min: 735,
+    },
+    items: 2,
+    partialVisibilityGutter: 30,
+  },
+  mobile2: {
+    breakpoint: {
+      max: 735,
+      min: 465,
+    },
+    items: 2,
+    partialVisibilityGutter: 10,
+  },
+  mobileSmaller: {
+    breakpoint: {
+      max: 465,
+      min: 0,
+    },
+    items: 1,
+    partialVisibilityGutter: 30,
+  },
+};
+
+const hrefByCategory = {
+  specialtyProducts: '#specialties',
+  outdoorPoultryProducts: '#outdoor-poultry',
+  holidayProducts: '#holiday-products',
+};
 
 const MainContent = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
-  const [savedScrollPosition, setSavedScrollPosition] = useState(0);
+  const [savedScrollPositionOrElement, setSavedScrollPositionOrElement] =
+    useState(0);
   const { addToCart } = useCart();
+  const searchParams = useSearchParams();
+  const categoryId = searchParams.get('categoryId');
+  const productId = searchParams.get('productId');
 
-  const responsives = {
-    desktop: {
-      breakpoint: {
-        max: 3000,
-        min: 1024,
-      },
-      items: 3,
-      partialVisibilityGutter: 40,
-    },
-    mobile: {
-      breakpoint: {
-        max: 464,
-        min: 0,
-      },
-      items: 1,
-      partialVisibilityGutter: 30,
-    },
-    tablet: {
-      breakpoint: {
-        max: 1024,
-        min: 464,
-      },
-      items: 2,
-      partialVisibilityGutter: 30,
-    },
-  };
+  useEffect(() => {
+    if (categoryId && productId) {
+      const categoryHref = hrefByCategory[categoryId];
+      if (categoryHref) {
+        const element = document.querySelector(categoryHref);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }, 1000);
+
+          if (products[categoryId]) {
+            const product = products[categoryId].find(
+              (p) => String(p.id) === String(productId)
+            );
+            if (product) {
+              handleShowDetails(product, element);
+            }
+          }
+        }
+      }
+    }
+  }, [categoryId, productId]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,7 +122,6 @@ const MainContent = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Fonction pour ajouter un produit au panier
   const handleAddToCart = (product, quantity) => {
     if (typeof addToCart === 'function') {
       addToCart(product, quantity);
@@ -76,46 +130,40 @@ const MainContent = () => {
     }
   };
 
-  const handleShowDetails = (product) => {
-    setSavedScrollPosition(window.scrollY); // Sauvegarder la position de défilement
+  const handleShowDetails = (product, element = null) => {
+    setSavedScrollPositionOrElement(element ? element : window.scrollY);
     setSelectedProduct(product);
   };
 
   const handleCloseModal = () => {
     setSelectedProduct(null);
-    window.scrollTo(0, savedScrollPosition); // Restaurer la position de défilement
+    if (savedScrollPositionOrElement) {
+      if (typeof savedScrollPositionOrElement === 'number') {
+        window.scrollTo({
+          top: savedScrollPositionOrElement,
+          behavior: 'smooth',
+        });
+      } else {
+        savedScrollPositionOrElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   };
 
   return (
-    <div>
-      {/* NavBar secondaire */}
-      <nav className="secondary-nav">
-        {/*<p className="nav-description">*/}
-        {/*  Si vous souhaitez accéder directement à une section de produits qui*/}
-        {/*  vous intéresse, cliquez sur l'un de ces trois liens.*/}
-        {/*</p>*/}
-        <ul>
-          <li>
-            <a href="#specialties">Nos spécialités</a>
-          </li>
-          <li>
-            <a href="#outdoor-poultry">Nos produits de plein air</a>
-          </li>
-          <li>
-            <a href="#holiday-products">Nos produits de fête</a>
-          </li>
-        </ul>
-      </nav>
-      {/* Section pour les spécialités */}
-      <section id="specialties" className="main-section">
-        <h2>Nos spécialités</h2>
+    <main className="main-section-wrapper">
+      <section
+        id="specialties"
+        className="main-section"
+        aria-labelledby="specialties-heading"
+      >
+        <h3 id="specialties-heading">Nos spécialités</h3>
         <div className="product-grid">
           <Carousel
             additionalTransfrom={0}
             arrows
             autoPlaySpeed={3000}
             centerMode={true}
-            className=""
+            className="custom-carousel"
             containerClass="container-with-dots"
             dotListClass=""
             draggable
@@ -136,6 +184,7 @@ const MainContent = () => {
             sliderClass=""
             slidesToSlide={1}
             swipeable
+            infinite
           >
             {specialtyProducts.map((product) => (
               <ProductCard
@@ -149,16 +198,19 @@ const MainContent = () => {
         </div>
       </section>
 
-      {/* Section pour les produits de plein air */}
-      <section id="outdoor-poultry" className="main-section">
-        <h2>Nos produits de plein air</h2>
+      <section
+        id="outdoor-poultry"
+        className="main-section"
+        aria-labelledby="outdoor-poultry-heading"
+      >
+        <h3 id="outdoor-poultry-heading">Nos produits de plein air</h3>
         <div className="product-grid">
           <Carousel
             additionalTransfrom={0}
             arrows
             autoPlaySpeed={3000}
             centerMode={true}
-            className=""
+            className="custom-carousel"
             containerClass="container-with-dots"
             dotListClass=""
             draggable
@@ -179,6 +231,7 @@ const MainContent = () => {
             sliderClass=""
             slidesToSlide={1}
             swipeable
+            infinite
           >
             {outdoorPoultryProducts.map((product) => (
               <ProductCard
@@ -192,9 +245,12 @@ const MainContent = () => {
         </div>
       </section>
 
-      {/* Section pour les produits de fête */}
-      <section id="holiday-products" className="main-section">
-        <h2>Nos produits de fête</h2>
+      <section
+        id="holiday-products"
+        className="main-section"
+        aria-labelledby="holiday-products-heading"
+      >
+        <h3 id="holiday-products-heading">Nos produits de fête</h3>
         <p className="holiday-products-text">
           Veuillez noter que les produits de cette section sont disponibles
           uniquement sur commande.
@@ -205,7 +261,7 @@ const MainContent = () => {
             arrows
             autoPlaySpeed={3000}
             centerMode={true}
-            className=""
+            className="custom-carousel"
             containerClass="container-with-dots"
             dotListClass=""
             draggable
@@ -226,6 +282,7 @@ const MainContent = () => {
             sliderClass=""
             slidesToSlide={1}
             swipeable
+            infinite
           >
             {holidayProducts.map((product) => (
               <ProductCard
@@ -239,7 +296,6 @@ const MainContent = () => {
         </div>
       </section>
 
-      {/* Modale */}
       {selectedProduct && (
         <Modal
           show={!!selectedProduct}
@@ -248,16 +304,16 @@ const MainContent = () => {
         />
       )}
 
-      {/* Conteneur pour la flèche de retour en haut */}
       <div className="scroll-container">
         <button
           className={`scroll-to-top ${showScrollToTop ? 'visible' : ''}`}
           onClick={handleScrollToTop}
+          aria-label="Scroll to top"
         >
           <FaArrowUp />
         </button>
       </div>
-    </div>
+    </main>
   );
 };
 

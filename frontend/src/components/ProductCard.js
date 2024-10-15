@@ -55,32 +55,42 @@ const ProductCard = ({ product, onShowDetails }) => {
     }
   };
 
+  const titleSplit = product.title.split('-');
+
   return (
-    <div className="product-card">
-      <div className="product-image-container">
-        <Image
-          fill
-          src={product.image}
-          alt={product.title || 'Image du produit'}
-          className="product-image"
-        />
-        {selectedVariant && (
-          <div className="overlay">
-            <span className="plus-icon">+</span>
-          </div>
-        )}
-      </div>
-      <div className="card-header">
-        <h4>{product.title}</h4>
-        <p className="price">
-          {selectedVariant ? selectedVariant.price : product.price}
-        </p>
-      </div>
-      {/* <div className="card-info">
+    <div className="product-card-wrapper">
+      <div className="product-card">
+        <div
+          className="product-image-container"
+          onClick={() => onShowDetails(product)}
+        >
+          <Image
+            fill
+            src={product.image}
+            alt={product.title || 'Image du produit'}
+            className="product-image"
+            priority
+            sizes={'245px'}
+          />
+          {selectedVariant && (
+            <div className="overlay">
+              <span className="plus-icon">+</span>
+            </div>
+          )}
+        </div>
+        <div className="card-header">
+          {titleSplit.map((title, index) => (
+            <h4 key={index}>{title}</h4>
+          ))}
+          <p className="price">
+            {selectedVariant ? selectedVariant.price : product.price}
+          </p>
+        </div>
+        {/* <div className="card-info">
       <p className="description-title">Description :</p>
       <p>{product.description}</p>
       </div> */}
-      {/* {product.variants && (
+        {/* {product.variants && (
         <label>
           Type :
           <select
@@ -109,32 +119,35 @@ const ProductCard = ({ product, onShowDetails }) => {
           onChange={handleQuantityChange}
         />
       </label> */}
-      <div className="card-action">
-        {error && <p className="error-message">{error}</p>}
-
-        <button className="button-market" onClick={handleAddToCart}>
-          Ajouter au panier
-        </button>
-        {onShowDetails && (
+        <div className="card-action">
+          {error && <p className="error-message">{error}</p>}
           <div className="button-info-container">
-            <button
-              className="button-info"
-              onClick={(event) => {
-                onShowDetails(product);
-              }}
-            >
-              <Link
-                passHref
-                href={`/produits/${product.subroute}`} // important for seo
-                onClick={(event) => {
-                  event.preventDefault(); // to open modal instead of following the href
-                }}
-              >
-                Voir les détails
-              </Link>
+            <button className="button-market" onClick={handleAddToCart}>
+              Ajouter au panier
             </button>
           </div>
-        )}
+
+          {onShowDetails && (
+            <div className="button-info-container">
+              <button
+                className="button-info"
+                onClick={(event) => {
+                  onShowDetails(product);
+                }}
+              >
+                <Link
+                  passHref
+                  href={`/produits/${product.subroute}`} // important for seo
+                  onClick={(event) => {
+                    event.preventDefault(); // to open modal instead of following the href
+                  }}
+                >
+                  Voir les détails
+                </Link>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

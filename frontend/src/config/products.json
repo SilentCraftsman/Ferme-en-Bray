@@ -150,6 +150,7 @@
       "image": "/images/main-images/Bouchée_de_volaille.webp",
       "title": "Bouchée de volaille - 150gr - 19.80 € le kg",
       "price": "2.80 €",
+      "priceForRichSnippet": 2.80,
       "ingredients": "Volaille, fromage, herbes fraîches, épices, beurre.",
       "description": "Bouchées de volaille au fromage fondant et herbes fraîches. Un délice savoureux pour vos moments conviviaux.",
       "aggregateRating": {

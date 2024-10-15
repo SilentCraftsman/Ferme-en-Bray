@@ -3,30 +3,66 @@
 import React, { useState } from 'react';
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
-
+import Image from 'next/image';
 import Link from 'next/link';
+import { Menu, MenuButton, MenuItem, SubMenu } from '@szhsin/react-menu';
+import '@szhsin/react-menu/dist/index.css';
 import {
   FaHome,
   FaInfoCircle,
   FaEnvelope,
   FaShoppingCart,
+  FaStore,
 } from 'react-icons/fa';
 import { useCart } from './cart/CartContext.js';
 import '@/styles/Header.scss';
+import products from '@/config/products.json';
+
+const categoryTitleById = {
+  specialtyProducts: 'Nos spécialités',
+  outdoorPoultryProducts: 'Nos produits de plein air',
+  holidayProducts: 'Nos produits de fête',
+};
 
 const NavItem = ({ href, icon: Icon, children, onClick }) => (
   <li>
-    <Link href={href} passHref onClick={onClick}>
+    <Link href={href} passHref onClick={onClick} className="nav-link">
       <Icon /> {children}
     </Link>
   </li>
 );
 
-const NavList = ({ itemCount, toggleMenu }) => (
+const NavList = ({ itemCount, toggleMenu, isDrawer }) => (
   <ul className={`nav-list`}>
     <NavItem href="/" icon={FaHome} onClick={toggleMenu}>
       Accueil
     </NavItem>
+    <Menu
+      align={isDrawer ? 'end' : 'start'}
+      menuButton={
+        <MenuButton className={'menu-btn'}>
+          <NavItem href="" icon={FaStore}>
+            Produits
+          </NavItem>
+        </MenuButton>
+      }
+    >
+      {Object.keys(products).map((category) => (
+        <SubMenu key={category} label={categoryTitleById[category]}>
+          {products[category].map((product) => (
+            <Link
+              className="product-link"
+              key={product.id}
+              href={`/?categoryId=${category}&productId=${product.id}`}
+              passHref
+              onClick={toggleMenu}
+            >
+              <MenuItem>{product.title}</MenuItem>
+            </Link>
+          ))}
+        </SubMenu>
+      ))}
+    </Menu>
     <NavItem href="/a-propos" icon={FaInfoCircle} onClick={toggleMenu}>
       À propos
     </NavItem>
@@ -34,7 +70,12 @@ const NavList = ({ itemCount, toggleMenu }) => (
       Contact
     </NavItem>
     <li className="nav-item">
-      <Link href="/panier" className="cart-link" passHref onClick={toggleMenu}>
+      <Link
+        href="/panier"
+        className="cart-link nav-link"
+        passHref
+        onClick={toggleMenu}
+      >
         <div className="cart-icon-container">
           <FaShoppingCart />
           {itemCount > 0 && (
@@ -62,8 +103,15 @@ export default function Header() {
 
   return (
     <header className="header-container">
+      {/*<h1 style={{ position: 'absolute', zIndex: -1 }}>La volaille en Bray</h1>*/}
       <div className="header">
         <Link href="/" className="header-title">
+          <Image
+            height={100}
+            width={100}
+            src="/images/logo_la_volaille_en_bray-transformed.jpeg"
+            alt="Logo la volaille en Bray"
+          />
           <h1>La volaille en Bray</h1>
         </Link>
         <nav>
@@ -79,12 +127,7 @@ export default function Header() {
           </button>
           <NavList itemCount={itemCount} toggleMenu={toggleMenu} />
           <li className="lonely-cart">
-            <Link
-              href="/panier"
-              className="cart-link"
-              passHref
-              onClick={toggleMenu}
-            >
+            <Link href="/panier" className="cart-link nav-link" passHref>
               <div className="cart-icon-container">
                 <FaShoppingCart />
                 {itemCount > 0 && (
@@ -102,7 +145,7 @@ export default function Header() {
           direction="right"
           className="drawer"
         >
-          <NavList itemCount={itemCount} toggleMenu={closeMenu} />
+          <NavList isDrawer itemCount={itemCount} toggleMenu={closeMenu} />
         </Drawer>
       </div>
     </header>
