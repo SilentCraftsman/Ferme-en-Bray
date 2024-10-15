@@ -25,27 +25,27 @@ function generateSiteMap() {
     <url>
       <loc>https://lavolailleenbray.com/panier</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.10</priority>
+      <priority>0.01</priority>
     </url>
     <url>
       <loc>https://lavolailleenbray.com/mentions-legales</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.20</priority>
+      <priority>0.10</priority>
     </url>
     <url>
       <loc>https://lavolailleenbray.com/politique-confidentialite</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.20</priority>
+      <priority>0.10</priority>
     </url>
     <url>
       <loc>https://lavolailleenbray.com/cgu</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.20</priority>
+      <priority>0.10</priority>
     </url>
     <url>
       <loc>https://lavolailleenbray.com/cgv</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-      <priority>0.20</priority>
+      <priority>0.10</priority>
     </url>
   `;
 

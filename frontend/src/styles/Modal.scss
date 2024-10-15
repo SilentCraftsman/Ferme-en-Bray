@@ -191,13 +191,14 @@
 
 
   .modal-image {
-    height: auto;
+    max-height: 300px !important;
     /* Ajusté pour s'adapter aux tailles plus petites */
+    img {
+      width: 100% !important;
+    }
   }
 
-  img {
-    width: 100% !important;
-  }
+
 
   .modal-content-info {
     max-width: 80%;
@@ -253,7 +254,7 @@
 
 
   .modal-image {
-    height: 150px;
+    height: 150px !important;
     /* Ajusté pour les petits écrans */
   }
 

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="944" height="129" viewBox="0 0 944 129">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #000;
+        stroke-linejoin: round;
+        stroke-width: 4px;
+        font-size: 106.045px;
+        filter: url(#filter);
+        font-family: "Playfair Display";
+        font-weight: 700;
+        font-style: italic;
+      }
+    </style>
+    <filter id="filter" x="13" y="9" width="916" height="117" filterUnits="userSpaceOnUse">
+      <feImage preserveAspectRatio="none" x="19" y="15" width="904" height="105" result="image" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iOTA0IiBoZWlnaHQ9IjEwNSIgdmlld0JveD0iMCAwIDkwNCAxMDUiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6IHVybCgjbGluZWFyLWdyYWRpZW50KTsKICAgICAgfQogICAgPC9zdHlsZT4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ibGluZWFyLWdyYWRpZW50IiB5MT0iNTIuNSIgeDI9IjkwNCIgeTI9IjUyLjUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjNDAwMGZmIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMC41IiBzdG9wLWNvbG9yPSIjZmZmIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0icmVkIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCBjbGFzcz0iY2xzLTEiIHdpZHRoPSI5MDQiIGhlaWdodD0iMTA1Ii8+Cjwvc3ZnPgo="/>
+      <feComposite result="composite" operator="in" in2="SourceGraphic"/>
+      <feBlend result="blend" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g style="fill: ; filter: url(#filter)">
+    <text id="La_volaille_en_Bray" data-name="La volaille en Bray" class="cls-1" x="24" y="99.506" style="stroke: inherit; filter: none; fill: inherit">La volaille en Bray</text>
+  </g>
+  <use xlink:href="#La_volaille_en_Bray" style="stroke: #000; filter: none; fill: none"/>
+</svg>

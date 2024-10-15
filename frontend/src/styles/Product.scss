@@ -183,11 +183,12 @@
   .product-image {
     height: auto;
     /* Ajusté pour s'adapter aux tailles plus petites */
+    img {
+      width: 100% !important;
+    }
   }
 
-  img {
-    width: 100% !important;
-  }
+
 
   .product-content-info {
     max-width: 80%;

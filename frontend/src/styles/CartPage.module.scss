@@ -13,109 +13,242 @@ $border-color: #ddd;
 $box-shadow: 0 4px 10px rgba(0, 0, 0, 0.129);
 $border-radius: 0.5rem;
 $transition: 0.3s ease;
-$font-family: Arial, sans-serif; // Définir la police commune
 $title-font-size: 1.2rem; // Taille de police pour les titres
 
-// Styles principaux
+.loadingSpinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  height: 100vh;
+  width: 100vw;
+}
+
+.loadingSpinner::before {
+  content: '';
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #000;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .cartContainer {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  font-family: $font-family;
-  background-color: #f3f4f6;
 
-  h2 {
-    font-size: 2rem;
-    margin-bottom: 30px;
-    color: $text-color-dark;
-    text-align: center;
+  .cartHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+      font-size: 2rem;
+      margin: 0;
+      color: $text-color-dark;
+      text-align: center;
+    }
   }
 
   .cartItemContainer {
     display: flex;
     justify-content: space-around;
+    flex-direction: column;
+
+    @media (min-width: 900px) {
+      flex-direction: row;
+    }
   }
 
-  .total {
-    font-size: 1.5rem;
-    margin-top: 20px;
-    font-weight: bold;
-    text-align: right;
-    color: $text-color-dark;
-
+  .cartTotalContainer {
+    height: fit-content;
     padding: 24px;
-    border-radius: 0.5rem;
+    border-radius: $border-radius;
     background-color: white;
-    box-shadow:
-            0 4px 6px -1px rgb(0 0 0 / 0.1),
-            0 2px 4px -2px rgb(0 0 0 / 0.1);
-    max-height: 20px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+    .total {
+      font-weight: bold;
+      text-align: right;
+      color: $text-color-dark;
+      font-size: 1.5rem;
+      margin: 0 0 20px 0;
+    }
+
+    .proceedButton {
+      @include button-styles;
+      width: 100%;
+    }
   }
 
   ul {
     list-style-type: none;
     padding: 0;
-    width: 65%;
+    margin: 0;
+    width: 100%;
+
+    @media (min-width: 900px) {
+      width: 65%;
+    }
   }
 
   li {
     display: flex;
     align-items: center;
-    border-radius: 0.5rem;
-    height: 155px;
+    border-radius: $border-radius;
+    height: auto;
     padding: 24px;
     background-color: white;
     transition: background-color $transition;
-    box-shadow:
-            0 4px 6px -1px rgb(0 0 0 / 0.1),
-            0 2px 4px -2px rgb(0 0 0 / 0.1);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     margin-bottom: 34px;
 
     &:hover {
       transform: scale(1.05);
     }
 
-    img {
-      width: 160px;
-      height: 106px;
+    .productImage {
+      min-width: 100px;
+      width: 100px;
+      height: 172px;
       margin-right: 20px;
       border-radius: $border-radius;
       box-shadow: $box-shadow;
       object-fit: cover;
+
+      @media (min-width: 601px) {
+        min-width: 120px;
+        width: 120px;
+      }
+
+      @media (min-width: 690px) {
+        min-width: 230px;
+        width: auto;
+        height: 166px;
+      }
     }
   }
 
   .productDetails {
     display: flex;
+    width: 100%;
+    gap: 8px;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 
-    h3 {
-      font-size: 1.3rem;
-      margin: 0.5px;
-      color: $text-color-dark;
+    @media (min-width: 690px) {
+      flex-direction: row;
     }
 
-    p {
-      margin: 5px 0;
-      font-size: 0.9rem;
-      color: $text-color-light;
+    .productDetailsContent {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+
+      h3 {
+        font-size: 15px;
+        margin: 0.5px;
+        color: $text-color-dark;
+
+        @media (min-width: 690px) {
+          font-size: 1.3rem;
+        }
+      }
+
+      p {
+        margin: 5px 0;
+        font-size: 0.9rem;
+        color: $text-color-light;
+      }
+    }
+
+    .productDetailsPrice {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 11px;
+      width: 100%;
+
+      @media (min-width: 690px) {
+        align-items: center;
+        width: auto;
+      }
+
+      .priceQuantity {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+        align-items: flex-end;
+
+        @media (min-width: 690px) {
+          align-items: center;
+        }
+      }
+
+      .removeProduct {
+        font-size: 0.7rem;
+        padding: 8px 10px;
+        background-color: $danger-color;
+        color: $text-color-light;
+        border: none;
+        border-radius: $border-radius;
+        cursor: pointer;
+        transition: background-color $transition, transform 0.2s ease;
+        width: 100%;
+
+        &:hover {
+          background-color: $danger-color-hover;
+          transform: scale(1.05);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        @media (min-width: 690px) {
+          font-size: 0.9rem;
+          padding: 7px 0;
+        }
+      }
     }
   }
 
-  .priceQuantity {
-    .priceInfo {
-      display: flex;
-      flex-direction: column;
-      margin-top: 20px;
+  .priceInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
 
-      span {
-        font-size: 1rem;
-        color: $text-color-dark;
-        margin-bottom: 5px;
+    span {
+      font-size: 1.2rem;
+      color: $text-color-dark;
+      margin-bottom: 5px;
 
-        &:last-child {
-          font-weight: bold;
-          margin-top: 8px;
-        }
+      &:last-child {
+        font-weight: bold;
+        margin-top: 8px;
+        text-align: center;
       }
     }
   }
@@ -126,14 +259,12 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
 
     .decrement,
     .increment {
+      @include button-styles;
+      width: unset;
       cursor: pointer;
-      background-color: #f3f4f6;
       padding: 0.25rem 0.875rem;
       border-radius: 0.25rem;
-      transition:
-              background-color 0.1s ease,
-              color 0.1s ease;
-      border-color: #e5e7eb;
+      transition: background-color 0.1s ease, color 0.1s ease;
 
       &:hover {
         background-color: #3b82f6;
@@ -153,40 +284,16 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
 
     span {
       width: 2rem;
-      border: 1px solid #d1d5db;
       background-color: #ffffff;
       text-align: center;
-      font-size: 0.75rem;
+      font-size: 0.9rem;
       outline: none;
-      border-color: #e5e7eb;
-    }
-  }
-
-  .removeProduct {
-    background-color: $danger-color;
-    color: $text-color-light;
-    border: none;
-    padding: 10px 15px;
-    border-radius: $border-radius;
-    cursor: pointer;
-    transition:
-            background-color $transition,
-            transform 0.2s ease;
-    margin-top: 15px;
-    font-size: 0.9rem;
-
-    &:hover {
-      background-color: $danger-color-hover;
-      transform: scale(1.05);
-    }
-
-    &:active {
-      transform: scale(0.95);
+      height: 23px;
+      line-height: 24px;
     }
   }
 
   .underlineTitle {
-    font-family: $font-family;
     font-size: $title-font-size;
     font-weight: bold;
     text-decoration: underline;
@@ -220,75 +327,147 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
 
 .actionContainer {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  align-content: center;
+  position: relative;
+
+  @media (min-width: 690px) {
+    flex-direction: row;
+    gap: 2%;
+  }
+
+  .backButton {
+    @include button-styles;
+    position: absolute;
+    top: 0;
+    margin: 10px;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px;
+
+    @media (max-width: 690px) {
+      left: 15px!important;
+    }
+
+    svg {
+      height: 2em;
+      width: 2em;
+    }
+  }
 }
 
 .datePickerContainer {
+  height: 289px;
   font-size: 1.5rem;
-  margin-top: 20px;
   font-weight: bold;
-  text-align: right;
+  text-align: center;
   color: $text-color-dark;
-
-  padding: 24px;
-  border-radius: 0.5rem;
+  padding: 20px;
+  border-radius: $border-radius;
   background-color: white;
-  box-shadow:
-          0 4px 6px -1px rgb(0 0 0 / 0.1),
-          0 2px 4px -2px rgb(0 0 0 / 0.1);
-  max-height: 199px;
-  width: 20%;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  width: 90%;
+  position: relative;
+  min-width: 230px;
+
+  @media (min-width: 690px) {
+    width: 20%;
+    text-align: right;
+    height: 435px;
+  }
 
   .dateTitle {
-    font-size: $title-font-size;
-    margin: 0 0 15px;
-    color: $text-color-dark;
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 20px;
+
+    @media (min-width: 690px) {
+      margin-bottom: 60px;
+    }
+  }
+
+  .dataSelectContainer {
+    width: 100%;
   }
 
   .dateSelect {
-    width: calc(100% - 20px); // Ajuster la largeur en fonction du padding
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid $border-color;
-    border-radius: $border-radius;
-    box-shadow: $box-shadow;
-    transition: border-color $transition;
     margin-top: 10px;
+    border: 2px solid #5b5b5b;
+    box-shadow: inset 0 0.0625em 0.125em hsla(0, 0%, 4%, 0.05);
+    border-radius: 290486px;
+    width: 65%;
+    height: 55px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    padding: 0 10px;
 
     &:focus {
       border-color: $primary-color;
       outline: none;
     }
-  }
 
-  .errorMessage {
-    margin-top: 20px;
-    padding: 15px;
-    border: 1px solid $danger-color;
-    border-radius: $border-radius;
-    background-color: #f8d7da;
-    color: $danger-color;
-    font-size: 0.9rem;
-    text-align: center;
+    @media (min-width: 690px) {
+      width: 100%;
+    }
+  }
+}
+
+.errorMessage {
+  position: absolute;
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding: 15px;
+  border: 1px solid #e74c3c;
+  border-radius: 0.5rem;
+  background-color: #f8d7da;
+  color: #e74c3c;
+  font-size: 0.9rem;
+  text-align: center;
+  bottom: 4%;
+  left: 3%;
+  right: unset!important;
+  @media (max-width: 690px) {
+    bottom: 0!important;
+    left: 5%!important;
+    margin-bottom: 0!important;
+  }
+}
+
+.checkoutButton {
+  @include button-styles;
+  bottom: 34px;
+  width: 30%;
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+
+  @media (min-width: 690px) {
+    width: 83%;
   }
 }
 
 .customerInfo {
-  width: 100%;
+  height: 435px;
+  width: 90%;
   max-width: 800px;
-  margin: 20px auto;
   padding: 20px;
   border: 1px solid $border-color;
   border-radius: $border-radius;
-
   box-shadow: $box-shadow;
   text-align: center;
 
   h3 {
     font-size: $title-font-size;
     color: $text-color-dark;
-    text-decoration: underline;
-    margin-bottom: 45px;
+    margin-bottom: 20px;
+
+    @media (min-width: 690px) {
+      margin-bottom: 45px;
+    }
   }
 
   input {
@@ -296,198 +475,45 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
     flex-direction: column;
     box-shadow: inset 0 0.0625em 0.125em hsla(0, 0%, 4%, 0.05);
     border-radius: 290486px;
-    width: 245px;
+    width: 90%;
     height: 55px;
     font-size: 18px;
-    margin-bottom: 10px;
+    margin: 10px auto 30px;
+    padding: 0 10px;
 
     &:focus {
       border-color: $primary-color;
       outline: none;
+    }
+
+    @media (min-width: 690px) {
+      margin: 10px 0;
     }
   }
 
   .firstInfo {
     display: flex;
     justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
   }
 
   .firstInfoName,
   .firstInfoEmail,
-  .InfoText {
-    input {
-      padding-left: 8px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-
-    span {
-      text-align: left;
-      font-weight: bold;
-      font-size: 18px;
-    }
-  }
-
-  .InfoText input {
-    margin: 10px auto;
-    width: 65% !important;
+  .firstInfoAddress {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
 .paymentButton {
   @include button-styles;
-  margin-top: 50px;
-}
+  margin-top: 30px;
 
-@media (max-width: 768px) {
-  .cartItemContainer {
-    flex-direction: column;
-
-    ul {
-      justify-content: center;
-      margin: auto;
-    }
-
-    ul li {
-      flex-direction: column;
-      height: auto;
-      margin: auto;
-      margin-bottom: 30px;
-
-      img {
-        height: 219px;
-        width: 80%;
-        margin-bottom: 35px;
-      }
-
-      .productDetails {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-
-    .productDetails .productDetailsContent {
-      text-align: center;
-
-      h3 {
-        font-size: 18px;
-        width: 78%;
-        margin: 0 0 15px 0;
-        padding-left: 15px;
-      }
-    }
-
-    .productDetails .productDetailsPrice .priceQuantity .quantityButtons {
-      justify-content: center;
-      margin-top: 8px;
-    }
-  }
-
-  .datePickerContainer {
-    width: 50%;
-    margin: auto;
-    text-align: center;
-  }
-
-  .actionContainer {
-    flex-direction: column-reverse;
-  }
-
-  .actionContainer .customerInfo {
-    .InfoText {
-      width: 90% !important;
-      margin: auto;
-    }
-  }
-
-  .actionContainer .customerInfo .firstInfo {
-    flex-direction: column;
-
-    input {
-      width: 90% !important;
-      margin: auto;
-      margin-top: 10px;
-      margin-bottom: 30px;
-    }
-  }
-
-  .paymentButton {
-    margin-top: 30px;
-  }
-}
-
-// Styles responsifs pour les tablettes et mobiles
-
-@media (max-width: 480px) {
-  .cartContainer {
-    ul {
-      justify-content: center;
-      margin: auto;
-    }
-
-    ul li {
-      padding: 12px;
-
-      img {
-        width: 100%;
-        margin: auto;
-        margin-bottom: 35px;
-      }
-
-      .productDetails {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-
-    .productDetails .productDetailsContent {
-      text-align: center;
-
-      h3 {
-        font-size: 16px;
-        width: 78%;
-        margin: 0 0 15px 0;
-        padding-left: 15px;
-        text-align: center;
-      }
-    }
-
-    .productDetails .productDetailsPrice .priceQuantity .quantityButtons {
-      justify-content: center;
-      margin-top: 8px;
-    }
-  }
-
-  .datePickerContainer {
-    width: 50%;
-    margin: auto;
-    text-align: center;
-  }
-
-  .customerInfo {
-    width: 90%;
-    margin: 40px auto; // Centre le container horizontalement
-    padding: 10px;
-    max-width: 100%;
-  }
-
-  .dateTitle {
-    font-size: 1rem;
-    margin: 0 0 10px;
-  }
-
-  .dateSelect,
-  .customerInfo input {
-    font-size: 0.8rem;
-  }
-
-  .errorMessage {
-    font-size: 0.8rem;
-  }
-
-  .paymentButton {
-    font-size: 0.8rem;
-    margin-top: 30px;
-    width: 50%;
+  @media (min-width: 690px) {
+    margin-top: 50px;
   }
 }

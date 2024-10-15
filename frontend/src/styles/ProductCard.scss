@@ -15,7 +15,7 @@ $button-padding: 0.6rem 1rem;
 $button-border-radius: 4px;
 $button-font-size: 0.9rem;
 $overlay-background: rgba(0, 0, 0, 0.5);
-$image-height: 200px;
+$image-height: 245px;
 
 // Animation de déplacement de gauche à droite
 @keyframes slideInFromLeft {
@@ -29,193 +29,229 @@ $image-height: 200px;
     transform: translateX(0); // Se termine à sa position d'origine
   }
 }
+.product-card-wrapper {
+  width: 100%;
 
-.product-card {
-  background-color: #fff;
-  border-radius: 15px;
-  padding: 24px;
-  margin-right: 40px;
-  height: 480px;
-  position: relative;
-  transition: 0.15s ease-in;
-  max-width: 345px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.129);
-
-  &:hover {
-    box-shadow:
-            0 0 0 2px #ff5c5c,
-            0 10px 60px 0 rgba(#000, 0.1);
-    transform: translatey(-5px);
-  }
-  .product-image-container {
+  .product-card {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 24px;
+    //margin-right: 40px;
+    height: 390px;
     position: relative;
-    cursor: pointer;
-    height: $image-height;
-    overflow: hidden;
-
-    .product-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: $overlay-background;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-
-      .plus-icon {
-        color: #fff;
-        font-size: 1.5rem;
-      }
-    }
-
-    &:hover .overlay {
-      opacity: 1;
-    }
-  }
-
-  .card-header {
-    border-bottom: 2px solid grey;
-    margin-top: 1.5rem;
+    //transition: 0.15s ease-in;
+    //width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.129);
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
 
-    h4 {
-      font-weight: 600;
-      font-size: 1.375rem;
-      line-height: 1.25;
-      padding-right: 1rem;
-      text-decoration: none;
-      color: inherit;
-      will-change: transform;
-      text-align: left;
-      width: 60%;
-
-      &:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-      }
+    &:hover {
+      box-shadow:
+        0 0 0 2px #ff5c5c,
+        0 10px 60px 0 rgba(#000, 0.1);
+      transform: translatey(-5px);
     }
-    .price {
+    .product-image-container {
       position: relative;
-      top: 40px;
-      font-size: 18px;
-      font-weight: bold;
-      color: black;
-    }
-  }
+      cursor: pointer;
+      height: $image-height;
+      overflow: hidden;
 
-  .card-action {
-    display: flex;
-    justify-content: space-around;
-    gap: 8px;
-  }
+      .product-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-radius: 10px;
+        overflow: hidden;
+      }
 
-  .card-action .button-market {
-    cursor: pointer;
-    border: none;
-    width: 95%;
-    height: 46px;
-    margin-top: 10px;
-    margin-bottom: 0;
-    padding: 0;
-    color: #fff;
-    background-color: #536dfe;
-    border-radius: 0.5rem;
-    font-size: 17px;
-    transition: all 0.3s;
-    &:hover {
-      background-color: #0d2660;
-    }
-  }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $overlay-background;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        //opacity: 0;
+        //transition: opacity 0.3s ease;
 
-  .card-action .button-info-container {
-    width: 100%;
-    height: 100%;
-    margin-top: 10px;
-    margin-bottom: 0;
-  }
+        .plus-icon {
+          color: #fff;
+          font-size: 1.5rem;
+        }
+      }
 
-  .card-action .button-info-container .button-info {
-    cursor: pointer;
-    border: none;
-    width: 95%;
-    height: 46px;
-    padding: 0;
-    color: #fff;
-    background-color: #f1425d;
-    border-radius: 0.5rem;
-    font-size: 17px;
-    transition: all 0.3s;
-    &:hover {
-      background-color: #0d2660;
-    }
-
-    a {
-      text-decoration: none;
-      color: #fff;
-    }
-  }
-
-  // Style pour le message d'erreur
-  .error-message {
-    font-size: 0.9rem;
-    margin-top: 10px;
-  }
-}
-
-@media (max-width: 768px) {
-  .product-card {
-    padding: 18px;
-    max-width: 190px;
-
-
-    .product-image-container .product-image {
-      height: 80%;
+      &:hover .overlay {
+        opacity: 1;
+      }
     }
 
     .card-header {
+      border-bottom: 2px solid grey;
+      padding: 0.75rem 0;
+      display: flex;
+      justify-content: flex-start;
       flex-direction: column;
-      margin-top: 0rem;
+      flex-wrap: nowrap;
+      align-items: flex-start;
+
       h4 {
+        font-weight: 500;
+        font-size: 1.1rem;
+        text-decoration: none;
+        color: inherit;
+        will-change: transform;
+        text-align: left;
         margin: 0;
-        width: 100%;
-        font-size: 1.188rem;
-        text-align: center;
+
+        &:after {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+        }
       }
       .price {
-        top: 0;
+        margin: 0;
+        position: absolute;
+        right: 26px;
+        white-space: nowrap;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: black;
       }
     }
 
     .card-action {
-      display: inline;
+      display: flex;
+      justify-content: space-around;
+      gap: 8px;
+
+      .button-info-container {
+        button {
+          padding: 0 5px;
+        }
+      }
+
     }
 
-    .card-action .button-market {
-      margin-top: 12px;
+    .card-action .button-info-container .button-market {
+      cursor: pointer;
+      border: none;
+      width: 95%;
+      height: 46px;
+      margin-bottom: 0;
+      color: #fff;
+      background-color: #59acce;
+      border-radius: 0.5rem;
+      font-size: 17px;
+      //transition: all 0.3s;
+      &:hover {
+        background-color: #004d6c;
+      }
+    }
+
+    .card-action .button-info-container {
+      width: 100%;
+      height: 100%;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+
+    .card-action .button-info-container .button-info {
+      cursor: pointer;
+      border: none;
+      width: 95%;
+      height: 46px;
+      color: #fff;
+      background-color: #606060;
+      border-radius: 0.5rem;
+      font-size: 17px;
+      //transition: all 0.3s;
+      &:hover {
+        background-color: #232323;
+      }
+
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
+    }
+
+    // Style pour le message d'erreur
+    .error-message {
+      font-size: 0.9rem;
+      margin-top: 10px;
     }
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 1400px) {
   .product-card {
-    padding-bottom: 25px;
+    .card-header {
+      h4 {
+        font-size: 1.188rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 1220px) {
+  .product-card {
+    .card-header {
+      h4 {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .product-card-wrapper {
+    .product-card {
+      //height: 420px;
+      padding: 18px;
+      max-width: 190px;
+
+
+      .card-header {
+        padding: 0.2rem 0;
+        h4 {
+          margin: 0;
+          width: 100%;
+          font-size: 0.95rem;
+        }
+        .price {
+          font-size: 0.9rem;
+        }
+      }
+
+      .card-action {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .button-info-container {
+        margin: 0 !important;
+      }
+
+      .card-action {
+        button,
+        a {
+          margin: 0;
+          height: 35px !important;
+          font-size: 0.9rem !important;
+          width: 100% !important;
+        }
+      }
+    }
   }
 }

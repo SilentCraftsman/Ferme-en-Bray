@@ -1,9 +1,10 @@
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 // Importation dynamique pour éviter les charges inutiles lors du rendu initial
-const CartPage = dynamic(() => import('@/components/CartPage.js'), {
-  loading: () => <p>Chargement...</p>, // Composant de chargement pour améliorer l'expérience utilisateur
+const CartPage = dynamic(() => import('@/components/cart/CartPage.js'), {
+  loading: () => <LoadingSpinner />, // Utilisation du composant de chargement pour améliorer l'expérience utilisateur
 });
 
 export const metadata = {
@@ -17,7 +18,7 @@ export const metadata = {
 
 export default function Cart() {
   return (
-    <Suspense fallback={<div>Chargement du panier...</div>}>
+    <Suspense fallback={<LoadingSpinner />}>
       <CartPage />
     </Suspense>
   );

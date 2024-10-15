@@ -15,11 +15,6 @@ export default function Contact() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // Validation simple côté client
-    if (name === 'email' && !/\S+@\S+\.\S+/.test(value)) {
-      // Validation de l'email
-      return;
-    }
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,

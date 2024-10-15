@@ -1,4 +1,5 @@
 import '@/styles/about.scss';
+import Image from 'next/image';
 
 export const metadata = {
   title: 'À propos de nous - La volaille en Bray',
@@ -23,7 +24,7 @@ export default function AboutPage() {
             alimentaire et de durabilité.
           </p>
         </div>
-        <img
+        <Image
           loading="lazy"
           src="/images/about-images/farm-image.jpg"
           alt="Image illustrant notre entreprise"
