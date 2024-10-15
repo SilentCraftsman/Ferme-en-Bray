@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import ProductCard from './ProductCard.js';
 import Modal from './Modal.js';
 import { useCart } from './cart/CartContext.js';
@@ -9,6 +9,7 @@ import RMCarousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import products from '@/config/products.json';
 import { useSearchParams } from 'next/navigation';
+import LoadingSpinner from '@/components/LoadingSpinner.js';
 
 const Carousel = RMCarousel.default ? RMCarousel.default : RMCarousel;
 const { specialtyProducts, outdoorPoultryProducts, holidayProducts } = products;
@@ -317,4 +318,10 @@ const MainContent = () => {
   );
 };
 
-export default MainContent;
+const MainContentWrapper = () => (
+  <Suspense fallback={<LoadingSpinner />}>
+    <MainContent />
+  </Suspense>
+);
+
+export default MainContentWrapper;
