@@ -36,6 +36,7 @@
     "react-modern-drawer": "^1.4.0",
     "react-multi-carousel": "^2.8.5",
     "sass": "^1.77.8",
+    "sharp": "^0.33.5",
     "stripe": "^16.8.0"
   },
   "devDependencies": {
