@@ -46,7 +46,7 @@ export const CartProvider = ({ children }) => {
   const loadCartFromLocalStorage = () => {
     try {
       const expirationTimestamp = localStorage.getItem(CART_EXPIRATION_KEY);
-      if (expirationTimestamp && Date.now() > parseInt(expirationTimestamp)) {
+      if (!expirationTimestamp || Date.now() > parseInt(expirationTimestamp)) {
         // If the cart has expired, clear it
         localStorage.removeItem(LOCAL_STORAGE_KEY);
         localStorage.removeItem(CART_EXPIRATION_KEY);
