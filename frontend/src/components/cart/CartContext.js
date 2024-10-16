@@ -6,6 +6,10 @@ import { toast } from 'react-toastify';
 const CartContext = createContext();
 
 const LOCAL_STORAGE_KEY = 'cart';
+const CART_EXPIRATION_KEY = 'cart_expiration'; // Key for the expiration timestamp
+const EXPIRATION_TIME = 48 * 60 * 60 * 1000; // 48 hours in milliseconds
+const ERROR_CART =
+  'Une erreur est survenue lors la mise à jour du panier, si le problème persiste contactez nous via les coordonnées dans la page de contact.';
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
@@ -22,22 +26,34 @@ export const CartProvider = ({ children }) => {
             (!item.selectedVariant || item.selectedVariant.variantId)
         )
       ) {
+        const expirationTimestamp = Date.now() + EXPIRATION_TIME;
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cart));
+        localStorage.setItem(CART_EXPIRATION_KEY, expirationTimestamp); // Save expiration timestamp
+
         if (notifyMsg && typeof notifyMsg === 'string') {
           toast.success(notifyMsg);
         }
       } else {
         console.error('Invalid cart data', cart);
-        toast.error('Données du panier invalides.');
+        toast.error(ERROR_CART);
       }
     } catch (error) {
       console.error('Failed to save cart to localStorage', error);
-      toast.error("Échec de l'enregistrement du panier.");
+      toast.error(ERROR_CART);
     }
   };
 
   const loadCartFromLocalStorage = () => {
     try {
+      const expirationTimestamp = localStorage.getItem(CART_EXPIRATION_KEY);
+      if (expirationTimestamp && Date.now() > parseInt(expirationTimestamp)) {
+        // If the cart has expired, clear it
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+        localStorage.removeItem(CART_EXPIRATION_KEY);
+        console.log('Votre panier a expiré après 48 heures.');
+        return [];
+      }
+
       const savedCart = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (savedCart) {
         const parsedCart = JSON.parse(savedCart);
@@ -54,42 +70,15 @@ export const CartProvider = ({ children }) => {
           return parsedCart;
         } else {
           console.error('Invalid cart data in localStorage', parsedCart);
-          toast.warn('Données du panier invalides dans le stockage local.');
           return [];
         }
       }
       return [];
     } catch (error) {
       console.error('Failed to load cart from localStorage', error);
-      toast.error('Échec du chargement du panier depuis le stockage local.');
       return [];
     }
   };
-
-  useEffect(() => {
-    try {
-      const savedCart = localStorage.getItem(LOCAL_STORAGE_KEY);
-      const parsedCart = savedCart ? JSON.parse(savedCart) : [];
-      if (
-        !Array.isArray(parsedCart) ||
-        !parsedCart.every(
-          (item) =>
-            typeof item === 'object' &&
-            item.id &&
-            item.quantity >= 0 &&
-            (!item.selectedVariant || item.selectedVariant.variantId)
-        )
-      ) {
-        console.error('Invalid cart data detected, clearing localStorage');
-        localStorage.removeItem(LOCAL_STORAGE_KEY);
-        toast.warn('Données du panier invalides, réinitialisation du panier.');
-      }
-    } catch (error) {
-      console.error('Failed to parse cart data from localStorage', error);
-      localStorage.removeItem(LOCAL_STORAGE_KEY);
-      toast.error("Erreur lors de l'analyse des données du panier.");
-    }
-  }, []);
 
   useEffect(() => {
     const loadedCart = loadCartFromLocalStorage();
@@ -97,7 +86,6 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   const addToCart = (product, quantity) => {
-    // Generate a uniqueId based on whether the product has a selected variant
     const uniqueId = product.selectedVariant
       ? `${product.id}-${product.selectedVariant.variantId}`
       : product.id;
@@ -112,7 +100,6 @@ export const CartProvider = ({ children }) => {
       if (existingProduct) {
         const newQuantity = existingProduct.quantity + quantity;
         if (newQuantity > 80) {
-          // If adding this quantity exceeds the limit, show an error or handle it as needed
           console.warn('Cannot add more than 80 units of this product.');
           toast.warn("Impossible d'ajouter plus de 80 unités de ce produit.");
           return prevCart;
@@ -122,7 +109,6 @@ export const CartProvider = ({ children }) => {
         );
       } else {
         if (quantity > 80) {
-          // If the initial quantity exceeds the limit, show an error or handle it as needed
           console.warn('Cannot add more than 80 units of this product.');
           toast.warn("Impossible d'ajouter plus de 80 unités de ce produit.");
           return prevCart;

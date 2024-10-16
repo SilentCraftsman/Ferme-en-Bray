@@ -6,8 +6,11 @@ import CustomerForm from './CustomerForm.js';
 import { createCheckoutSession } from '@/services/api.service.js';
 import styles from '../../styles/CartPage.module.scss';
 import classNames from 'classnames';
+import { toast } from 'react-toastify';
 
 const MAX_QUANTITY = 80;
+const ERROR_CART =
+  'Une erreur est survenue lors de la création de votre commande, si le problème persiste contactez nous via les coordonnées dans la page de contact.';
 
 const CartPage = () => {
   const { cart, updateQuantity, getTotal } = useCart();
@@ -32,13 +35,13 @@ const CartPage = () => {
 
   const handleQuantityChange = (id, newQuantity) => {
     if (newQuantity > MAX_QUANTITY) {
-      setError(`La quantité maximale pour cet article est ${MAX_QUANTITY}.`);
+      const msg = `La quantité maximale pour cet article est de ${MAX_QUANTITY}.`;
+      toast.warn(msg);
       newQuantity = MAX_QUANTITY;
     } else if (newQuantity <= 0) {
       newQuantity = 0; // Cela supprimera l'article si la quantité est 0
-    } else {
-      setError('');
     }
+
     updateQuantity(id, newQuantity);
   };
 
@@ -77,21 +80,6 @@ const CartPage = () => {
     return unitPrice.toFixed(2);
   };
 
-  const validateDateTime = () => {
-    const validDays = ['vendredi', 'samedi'];
-    const validHours = ['17:30', '18:00', '18:30', '19:00', '19:30', '20:00'];
-    if (!validDays.includes(pickupDay)) {
-      setDateError('La date doit être un vendredi ou un samedi.');
-      return false;
-    }
-    if (!validHours.includes(pickupTime)) {
-      setDateError("L'heure doit être entre 17h30 et 20h00.");
-      return false;
-    }
-    setDateError('');
-    return true;
-  };
-
   const createPayment = async ({
     customerName,
     customerEmail,
@@ -107,7 +95,9 @@ const CartPage = () => {
       pickupTime,
     });
     if (!stripeLoaded) {
-      setError('Stripe.js has not loaded.');
+      toast.error(ERROR_CART);
+      setError('Stripe has not loaded.');
+      console.error('Stripe.js has not loaded.');
       return;
     }
     setError(null);
@@ -134,6 +124,7 @@ const CartPage = () => {
         setError(error.message);
       }
     } catch (err) {
+      toast.error(ERROR_CART);
       setError('Erreur lors de la création de la commande.');
       console.error('Error in createPayment:', err);
     } finally {

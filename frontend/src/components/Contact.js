@@ -102,7 +102,7 @@ export default function Contact() {
         <form className="contact-form" onSubmit={handleSubmit}>
           <div className="form-name">
             <div className="form-name-content">
-              <span>Prenom</span>
+              <span>Prénom</span>
               <input
                 type="text"
                 id="prenom"
