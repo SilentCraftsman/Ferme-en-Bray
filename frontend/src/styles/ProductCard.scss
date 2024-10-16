@@ -220,6 +220,15 @@ $image-height: 245px;
   }
 }
 
+@media (max-width: 1100px) {
+  .card-action {
+    button,
+    a {
+      font-size: 0.8rem !important;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .product-card-wrapper {
     .product-card {

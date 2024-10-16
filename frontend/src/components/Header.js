@@ -1,5 +1,6 @@
 'use client';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import React, { useState } from 'react';
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
@@ -102,52 +103,55 @@ export default function Header() {
   };
 
   return (
-    <header className="header-container">
-      {/*<h1 style={{ position: 'absolute', zIndex: -1 }}>La volaille en Bray</h1>*/}
-      <div className="header">
-        <Link href="/" className="header-title">
-          <Image
-            height={100}
-            width={100}
-            src="/images/logo_la_volaille_en_bray-transformed.jpeg"
-            alt="Logo la volaille en Bray"
-          />
-          <h1>La volaille en Bray</h1>
-        </Link>
-        <nav>
-          <button onClick={toggleMenu} className="nav-button">
-            <svg
-              className="icon"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title>Menu</title>
-              <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-            </svg>
-          </button>
-          <NavList itemCount={itemCount} toggleMenu={toggleMenu} />
-          <li className="lonely-cart">
-            <Link href="/panier" className="cart-link nav-link" passHref>
-              <div className="cart-icon-container">
-                <FaShoppingCart />
-                {itemCount > 0 && (
-                  <span className="cart-item-count">{itemCount}</span>
-                )}
-              </div>
-            </Link>
-          </li>
-        </nav>
-      </div>
-      <div className="drawer-container">
-        <Drawer
-          open={isOpen}
-          onClose={closeMenu}
-          direction="right"
-          className="drawer"
-        >
-          <NavList isDrawer itemCount={itemCount} toggleMenu={closeMenu} />
-        </Drawer>
-      </div>
-    </header>
+    <>
+      <ToastContainer />
+      <header className="header-container">
+        {/*<h1 style={{ position: 'absolute', zIndex: -1 }}>La volaille en Bray</h1>*/}
+        <div className="header">
+          <Link href="/" className="header-title">
+            <Image
+              height={100}
+              width={100}
+              src="/images/logo_la_volaille_en_bray-transformed.jpeg"
+              alt="Logo la volaille en Bray"
+            />
+            <h1>La volaille en Bray</h1>
+          </Link>
+          <nav>
+            <button onClick={toggleMenu} className="nav-button">
+              <svg
+                className="icon"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>Menu</title>
+                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+              </svg>
+            </button>
+            <NavList itemCount={itemCount} toggleMenu={toggleMenu} />
+            <li className="lonely-cart">
+              <Link href="/panier" className="cart-link nav-link" passHref>
+                <div className="cart-icon-container">
+                  <FaShoppingCart />
+                  {itemCount > 0 && (
+                    <span className="cart-item-count">{itemCount}</span>
+                  )}
+                </div>
+              </Link>
+            </li>
+          </nav>
+        </div>
+        <div className="drawer-container">
+          <Drawer
+            open={isOpen}
+            onClose={closeMenu}
+            direction="right"
+            className="drawer"
+          >
+            <NavList isDrawer itemCount={itemCount} toggleMenu={closeMenu} />
+          </Drawer>
+        </div>
+      </header>
+    </>
   );
 }

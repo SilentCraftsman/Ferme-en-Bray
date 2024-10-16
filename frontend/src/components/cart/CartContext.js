@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const CartContext = createContext();
 
@@ -9,7 +10,7 @@ const LOCAL_STORAGE_KEY = 'cart';
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  const saveCartToLocalStorage = (cart) => {
+  const saveCartToLocalStorage = (cart, notifyMsg = null) => {
     try {
       if (
         Array.isArray(cart) &&
@@ -18,15 +19,20 @@ export const CartProvider = ({ children }) => {
             typeof item === 'object' &&
             item.id &&
             item.quantity >= 0 &&
-            (!item.selectedVariant || item.selectedVariant.variantId) // variantId only if there's a selectedVariant
+            (!item.selectedVariant || item.selectedVariant.variantId)
         )
       ) {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cart));
+        if (notifyMsg && typeof notifyMsg === 'string') {
+          toast.success(notifyMsg);
+        }
       } else {
         console.error('Invalid cart data', cart);
+        toast.error('Données du panier invalides.');
       }
     } catch (error) {
       console.error('Failed to save cart to localStorage', error);
+      toast.error("Échec de l'enregistrement du panier.");
     }
   };
 
@@ -42,18 +48,20 @@ export const CartProvider = ({ children }) => {
               typeof item === 'object' &&
               item.id &&
               item.quantity >= 0 &&
-              (!item.selectedVariant || item.selectedVariant.variantId) // variantId only if there's a selectedVariant
+              (!item.selectedVariant || item.selectedVariant.variantId)
           )
         ) {
           return parsedCart;
         } else {
           console.error('Invalid cart data in localStorage', parsedCart);
+          toast.warn('Données du panier invalides dans le stockage local.');
           return [];
         }
       }
       return [];
     } catch (error) {
       console.error('Failed to load cart from localStorage', error);
+      toast.error('Échec du chargement du panier depuis le stockage local.');
       return [];
     }
   };
@@ -69,15 +77,17 @@ export const CartProvider = ({ children }) => {
             typeof item === 'object' &&
             item.id &&
             item.quantity >= 0 &&
-            (!item.selectedVariant || item.selectedVariant.variantId) // variantId only if there's a selectedVariant
+            (!item.selectedVariant || item.selectedVariant.variantId)
         )
       ) {
         console.error('Invalid cart data detected, clearing localStorage');
         localStorage.removeItem(LOCAL_STORAGE_KEY);
+        toast.warn('Données du panier invalides, réinitialisation du panier.');
       }
     } catch (error) {
       console.error('Failed to parse cart data from localStorage', error);
       localStorage.removeItem(LOCAL_STORAGE_KEY);
+      toast.error("Erreur lors de l'analyse des données du panier.");
     }
   }, []);
 
@@ -104,7 +114,8 @@ export const CartProvider = ({ children }) => {
         if (newQuantity > 80) {
           // If adding this quantity exceeds the limit, show an error or handle it as needed
           console.warn('Cannot add more than 80 units of this product.');
-          return prevCart; // Return the cart unchanged
+          toast.warn("Impossible d'ajouter plus de 80 unités de ce produit.");
+          return prevCart;
         }
         updatedCart = prevCart.map((item) =>
           item.uniqueId === uniqueId ? { ...item, quantity: newQuantity } : item
@@ -113,7 +124,8 @@ export const CartProvider = ({ children }) => {
         if (quantity > 80) {
           // If the initial quantity exceeds the limit, show an error or handle it as needed
           console.warn('Cannot add more than 80 units of this product.');
-          return prevCart; // Return the cart unchanged
+          toast.warn("Impossible d'ajouter plus de 80 unités de ce produit.");
+          return prevCart;
         }
         updatedCart = [
           ...prevCart,
@@ -126,7 +138,7 @@ export const CartProvider = ({ children }) => {
         ];
       }
 
-      saveCartToLocalStorage(updatedCart);
+      saveCartToLocalStorage(updatedCart, 'Produit ajouté au panier.');
       return updatedCart;
     });
   };
