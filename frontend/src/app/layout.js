@@ -36,9 +36,9 @@ export default function RootLayout({ children }) {
         />
         <meta
           property="og:image"
-          content="/images/about-images/farm-image.jpg"
+          content={`${process.env.FRONTEND_BASE_URL}/images/about-images/farm-image.jpg`}
         />
-        <meta property="og:url" content="https://lavolailleenbray.com" />
+        <meta property="og:url" content={process.env.FRONTEND_BASE_URL} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="La volaille en Bray" />
@@ -48,7 +48,7 @@ export default function RootLayout({ children }) {
         />
         <meta
           name="twitter:image"
-          content="/images/about-images/farm-image.jpg"
+          content={`${process.env.FRONTEND_BASE_URL}/images/about-images/farm-image.jpg`}
         />
 
         <script
