@@ -72,11 +72,11 @@ const ProductCard = ({ product, onShowDetails }) => {
             priority
             sizes={'245px'}
           />
-          {selectedVariant && (
-            <div className="overlay">
-              <span className="plus-icon">+</span>
-            </div>
-          )}
+          {/*{selectedVariant && (*/}
+          {/*  <div className="overlay">*/}
+          {/*    <span className="plus-icon">+</span>*/}
+          {/*  </div>*/}
+          {/*)}*/}
         </div>
         <div className="card-header">
           {titleSplit.map((title, index) => (
