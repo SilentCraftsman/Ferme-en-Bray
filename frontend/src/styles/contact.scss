@@ -85,6 +85,7 @@ $animation-duration: 2s;
   display: flex;
   flex-direction: column;
   animation: slideInFromFarLeft $animation-duration ease-out 0.5s forwards;
+  align-items: center;
 
   label {
     margin-bottom: 10px;
@@ -96,14 +97,21 @@ $animation-duration: 2s;
   }
 
   .form-name {
+    width: 100%;
     display: flex;
-    justify-content: space-around;
     padding: 5px;
     gap: 12px;
+    justify-content: space-between;
+    flex-direction: row;
 
     .form-name-content {
       display: flex;
       flex-direction: column;
+      width: 100%;
+
+      input {
+        width: 100%;
+      }
 
       span {
         font-weight: bold;
@@ -115,8 +123,7 @@ $animation-duration: 2s;
   }
 
   .form-email {
-    width: 85%;
-    margin: auto;
+    width: 100%;
   }
 
   input {
@@ -129,15 +136,13 @@ $animation-duration: 2s;
   }
 
   textarea {
-    padding: 0.8rem;
     border: 1px solid $border-color;
     border-radius: $border-radius;
-    margin: auto;
     margin-bottom: 3rem;
     resize: none;
     overflow: auto;
     font-size: 16px;
-    width: 85%;
+    width: 100%;
     border-color: black;
   }
 
@@ -190,7 +195,7 @@ $animation-duration: 2s;
   }
 
   .contact-form textarea {
-    padding: 0.6rem;
+    //padding: 0.6rem;
   }
 
   .contact-form button {
@@ -214,7 +219,7 @@ $animation-duration: 2s;
   }
 
   .form-email {
-    width: 95% !important;
+    //width: 95% !important;
   }
 
   .form-container {

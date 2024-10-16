@@ -143,18 +143,21 @@ $image-height: 245px;
     }
 
     .card-action .button-info-container .button-market {
+      @include button-styles;
       cursor: pointer;
+      padding: 6px 12px;
+      text-transform: unset;
       border: none;
       width: 95%;
       height: 46px;
       margin-bottom: 0;
       color: #fff;
-      background-color: #59acce;
+      //background-color: #59acce;
       border-radius: 0.5rem;
-      font-size: 17px;
+      font-size: 15px;
       //transition: all 0.3s;
       &:hover {
-        background-color: #004d6c;
+        //background-color: #004d6c;
       }
     }
 
@@ -166,14 +169,18 @@ $image-height: 245px;
     }
 
     .card-action .button-info-container .button-info {
+      @include button-styles;
       cursor: pointer;
+      padding: 6px 12px;
+      text-transform: unset;
       border: none;
       width: 95%;
       height: 46px;
+      margin-bottom: 0;
       color: #fff;
       background-color: #606060;
       border-radius: 0.5rem;
-      font-size: 17px;
+      font-size: 15px;
       //transition: all 0.3s;
       &:hover {
         background-color: #232323;
@@ -248,7 +255,7 @@ $image-height: 245px;
         a {
           margin: 0;
           height: 35px !important;
-          font-size: 0.9rem !important;
+          font-size: 0.8rem !important;
           width: 100% !important;
         }
       }
