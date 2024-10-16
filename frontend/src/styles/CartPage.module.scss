@@ -438,15 +438,17 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
 .checkoutButton {
   @include button-styles;
   bottom: 34px;
-  width: 30%;
+  width: 83%;
   position: absolute;
   margin: 0 auto;
   left: 0;
   right: 0;
   text-align: center;
 
-  @media (min-width: 690px) {
-    width: 83%;
+  @media (max-width: 690px) {
+    width: 30%;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
@@ -511,9 +513,9 @@ $title-font-size: 1.2rem; // Taille de police pour les titres
 
 .paymentButton {
   @include button-styles;
-  margin-top: 30px;
+  margin-top: 50px;
 
-  @media (min-width: 690px) {
-    margin-top: 50px;
+  @media (max-width: 690px) {
+    margin-top: 30px;
   }
 }
