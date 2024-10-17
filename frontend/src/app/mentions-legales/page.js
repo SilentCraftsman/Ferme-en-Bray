@@ -37,7 +37,8 @@ const MentionsLegales = () => (
       sécurité alimentaire et de durabilité.
     </p>
     <p>
-      <strong>SIRET :</strong> 913 049 128 00014 <br />
+      <strong>SIRET :</strong>980 699 185 00014
+      <br />
       <strong>Responsable du contenu :</strong> Gambier Giovanni <br />
       <strong>Hébergeur du site :</strong> Planethoster - 4416 Rue
       Louis-B.-Mayer, Laval, QC H7P 0G1, Canada
