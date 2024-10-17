@@ -34,8 +34,8 @@ const Cgv = () => {
       <section>
         <h3>2. Produits</h3>
         <p>
-          Nos produits sont décrits avec la plus grande précision possible. Les
-          photographies des produits ne sont pas contractuelles.
+          Les images des produits sont illustratives et peuvent différer des
+          produits réels.
         </p>
       </section>
 
@@ -70,7 +70,9 @@ const Cgv = () => {
         <h3>6. Droit de rétractation</h3>
         <p>
           Conformément à la législation en vigueur, le client dispose d'un délai
-          de 14 jours pour se rétracter sans avoir à justifier de motif.
+          de 14 jours pour se rétracter, mais les produits périssables doivent
+          être récupérés dans les 48 heures suivant la commande. Passé ce délai,
+          le droit de rétractation ne s'applique pas.
         </p>
       </section>
 
@@ -79,7 +81,7 @@ const Cgv = () => {
         <p>
           Pour toute question ou réclamation, vous pouvez nous contacter via la
           page de contact ou par email à l'adresse suivante :
-          serviceclient@volaille-en-bray.com.
+          lavolailleenbray@gmail.com
         </p>
       </section>
 
@@ -90,7 +92,7 @@ const Cgv = () => {
           <br />
           Téléphone : 06 09 50 57 78
           <br />
-          Gérant : Bruno Bouchart
+          Gérant : Bruno Bouchart et Allison Bouchart
         </p>
       </section>
 
@@ -110,7 +112,7 @@ const Cgv = () => {
         </p>
       </section>
 
-      <p>Ces CGV sont à jour au 25 août 2024.</p>
+      <p>Ces CGV sont à jour au 17 octobre 2024.</p>
     </div>
   );
 };
