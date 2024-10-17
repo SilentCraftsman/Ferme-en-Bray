@@ -52,13 +52,15 @@ export const createCheckoutSession = async (req, res) => {
         );
       }
 
-      const unitAmount = Math.round(
-        parseFloat(
-          selectedVariant
-            ? selectedVariant.price
-            : item.price.replace('€', '').replace(',', '.')
-        ) * 100
-      );
+      // Calculer le prix unitaire en fonction de la variante sélectionnée
+      let unitAmount;
+      if (selectedVariant && selectedVariant.price) {
+        unitAmount = Math.round(parseFloat(selectedVariant.price) * 100);
+      } else {
+        unitAmount = Math.round(
+          parseFloat(item.price.replace('€', '').replace(',', '.')) * 100
+        );
+      }
 
       return {
         price_data: {
@@ -152,7 +154,6 @@ export const handlePaymentSuccess = async (req, res) => {
   try {
     session = await stripe.checkout.sessions.retrieve(session_id);
   } catch (err) {
-    // check if contains No such checkout.session
     if (err.message.includes('No such checkout.session')) {
       logger.error(`Session not found: ${session_id}`);
       return res.status(404).send('Session not found');
@@ -240,7 +241,6 @@ export const handlePaymentSuccess = async (req, res) => {
     }, 1000);
   } else {
     logger.info('Payment not completed. Email not sent.');
-
     return res.status(400).send('Payment not completed');
   }
 
