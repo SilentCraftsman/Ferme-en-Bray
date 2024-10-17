@@ -42,7 +42,7 @@ const CustomerForm = ({ createPayment, setShowCustomerFormPage }) => {
             <h3>Informations du client</h3>
             <div className={styles.firstInfo}>
               <div className={styles.firstInfoName}>
-                <span>Nom</span>
+                <span>Nom et prénom :</span>
                 <input
                   className={styles.nameInput}
                   {...register('customerName')}
@@ -50,7 +50,7 @@ const CustomerForm = ({ createPayment, setShowCustomerFormPage }) => {
                 />
               </div>
               <div className={styles.firstInfoEmail}>
-                <span>Email</span>
+                <span>Email :</span>
                 <input
                   className={styles.emailInput}
                   {...register('customerEmail', {
@@ -71,7 +71,7 @@ const CustomerForm = ({ createPayment, setShowCustomerFormPage }) => {
                 {/*)}*/}
               </div>
               <div className={styles.firstInfoAddress}>
-                <span>Adresse</span>
+                <span>Adresse :</span>
                 <input
                   className={styles.addressInput}
                   {...register('customerAddress')}

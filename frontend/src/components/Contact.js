@@ -102,7 +102,7 @@ export default function Contact() {
         <form className="contact-form" onSubmit={handleSubmit}>
           <div className="form-name">
             <div className="form-name-content">
-              <span>Prénom</span>
+              <span>Prénom :</span>
               <input
                 type="text"
                 id="prenom"
@@ -113,7 +113,7 @@ export default function Contact() {
               />
             </div>
             <div className="form-name-content">
-              <span htmlFor="nom">Nom</span>
+              <span htmlFor="nom">Nom :</span>
               <input
                 type="text"
                 id="nom"
@@ -124,7 +124,7 @@ export default function Contact() {
               />
             </div>
           </div>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email :</label>
           <input
             type="email"
             id="email"
@@ -135,7 +135,7 @@ export default function Contact() {
             className="form-email"
           />
 
-          <label htmlFor="message">Message</label>
+          <label htmlFor="message">Message :</label>
           <textarea
             id="message"
             name="message"
