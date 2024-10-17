@@ -84,7 +84,7 @@ export default function Contact() {
           <strong>Téléphone :</strong> 06 09 50 57 78
         </p>
         <p className="contact-info-item">
-          <strong>Gérant :</strong> Bruno Bouchart
+          <strong>Gérant :</strong> Allison Bouchart et Bruno Bouchart
         </p>
         <div className="map-container">
           <iframe

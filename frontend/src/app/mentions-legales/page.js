@@ -23,7 +23,7 @@ const MentionsLegales = () => (
       <strong>Téléphone :</strong> 06 09 50 57 78
     </p>
     <p>
-      <strong>Gérant :</strong> Bruno Bouchart
+      <strong>Gérant :</strong> Allison Bouchart et Bruno Bouchart
     </p>
     <p>
       <strong>Nom de l'entreprise :</strong> La volaille en Bray
@@ -37,9 +37,10 @@ const MentionsLegales = () => (
       sécurité alimentaire et de durabilité.
     </p>
     <p>
-      <strong>SIRET :</strong> [Numéro de SIRET] <br />
-      <strong>Directeur de la publication :</strong> Bruno Bouchart <br />
-      <strong>Hébergeur du site :</strong> [Nom et adresse de l'hébergeur]
+      <strong>SIRET :</strong> 913 049 128 00014 <br />
+      <strong>Responsable du contenu :</strong> Gambier Giovanni <br />
+      <strong>Hébergeur du site :</strong> Planethoster - 4416 Rue
+      Louis-B.-Mayer, Laval, QC H7P 0G1, Canada
     </p>
 
     <h3>Responsabilité</h3>
