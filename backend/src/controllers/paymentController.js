@@ -45,22 +45,20 @@ export const createCheckoutSession = async (req, res) => {
       const selectedVariant = item.selectedVariant;
       let updatedTitle = item.title;
 
-      // Vérifie si l'article a une variante de poids
-      let unitAmount;
       if (selectedVariant) {
-        const pricePerKg = 9.1; // prix par kg pour le poulet
-        const weight = parseFloat(selectedVariant.weight); // poids de la variante
-        unitAmount = Math.round(pricePerKg * weight * 100); // calcul du prix unitaire
         updatedTitle = updatedTitle.replace(
           /(\d+(\.\d+)?kg)/,
           selectedVariant.weight
         );
-      } else {
-        // Pour les articles sans variante, on utilise le prix fourni
-        unitAmount = Math.round(
-          parseFloat(item.price.replace('€', '').replace(',', '.')) * 100
-        );
       }
+
+      const unitAmount = Math.round(
+        parseFloat(
+          selectedVariant
+            ? selectedVariant.price
+            : item.price.replace('€', '').replace(',', '.')
+        ) * 100
+      );
 
       return {
         price_data: {
@@ -154,6 +152,7 @@ export const handlePaymentSuccess = async (req, res) => {
   try {
     session = await stripe.checkout.sessions.retrieve(session_id);
   } catch (err) {
+    // check if contains No such checkout.session
     if (err.message.includes('No such checkout.session')) {
       logger.error(`Session not found: ${session_id}`);
       return res.status(404).send('Session not found');
@@ -190,7 +189,7 @@ export const handlePaymentSuccess = async (req, res) => {
         return `
           <tr>
             <td>${item.title || 'Sans description'}</td>
-            <td>${parseFloat(item.price).toFixed(2)} €</td>
+            <td>${item.selectedVariant ? parseFloat(item.selectedVariant.price).toFixed(2) : parseFloat(item.price).toFixed(2)} €</td>
             <td>${item.quantity}</td>
             <td>${variantInfo}</td>
           </tr>`;
@@ -241,6 +240,7 @@ export const handlePaymentSuccess = async (req, res) => {
     }, 1000);
   } else {
     logger.info('Payment not completed. Email not sent.');
+
     return res.status(400).send('Payment not completed');
   }
 
