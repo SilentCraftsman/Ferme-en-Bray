@@ -21,7 +21,7 @@ const PolitiqueConfidentialite = () => (
     </p>
     <p>
       <strong>Collecte des Données :</strong>
-      <br />
+      <br /> <br />
       Informations personnelles : Nom, prénom, adresse e-mail, numéro de
       téléphone ;
       <br />
@@ -29,7 +29,7 @@ const PolitiqueConfidentialite = () => (
     </p>
     <p>
       <strong>Utilisation des Données :</strong>
-      <br />
+      <br /> <br />
       Traiter vos commandes et gérer vos demandes ;
       <br />
       Améliorer nos produits et services ;
@@ -51,6 +51,7 @@ const PolitiqueConfidentialite = () => (
     </p>
     <p>
       <strong>Droits des Utilisateurs :</strong>
+      <br />
       <br /> Conformément au RGPD, vous disposez des droits suivants :
       <br />
       Droit d'accès, Droit de rectification, Droit à l'effacement, Droit à la
