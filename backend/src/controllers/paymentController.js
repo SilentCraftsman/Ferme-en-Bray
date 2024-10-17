@@ -45,18 +45,18 @@ export const createCheckoutSession = async (req, res) => {
       const selectedVariant = item.selectedVariant;
       let updatedTitle = item.title;
 
+      // Vérifie si l'article a une variante de poids
+      let unitAmount;
       if (selectedVariant) {
+        const pricePerKg = 9.1; // prix par kg pour le poulet
+        const weight = parseFloat(selectedVariant.weight); // poids de la variante
+        unitAmount = Math.round(pricePerKg * weight * 100); // calcul du prix unitaire
         updatedTitle = updatedTitle.replace(
           /(\d+(\.\d+)?kg)/,
           selectedVariant.weight
         );
-      }
-
-      // Calculer le prix unitaire en fonction de la variante sélectionnée
-      let unitAmount;
-      if (selectedVariant && selectedVariant.price) {
-        unitAmount = Math.round(parseFloat(selectedVariant.price) * 100);
       } else {
+        // Pour les articles sans variante, on utilise le prix fourni
         unitAmount = Math.round(
           parseFloat(item.price.replace('€', '').replace(',', '.')) * 100
         );
