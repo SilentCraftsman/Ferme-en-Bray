@@ -47,8 +47,8 @@ const MentionsLegales = () => (
     <p>
       La société décline toute responsabilité en cas d'erreurs ou d'omissions
       dans les informations fournies sur le site. Les utilisateurs sont invités
-      à nous signaler toute erreur ou omission à l'adresse suivante : [Adresse
-      e-mail].
+      à nous signaler toute erreur ou omission à l'adresse suivante :
+      lavolailleenbray@gmail.com
     </p>
 
     <h3>Propriété Intellectuelle</h3>
