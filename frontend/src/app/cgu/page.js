@@ -13,9 +13,9 @@ const CGU = () => (
     <p>
       <strong>Préambule :</strong> Les présentes conditions générales
       d'utilisation (CGU) régissent l'accès et l'utilisation du site{' '}
-      <strong>[URL du site]</strong>. En utilisant notre site, vous acceptez ces
-      conditions. Si vous n'êtes pas d'accord, veuillez ne pas utiliser notre
-      site.
+      <strong>https://lavolailleenbray.com/</strong>. En utilisant notre site,
+      vous acceptez ces conditions. Si vous n'êtes pas d'accord, veuillez ne pas
+      utiliser notre site.
     </p>
     <p>
       <strong>Accès au Site :</strong> L'accès au site est libre et gratuit.
@@ -59,7 +59,7 @@ const CGU = () => (
       <br />
       <strong>Téléphone :</strong> 06 09 50 57 78
       <br />
-      <strong>Gérant :</strong> Bruno Bouchart
+      <strong>Gérant :</strong> Bruno Bouchart et Allison Bouchart
     </p>
   </div>
 );
