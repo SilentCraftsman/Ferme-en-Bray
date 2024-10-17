@@ -92,7 +92,7 @@ const Cgv = () => {
           <br />
           Téléphone : 06 09 50 57 78
           <br />
-          Gérant : Bruno Bouchart et Allison Bouchart
+          Gérants : Bruno Bouchart et Allison Bouchart
         </p>
       </section>
 

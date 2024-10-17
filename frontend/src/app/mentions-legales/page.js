@@ -23,7 +23,7 @@ const MentionsLegales = () => (
       <strong>Téléphone :</strong> 06 09 50 57 78
     </p>
     <p>
-      <strong>Gérant :</strong> Allison Bouchart et Bruno Bouchart
+      <strong>Gérants :</strong> Allison Bouchart et Bruno Bouchart
     </p>
     <p>
       <strong>Nom de l'entreprise :</strong> La volaille en Bray

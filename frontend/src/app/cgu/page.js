@@ -59,7 +59,7 @@ const CGU = () => (
       <br />
       <strong>Téléphone :</strong> 06 09 50 57 78
       <br />
-      <strong>Gérant :</strong> Bruno Bouchart et Allison Bouchart
+      <strong>Gérants :</strong> Bruno Bouchart et Allison Bouchart
     </p>
   </div>
 );
