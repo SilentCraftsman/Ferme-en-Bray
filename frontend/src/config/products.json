@@ -94,7 +94,7 @@
       "image": "/images/main-images/Quenelle_de_volaille.webp",
       "title": "Quenelles de volaille - 125gr - 16.80 € le kg",
       "price": "2.10 €",
-      "priceForRichSnippet": 2.10,
+      "priceForRichSnippet": 2.1,
       "ingredients": "Volaille, farine, lait, œufs, beurre.",
       "description": "Quenelles de volaille légères et savoureuses. Idéales pour un repas réconfortant et délicieux.",
       "aggregateRating": {
@@ -150,7 +150,7 @@
       "image": "/images/main-images/Bouchee_de_volaille.webp",
       "title": "Bouchée de volaille - 150gr - 19.80 € le kg",
       "price": "2.80 €",
-      "priceForRichSnippet": 2.80,
+      "priceForRichSnippet": 2.8,
       "ingredients": "Volaille, fromage, herbes fraîches, épices, beurre.",
       "description": "Bouchées de volaille au fromage fondant et herbes fraîches. Un délice savoureux pour vos moments conviviaux.",
       "aggregateRating": {
@@ -178,7 +178,7 @@
       "image": "/images/main-images/Terrine_de_volaille.webp",
       "title": "Terrine de volaille - 250gr - 17.20 € le kg",
       "price": "4.30 €",
-      "priceForRichSnippet": 4.30,
+      "priceForRichSnippet": 4.3,
       "ingredients": "Volaille, porc, cognac, échalotes, épices.",
       "description": "Terrine de volaille et porc au cognac. Parfaite pour vos apéritifs, riche en saveurs et raffinée.",
       "aggregateRating": {
@@ -206,7 +206,7 @@
       "id": "chicken",
       "subroute": "poulet",
       "image": "/images/main-images/Poulet.webp",
-      "title": "Poulet - 1.5kg - 9.10 € le kg",
+      "title": "Poulet - 9.10 € le kg",
       "price": "13.65 € et 18.20 €",
       "priceForRichSnippet": 13.65,
       "ingredients": "Poulet élevé en plein air, \"cou nu, roux, blanc\", herbes fraîches, ail, sel, poivre.",
@@ -242,7 +242,7 @@
       "subroute": "cuisses-de-poulet",
       "title": "Cuisses de poulet - 300gr - 11.00 € le kg",
       "price": "3.30 €",
-      "priceForRichSnippet": 3.30,
+      "priceForRichSnippet": 3.3,
       "ingredients": "Poulet, paprika, ail en poudre, sel, poivre, huile d'olive.",
       "description": "Cuisses de poulet marinées au paprika, prêtes à griller. Un repas simple et plein de saveurs."
     },
@@ -252,7 +252,7 @@
       "subroute": "filets-de-poulet",
       "title": "Filets de poulet - 250gr - 18.00 € le kg",
       "price": "4.50 €",
-      "priceForRichSnippet": 4.50,
+      "priceForRichSnippet": 4.5,
       "ingredients": "Poulet, herbes fraîches, ail, citron, sel, poivre.",
       "description": "Filets de poulet aux herbes fraîches et citron. Parfait pour une cuisine rapide et savoureuse."
     },
@@ -272,7 +272,7 @@
       "subroute": "dinde",
       "title": "Dinde - 10kg - 8.10 € le kg",
       "price": "81.00 €",
-      "priceForRichSnippet": 81.00,
+      "priceForRichSnippet": 81.0,
       "ingredients": "Dinde, (blanche entière ou découpée), oignons, céleri, carottes, thym, romarin.",
       "description": "Dinde généreuse, parfaite pour les repas festifs. Prête à être farcie ou cuisinée selon vos envies."
     }
@@ -294,7 +294,7 @@
       "subroute": "poularde",
       "title": "Poularde - 2.2kg - 11.00 € le kg",
       "price": "24.20 €",
-      "priceForRichSnippet": 24.20,
+      "priceForRichSnippet": 24.2,
       "ingredients": "Poularde, \"Cou nu\" (finission aliment + lait), lait, blé, herbes fines, épices douces.",
       "description": "Poularde tendre avec herbes fines. Parfaite pour un repas raffiné avec une chair délicate et savoureuse."
     },
@@ -314,7 +314,7 @@
       "subroute": "dinde",
       "title": "Dinde - 5kg - 12.40 € le kg",
       "price": "62.00 €",
-      "priceForRichSnippet": 62.00,
+      "priceForRichSnippet": 62.0,
       "ingredients": "Dinde, \"Bronzée d'Amérique\" ou \"noir\", maïs, épices festives, herbes, beurre.",
       "description": "Dinde festive, juteuse et savoureuse. Parfaite pour vos repas de fête avec une chair exquise."
     },
