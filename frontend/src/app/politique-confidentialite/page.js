@@ -20,8 +20,7 @@ const PolitiqueConfidentialite = () => (
       protégeons vos informations personnelles.
     </p>
     <p>
-      <strong>Collecte des Données :</strong> Nous collectons les données
-      suivantes :
+      <strong>Collecte des Données :</strong>
       <br />
       Informations personnelles : Nom, prénom, adresse e-mail, numéro de
       téléphone ;
@@ -29,8 +28,7 @@ const PolitiqueConfidentialite = () => (
       Informations de navigation : Cookies, adresses IP.
     </p>
     <p>
-      <strong>Utilisation des Données :</strong> Nous utilisons vos données pour
-      :
+      <strong>Utilisation des Données :</strong>
       <br />
       Traiter vos commandes et gérer vos demandes ;
       <br />
@@ -52,16 +50,16 @@ const PolitiqueConfidentialite = () => (
       personnelles.
     </p>
     <p>
-      <strong>Droits des Utilisateurs :</strong> Conformément au RGPD, vous
-      disposez des droits suivants :
+      <strong>Droits des Utilisateurs :</strong>
+      <br /> Conformément au RGPD, vous disposez des droits suivants :
       <br />
       Droit d'accès, Droit de rectification, Droit à l'effacement, Droit à la
       limitation du traitement, Droit d'opposition, Droit à la portabilité.
     </p>
     <p>
       Pour exercer ces droits, contactez-nous à l'adresse suivante :{' '}
-      <strong>24 Rte de Beauvais, 76220 Ferrières-en-Bray</strong> ou par
-      téléphone au <strong>06 09 50 57 78</strong>.
+      <strong>lavolailleenbray@gmail.com</strong> ou par téléphone au{' '}
+      <strong>06 09 50 57 78</strong>.
     </p>
     <p>
       <strong>Modifications :</strong> Cette politique peut être modifiée. Les
