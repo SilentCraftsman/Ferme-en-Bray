@@ -73,7 +73,7 @@ export default function Contact() {
           Pour toute question ou demande, veuillez remplir le formulaire
           ci-dessous ou nous envoyer un email à{' '}
           <a href="mailto:contact@entreprisevolailles.com">
-            contact@entreprisevolailles.com
+            lavolailleenbray@gmail.com
           </a>
           .
         </p>
