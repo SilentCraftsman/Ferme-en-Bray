@@ -65,7 +65,7 @@ export function createInvoice(order, path) {
     rows: order.items.map((item) => {
       // Gestion de la variante de poids
       const productDetails = item.selectedVariant
-        ? `${item.title} - ${item.selectedVariant.weight} - ${item.selectedVariant.pricePerKg} € le kg`
+        ? `${item.title} - ${item.selectedVariant.weight}`
         : item.title;
 
       // Calcul du prix unitaire et total
