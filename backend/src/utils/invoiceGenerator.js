@@ -62,12 +62,26 @@ export function createInvoice(order, path) {
   // En-tête du tableau avec une bordure
   const table = {
     header: ['Produit', 'Quantité', 'Prix Unitaire', 'Total'],
-    rows: order.items.map((item) => [
-      item.title,
-      item.quantity,
-      parseFloat(item.price).toFixed(2) + ' €',
-      (item.quantity * parseFloat(item.price)).toFixed(2) + ' €',
-    ]),
+    rows: order.items.map((item) => {
+      // Gestion de la variante de poids
+      const productDetails = item.selectedVariant
+        ? `${item.title} - ${item.selectedVariant.weight} - ${item.selectedVariant.pricePerKg} € le kg`
+        : item.title;
+
+      // Calcul du prix unitaire et total
+      const unitPrice = item.selectedVariant
+        ? item.selectedVariant.price // Prix pour la variante
+        : item.price; // Prix normal si pas de variante
+
+      const total = (item.quantity * parseFloat(unitPrice)).toFixed(2) + ' €';
+
+      return [
+        productDetails, // Détails du produit
+        item.quantity, // Quantité
+        parseFloat(unitPrice).toFixed(2) + ' €', // Prix unitaire
+        total, // Total
+      ];
+    }),
     columnWidths: [pageWidth * 0.45, 80, 90, 90],
   };
 
@@ -81,7 +95,12 @@ export function createInvoice(order, path) {
 
   // Calcul du montant total
   const totalAmount = order.items.reduce(
-    (sum, item) => sum + item.quantity * parseFloat(item.price),
+    (sum, item) =>
+      sum +
+      item.quantity *
+        parseFloat(
+          item.selectedVariant ? item.selectedVariant.price : item.price
+        ),
     0
   );
 
