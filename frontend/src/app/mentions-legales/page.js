@@ -37,7 +37,7 @@ const MentionsLegales = () => (
       sécurité alimentaire et de durabilité.
     </p>
     <p>
-      <strong>SIRET :</strong>980 699 185 00014
+      <strong>SIRET :</strong> 980 699 185 00014
       <br />
       <strong>Responsable du contenu :</strong> Gambier Giovanni <br />
       <strong>Hébergeur du site :</strong> Planethoster - 4416 Rue

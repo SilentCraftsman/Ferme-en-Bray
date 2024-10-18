@@ -67,7 +67,7 @@
       "title": "Boudin blanc de volaille - 130gr - 15.90 € le kg",
       "price": "2.07 €",
       "priceForRichSnippet": 2.07,
-      "ingredients": "Volaille, crème fraîche, œufs, pain, épices.",
+      "ingredients": "Lait, filet de poulet, œufs, sel, épices et condiments. Les allergènes présents sont dans le lait et les œufs.",
       "description": "Boudin blanc de volaille délicat, crémeux et savoureux. Parfait pour une touche gourmande à votre repas.",
       "aggregateRating": {
         "ratingValue": 4.6,
@@ -95,8 +95,8 @@
       "title": "Quenelles de volaille - 125gr - 16.80 € le kg",
       "price": "2.10 €",
       "priceForRichSnippet": 2.1,
-      "ingredients": "Volaille, farine, lait, œufs, beurre.",
-      "description": "Quenelles de volaille légères et savoureuses. Idéales pour un repas réconfortant et délicieux.",
+      "ingredients": "Lait, filet de poulet, farine, beurre, œufs, sel et épices. Les allergènes présents sont dans le lait, les œufs, le beurre et la farine.",
+      "description": "Lait, filet de poulet, farine, beurre, œufs, sel et épices. Les allergènes présents sont dans le lait, les œufs, le beurre et la farine.",
       "aggregateRating": {
         "ratingValue": 4.7,
         "reviewCount": 8
@@ -123,7 +123,7 @@
       "title": "Croquettes de poulet - 75gr - 19.80 € le kg",
       "price": "1.49 €",
       "priceForRichSnippet": 1.49,
-      "ingredients": "Poulet, chapelure, œufs, épices, huile de tournesol.",
+      "ingredients": "Filet et cuisses de poulet, lait, fromages, pain, sel et épices. Les allergènes présents sont dans le lait, les fromages et le pain.",
       "description": "Croquettes de poulet croustillantes et savoureuses. Un régal pour les amateurs de snacks irrésistibles.",
       "aggregateRating": {
         "ratingValue": 4.5,
@@ -151,7 +151,7 @@
       "title": "Bouchée de volaille - 150gr - 19.80 € le kg",
       "price": "2.80 €",
       "priceForRichSnippet": 2.8,
-      "ingredients": "Volaille, fromage, herbes fraîches, épices, beurre.",
+      "ingredients": "Garniture : filet de poulet, crème fraîche, boudin blanc, quenelle et champignons. Les allergènes présents sont dans la crème fraîche, le boudin blanc et la quenelle.",
       "description": "Bouchées de volaille au fromage fondant et herbes fraîches. Un délice savoureux pour vos moments conviviaux.",
       "aggregateRating": {
         "ratingValue": 4.8,
@@ -179,7 +179,7 @@
       "title": "Terrine de volaille - 250gr - 17.20 € le kg",
       "price": "4.30 €",
       "priceForRichSnippet": 4.3,
-      "ingredients": "Volaille, porc, cognac, échalotes, épices.",
+      "ingredients": "Poulet (viande et abats), gorge de porc, vin blanc (sulfites), oignons, champignons, œufs, pulpe d'ail, fécule de pomme de terre, sel, poivre et sucre. Les allergènes présents sont dans les œufs et les sulfites (vin).",
       "description": "Terrine de volaille et porc au cognac. Parfaite pour vos apéritifs, riche en saveurs et raffinée.",
       "aggregateRating": {
         "ratingValue": 4.9,
