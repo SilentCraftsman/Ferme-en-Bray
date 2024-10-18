@@ -232,7 +232,6 @@
       "title": "Canette / Canard Barbarie - 2.2kg - 9.80 € le kg",
       "price": "21.56 €",
       "priceForRichSnippet": 21.56,
-      "ingredients": "Canard, oignons, épices, pommes, vin rouge, thym.",
       "description": "Canard Barbarie tendre et savoureux, mijoté aux épices et vin rouge. Un plat festif pour vos repas."
     },
     {
@@ -242,7 +241,6 @@
       "title": "Cuisses de poulet - 300gr - 11.00 € le kg",
       "price": "3.30 €",
       "priceForRichSnippet": 3.3,
-      "ingredients": "Poulet, paprika, ail en poudre, sel, poivre, huile d'olive.",
       "description": "Cuisses de poulet marinées au paprika, prêtes à griller. Un repas simple et plein de saveurs."
     },
     {
@@ -252,7 +250,6 @@
       "title": "Filets de poulet - 250gr - 18.00 € le kg",
       "price": "4.50 €",
       "priceForRichSnippet": 4.5,
-      "ingredients": "Poulet, herbes fraîches, ail, citron, sel, poivre.",
       "description": "Filets de poulet aux herbes fraîches et citron. Parfait pour une cuisine rapide et savoureuse."
     },
     {
@@ -262,7 +259,6 @@
       "title": "Ailerons de poulet - 800gr - 7.30 € le kg",
       "price": "5.84 €",
       "priceForRichSnippet": 5.84,
-      "ingredients": "Poulet, sauce soja, miel, ail, gingembre, sésame.",
       "description": "Ailerons de poulet caramélisés au miel et sauce soja. Un délice sucré-salé pour vos repas."
     },
     {
@@ -272,7 +268,6 @@
       "title": "Dinde - 10kg - 8.10 € le kg",
       "price": "81.00 €",
       "priceForRichSnippet": 81.0,
-      "ingredients": "Dinde, (blanche entière ou découpée), oignons, céleri, carottes, thym, romarin.",
       "description": "Dinde généreuse, parfaite pour les repas festifs. Prête à être farcie ou cuisinée selon vos envies."
     }
   ],
@@ -284,7 +279,6 @@
       "title": "Poulet de Noël - 2.8kg - 11.80 € le kg",
       "price": "33.04 €",
       "priceForRichSnippet": 33.04,
-      "ingredients": "Poulet, (finission aliment + lait), lait, maïs, soja, herbes festives.",
       "description": "Poulet festif nourri aux herbes et lait. Idéal pour un repas de Noël délicieux avec vos proches."
     },
     {
@@ -294,7 +288,6 @@
       "title": "Poularde - 2.2kg - 11.00 € le kg",
       "price": "24.20 €",
       "priceForRichSnippet": 24.2,
-      "ingredients": "Poularde, \"Cou nu\" (finission aliment + lait), lait, blé, herbes fines, épices douces.",
       "description": "Poularde tendre avec herbes fines. Parfaite pour un repas raffiné avec une chair délicate et savoureuse."
     },
     {
@@ -304,7 +297,6 @@
       "title": "Chapon - 3.5kg - 13.50 € le kg",
       "price": "47.25 €",
       "priceForRichSnippet": 47.25,
-      "ingredients": "Chapon, \"roux\", maïs, légumes racines, herbes aromatiques.",
       "description": "Chapon de qualité aux herbes aromatiques. Idéal pour les fêtes, avec une chair savoureuse et tendre."
     },
     {
@@ -315,7 +307,7 @@
       "price": "62.00 €",
       "priceForRichSnippet": 62.0,
       "ingredients": "Dinde, \"Bronzée d'Amérique\" ou \"noir\", maïs, épices festives, herbes, beurre.",
-      "description": "Dinde festive, juteuse et savoureuse. Parfaite pour vos repas de fête avec une chair exquise."
+      "description": "Dinde - \"Bronzée d'Amérique\" ou \"noir\""
     },
     {
       "id": 19,
@@ -324,7 +316,6 @@
       "title": "Canette de Barbarie - 2.2kg - 9.80 € le kg",
       "price": "21.56 €",
       "priceForRichSnippet": 21.56,
-      "ingredients": "Canette, vin blanc, ail, échalotes, thym.",
       "description": "Canette de Barbarie mijotée au vin blanc et thym. Un plat délicieux pour les amateurs de volaille raffinée."
     }
   ]
