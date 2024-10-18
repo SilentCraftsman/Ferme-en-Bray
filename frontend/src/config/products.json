@@ -182,8 +182,8 @@
       "ingredients": "Poulet (viande et abats), gorge de porc, vin blanc (sulfites)*, oignons, champignons, œufs*, pulpe d'ail, fécule de pomme de terre, sel, poivre et sucre. *Allergènes",
       "description": "Terrine de volaille et porc préparée avec des viandes de qualité, provenant d'élevages responsables.",
       "aggregateRating": {
-        "ratingValue": 4.9,
-        "reviewCount": 20
+        "reviewCount": 20,
+        "ratingValue": 4.9
       },
       "reviews": [
         {
@@ -269,11 +269,37 @@
       "price": "81.00 €",
       "priceForRichSnippet": 81.0,
       "description": "Dinde généreuse, élevée en plein air, parfaite pour les repas festifs. Prête à être farcie ou cuisinée selon vos envies."
+    },
+    {
+      "id": 15,
+      "subroute": "pintade",
+      "image": "/images/main-images/Pintade.webp",
+      "title": "Pintade - 1.7Kg - 10.30 € le kg",
+      "price": "17.51 €",
+      "priceForRichSnippet": 17.51,
+      "description": "Des pintades provenant d'élevages responsables.",
+      "aggregateRating": {
+        "reviewCount": 20
+      },
+      "reviews": [
+        {
+          "author": "Henri Dubois",
+          "rating": 5,
+          "date": "2024-09-27",
+          "content": "Délicieuse terrine, riche en goût."
+        },
+        {
+          "author": "Claire Moreau",
+          "rating": 5,
+          "date": "2024-09-22",
+          "content": "Parfaite pour les soirées entre amis."
+        }
+      ]
     }
   ],
   "holidayProducts": [
     {
-      "id": 15,
+      "id": 16,
       "image": "/images/main-images/Poulet.jpg",
       "subroute": "poulet-de-noel",
       "title": "Poulet de Noël - 2.8kg - 11.80 € le kg",
@@ -282,7 +308,7 @@
       "description": "Poulet festif, idéal pour un repas de Noël délicieux avec vos proches."
     },
     {
-      "id": 16,
+      "id": 17,
       "image": "/images/main-images/Poularde.jpg",
       "subroute": "poularde",
       "title": "Poularde - 2.2kg - 11.00 € le kg",
@@ -291,7 +317,7 @@
       "description": "Poularde tendre, provenant d'élevages de qualité. Parfaite pour un repas raffiné."
     },
     {
-      "id": 17,
+      "id": 18,
       "image": "/images/main-images/Chapon.webp",
       "subroute": "chapon",
       "title": "Chapon - 3.5kg - 13.50 € le kg",
@@ -300,7 +326,7 @@
       "description": "Chapon de qualité, élevé en plein air. Idéal pour les fêtes."
     },
     {
-      "id": 18,
+      "id": 19,
       "image": "/images/main-images/Dinde.jpg",
       "subroute": "dinde",
       "title": "Dinde - 5kg - 12.40 € le kg",
@@ -309,7 +335,7 @@
       "description": "Dinde - \"Bronzée d'Amérique\" ou \"noir\", élevée en plein air."
     },
     {
-      "id": 19,
+      "id": 20,
       "image": "/images/main-images/Canard_ou_Canette.jpg",
       "subroute": "canette-de-barbarie",
       "title": "Canette de Barbarie - 2.2kg - 9.80 € le kg",
