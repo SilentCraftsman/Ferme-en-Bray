@@ -107,7 +107,7 @@ const Product = ({ product }) => {
           )}
 
           <label>
-            Quantité:
+            Quantité :
             <input
               type="number"
               value={quantity}
