@@ -8,7 +8,7 @@
       "price": "14.56 €",
       "priceForRichSnippet": 14.56,
       "ingredients": "Poulet, épaule de porc, boudin blanc, lait, pain, oignon, sel et poivre. Les allergènes sont présents dans le boudin blanc, le lait et le pain.",
-      "description": "Roulade de poulet tendre aux épices secrètes, parfaite pour un repas savoureux et rapide. Poids: 800gr.",
+      "description": "Roulade de poulet préparée avec soin, à partir de volaille élevée en plein air.",
       "preparationTips": "Faire cuire au four à 180°C pendant 35 minutes. Accompagner de légumes grillés.",
       "nutritionalInfo": "Calories: 250kcal, Protéines: 22g, Lipides: 15g, Glucides: 3g.",
       "aggregateRating": {
@@ -38,7 +38,7 @@
       "price": "14.04 €",
       "priceForRichSnippet": 14.04,
       "ingredients": "Pintade, porc échine, boudin blanc, lait, pain, oignon, sel et poivre. Les allergènes sont présents dans le boudin blanc, le lait et le pain.",
-      "description": "Roulade de pintade parfumée à la sauge et au thym. Un goût raffiné et authentique pour vos repas.",
+      "description": "Roulade de pintade, élaborée avec des ingrédients de qualité, provenant d'élevages en plein air.",
       "preparationTips": "Cuire à feu moyen dans une poêle avec du beurre pendant 25 minutes.",
       "nutritionalInfo": "Calories: 210kcal, Protéines: 24g, Lipides: 10g, Glucides: 1g.",
       "aggregateRating": {
@@ -68,7 +68,7 @@
       "price": "2.07 €",
       "priceForRichSnippet": 2.07,
       "ingredients": "Lait, filet de poulet, œufs, sel, épices et condiments. Les allergènes sont présents dans le lait et les œufs.",
-      "description": "Boudin blanc de volaille délicat, crémeux et savoureux. Parfait pour une touche gourmande à votre repas.",
+      "description": "Boudin blanc de volaille fait avec du poulet élevé en plein air et des ingrédients soigneusement sélectionnés.",
       "aggregateRating": {
         "ratingValue": 4.6,
         "reviewCount": 10
@@ -96,7 +96,7 @@
       "price": "2.10 €",
       "priceForRichSnippet": 2.1,
       "ingredients": "Lait, filet de poulet, farine, beurre, œufs, sel et épices. Les allergènes sont présents dans le lait, les œufs, le beurre et la farine.",
-      "description": "Quenelles de volaille tendre, parfaite pour un repas savoureux et rapide.",
+      "description": "Quenelles de volaille préparées avec du poulet de qualité.",
       "aggregateRating": {
         "ratingValue": 4.7,
         "reviewCount": 8
@@ -124,7 +124,7 @@
       "price": "1.49 €",
       "priceForRichSnippet": 1.49,
       "ingredients": "Filet et cuisses de poulet, lait, fromages, pain, sel et épices. Les allergènes sont présents dans le lait, les fromages et le pain.",
-      "description": "Croquettes de poulet croustillantes et savoureuses. Un régal pour les amateurs de snacks irrésistibles.",
+      "description": "Croquettes de poulet faites avec du poulet élevé en plein air, pour un goût authentique.",
       "aggregateRating": {
         "ratingValue": 4.5,
         "reviewCount": 15
@@ -152,7 +152,7 @@
       "price": "2.80 €",
       "priceForRichSnippet": 2.8,
       "ingredients": "Garniture : filet de poulet, crème fraîche, boudin blanc, quenelle et champignons. Les allergènes sont présents dans la crème fraîche, le boudin blanc et la quenelle.",
-      "description": "Bouchées de volaille au fromage fondant et herbes fraîches. Un délice savoureux pour vos moments conviviaux.",
+      "description": "Bouchées de volaille élaborées avec du poulet élevé en plein air et des ingrédients de qualité.",
       "aggregateRating": {
         "ratingValue": 4.8,
         "reviewCount": 12
@@ -180,7 +180,7 @@
       "price": "4.30 €",
       "priceForRichSnippet": 4.3,
       "ingredients": "Poulet (viande et abats), gorge de porc, vin blanc (sulfites), oignons, champignons, œufs, pulpe d'ail, fécule de pomme de terre, sel, poivre et sucre. Les allergènes sont présents dans les œufs et les sulfites (vin).",
-      "description": "Terrine de volaille et porc au cognac. Parfaite pour vos apéritifs, riche en saveurs et raffinée.",
+      "description": "Terrine de volaille et porc préparée avec des viandes de qualité, provenant d'élevages responsables.",
       "aggregateRating": {
         "ratingValue": 4.9,
         "reviewCount": 20
@@ -209,7 +209,7 @@
       "title": "Poulet - 9.10 € le kg",
       "price": "13.65 € et 18.20 €",
       "priceForRichSnippet": 13.65,
-      "description": "Poulet plein air, tendre et savoureux. Disponible en petit ou moyen, idéal pour toute la famille. Poids: 1.5kg ou 2kg.",
+      "description": "Poulet élevé en plein air, tendre et savoureux. Disponible en petit ou moyen, idéal pour toute la famille. Poids: 1.5kg ou 2kg.",
       "variants": [
         {
           "variantId": "chicken-small-1.5kg",
@@ -232,7 +232,7 @@
       "title": "Canette / Canard Barbarie - 2.2kg - 9.80 € le kg",
       "price": "21.56 €",
       "priceForRichSnippet": 21.56,
-      "description": "Canard Barbarie tendre et savoureux, mijoté aux épices et vin rouge. Un plat festif pour vos repas."
+      "description": "Canard Barbarie, élevé en plein air, tendre et savoureux."
     },
     {
       "id": 11,
@@ -241,7 +241,7 @@
       "title": "Cuisses de poulet - 300gr - 11.00 € le kg",
       "price": "3.30 €",
       "priceForRichSnippet": 3.3,
-      "description": "Cuisses de poulet marinées au paprika, prêtes à griller. Un repas simple et plein de saveurs."
+      "description": "Cuisses de poulet, provenant de poules élevées en plein air, prêtes à griller ou plutôt à être mangées."
     },
     {
       "id": 12,
@@ -250,7 +250,7 @@
       "title": "Filets de poulet - 250gr - 18.00 € le kg",
       "price": "4.50 €",
       "priceForRichSnippet": 4.5,
-      "description": "Filets de poulet aux herbes fraîches et citron. Parfait pour une cuisine rapide et savoureuse."
+      "description": "Filets de poulet, issus de poules élevées en plein air. Parfait pour une cuisine rapide et savoureuse."
     },
     {
       "id": 13,
@@ -259,7 +259,7 @@
       "title": "Ailerons de poulet - 800gr - 7.30 € le kg",
       "price": "5.84 €",
       "priceForRichSnippet": 5.84,
-      "description": "Ailerons de poulet caramélisés au miel et sauce soja. Un délice sucré-salé pour vos repas."
+      "description": "Ailerons de poulet, préparés avec du poulet élevé en plein air."
     },
     {
       "id": 14,
@@ -268,7 +268,7 @@
       "title": "Dinde - 10kg - 8.10 € le kg",
       "price": "81.00 €",
       "priceForRichSnippet": 81.0,
-      "description": "Dinde généreuse, parfaite pour les repas festifs. Prête à être farcie ou cuisinée selon vos envies."
+      "description": "Dinde généreuse, élevée en plein air, parfaite pour les repas festifs. Prête à être farcie ou cuisinée selon vos envies."
     }
   ],
   "holidayProducts": [
@@ -279,7 +279,7 @@
       "title": "Poulet de Noël - 2.8kg - 11.80 € le kg",
       "price": "33.04 €",
       "priceForRichSnippet": 33.04,
-      "description": "Poulet festif nourri aux herbes et lait. Idéal pour un repas de Noël délicieux avec vos proches."
+      "description": "Poulet festif, idéal pour un repas de Noël délicieux avec vos proches."
     },
     {
       "id": 16,
@@ -288,7 +288,7 @@
       "title": "Poularde - 2.2kg - 11.00 € le kg",
       "price": "24.20 €",
       "priceForRichSnippet": 24.2,
-      "description": "Poularde tendre avec herbes fines. Parfaite pour un repas raffiné avec une chair délicate et savoureuse."
+      "description": "Poularde tendre, provenant d'élevages de qualité. Parfaite pour un repas raffiné."
     },
     {
       "id": 17,
@@ -297,7 +297,7 @@
       "title": "Chapon - 3.5kg - 13.50 € le kg",
       "price": "47.25 €",
       "priceForRichSnippet": 47.25,
-      "description": "Chapon de qualité aux herbes aromatiques. Idéal pour les fêtes, avec une chair savoureuse et tendre."
+      "description": "Chapon de qualité, élevé en plein air. Idéal pour les fêtes."
     },
     {
       "id": 18,
@@ -306,8 +306,7 @@
       "title": "Dinde - 5kg - 12.40 € le kg",
       "price": "62.00 €",
       "priceForRichSnippet": 62.0,
-      "ingredients": "Dinde, \"Bronzée d'Amérique\" ou \"noir\", maïs, épices festives, herbes, beurre.",
-      "description": "Dinde - \"Bronzée d'Amérique\" ou \"noir\""
+      "description": "Dinde - \"Bronzée d'Amérique\" ou \"noir\", élevée en plein air."
     },
     {
       "id": 19,
@@ -316,7 +315,7 @@
       "title": "Canette de Barbarie - 2.2kg - 9.80 € le kg",
       "price": "21.56 €",
       "priceForRichSnippet": 21.56,
-      "description": "Canette de Barbarie mijotée au vin blanc et thym. Un plat délicieux pour les amateurs de volaille raffinée."
+      "description": "Canette de Barbarie, préparée avec soin pour un plat délicieux."
     }
   ]
 }
