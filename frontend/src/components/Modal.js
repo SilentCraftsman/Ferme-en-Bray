@@ -68,8 +68,7 @@ const Modal = ({ show, onClose, product }) => {
 
   const sanitizedTitle = product.title || 'Produit';
   const sanitizedImage = product.image || '/default-image.jpg';
-  const sanitizedIngredients =
-    product.ingredients || 'Aucun ingrédient spécifié.';
+  const sanitizedIngredients = product.ingredients;
 
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose}>
@@ -98,8 +97,14 @@ const Modal = ({ show, onClose, product }) => {
           <h2>{sanitizedTitle}</h2>
           <div className="modal-content-info-text">
             <p className="product-description">{product.description}</p>
-            <p className="description-title">Ingrédients :</p>
-            <p className="description-ingredients">{sanitizedIngredients}</p>
+            {sanitizedIngredients && sanitizedIngredients !== '' && (
+              <>
+                <p className="description-title">Ingrédients :</p>
+                <p className="description-ingredients">
+                  {sanitizedIngredients}
+                </p>
+              </>
+            )}
           </div>
 
           {product.variants && (
